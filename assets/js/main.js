@@ -4,11 +4,15 @@
 
 //global game variables
 
+let cardId = 0; //keep track of how many cards have been created in this session
+
 
 //TESTING FUNCTIONS
 
 let deckTest = buildCardObjectArray('high', 'named');
 console.log(deckTest);
+
+scatterCards(300);
 
 
 //LISTENERS
@@ -16,6 +20,56 @@ console.log(deckTest);
 //attach a listener to the body to capture right click and create a card there
 document.querySelector('body').addEventListener("contextmenu", placeCard);
 
+//BASIC UTILITY FUNCTIONS
+
+//simple function to return a random number within a range
+function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+//function to test filling the screen with cards
+//take a cardCount as input
+
+function scatterCards(cardCount){
+    console.log("Trying to scatter " + cardCount + " cards");
+    let windowX = window.innerWidth;
+    let windowY = window.innerHeight;
+
+    let newDeck = buildCardObjectArray('low', 'named');
+    let randSelect;
+    let randWidth;
+    
+    for(let i = 0; i < cardCount; i++){
+
+        //generate radom card size
+        // let cardWidth = randomNumber(100,300);
+        randSelect = Math.floor(Math.random() * newDeck.length); //pick a random card form the deck
+        //Generate a random width/size of card that is between img size and half
+        randWidth = randomNumber((newDeck[randSelect].imgWidth / 2),(newDeck[randSelect].imgWidth));
+
+
+        let body = document.querySelector('body');
+        let locX = Math.floor(Math.random() * (windowX - newDeck[randSelect].imgWidth));
+        locX = locX  + "px";
+        let locY = Math.floor(Math.random() * (windowY - newDeck[randSelect].imgHeight));
+        locY = locY + "px";
+        console.log("Trying to create card at " + locX + " " + locY);
+        let card = document.createElement('img');
+        card.src = newDeck[randSelect].faceImgSrc;
+        card.style.position = "fixed";
+        card.style.animationDelay = randomNumber(1000,5000) + "ms"; 
+        card.style.top = locY;
+        card.style.left = locX;
+        card.style.width = randWidth  + "px"; 
+        card.style.zIndex = 10;
+        ++cardId;
+        card.id = cardId;
+        card.classList = "dropIn cardHere";
+
+        body.appendChild(card);
+
+    }
+}
 
 //function that will place a card at the current mouse location
 //random card from deck selected
@@ -29,7 +83,7 @@ function placeCard(e){
     // }
     console.log(e);
     let body = document.querySelector('body');
-    let newDeck = buildCardObjectArray('medium', 'named');
+    let newDeck = buildCardObjectArray('low', 'named');
     let randSelect = Math.floor(Math.random() * newDeck.length); 
     let locX = e.clientY - (newDeck[randSelect].imgHeight / 2 ); 
     locX = locX + "px";
@@ -219,6 +273,118 @@ function buildCardObjectArray(imageQuality, backFaceType){
     imgHeight: orgImgHeight,
     imgWidth: orgImgWidth,
     category: "space",
+    color: "white"},
+    {name: "anchor",
+    faceImgSrc: pathSet + "blue_anchor.webp",
+    backImgSrc: pathSet + "blue_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "blue"},
+    {name: "crab",
+    faceImgSrc: pathSet + "blue_crab.webp",
+    backImgSrc: pathSet + "blue_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "blue"},
+    {name: "dolphin",
+    faceImgSrc: pathSet + "blue_dolphin.webp",
+    backImgSrc: pathSet + "blue_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "blue"},
+    {name: "fish",
+    faceImgSrc: pathSet + "blue_fish.webp",
+    backImgSrc: pathSet + "blue_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "blue"},
+    {name: "octopus",
+    faceImgSrc: pathSet + "blue_octopus.webp",
+    backImgSrc: pathSet + "blue_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "blue"},
+    {name: "seahorse",
+    faceImgSrc: pathSet + "blue_seahorse.webp",
+    backImgSrc: pathSet + "blue_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "blue"},
+    {name: "shell",
+    faceImgSrc: pathSet + "blue_shell.webp",
+    backImgSrc: pathSet + "blue_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "blue"},
+    {name: "whale",
+    faceImgSrc: pathSet + "blue_whale.webp",
+    backImgSrc: pathSet + "blue_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "blue"},
+    {name: "anchor",
+    faceImgSrc: pathSet + "white_anchor.webp",
+    backImgSrc: pathSet + "white_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "white"},
+    {name: "crab",
+    faceImgSrc: pathSet + "white_crab.webp",
+    backImgSrc: pathSet + "white_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "white"},
+    {name: "dolphin",
+    faceImgSrc: pathSet + "white_dolphin.webp",
+    backImgSrc: pathSet + "white_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "white"},
+    {name: "fish",
+    faceImgSrc: pathSet + "white_fish.webp",
+    backImgSrc: pathSet + "white_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "white"},
+    {name: "octopus",
+    faceImgSrc: pathSet + "white_octopus.webp",
+    backImgSrc: pathSet + "white_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "white"},
+    {name: "seahorse",
+    faceImgSrc: pathSet + "white_seahorse.webp",
+    backImgSrc: pathSet + "white_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "white"},
+    {name: "shell",
+    faceImgSrc: pathSet + "white_shell.webp",
+    backImgSrc: pathSet + "white_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
+    color: "white"},
+    {name: "whale",
+    faceImgSrc: pathSet + "white_whale.webp",
+    backImgSrc: pathSet + "white_backface" + backFaceNaming + ".webp",
+    imgHeight: orgImgHeight,
+    imgWidth: orgImgWidth,
+    category: "sea",
     color: "white"}
     ];
 
