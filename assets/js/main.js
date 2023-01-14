@@ -5,6 +5,7 @@
 //global game variables
 
 let cardId = 0; //keep track of how many cards have been created in this session
+let audioCounter  = 0; //global variable to track audio clips generated and create unique IDs
 
 
 //TESTING FUNCTIONS
@@ -99,6 +100,7 @@ function placeCard(e){
     card.style.zIndex = 50;
     card.classList = "dropIn cardHere"; 
     body.appendChild(card); // Attach the new card to the body
+    playAudio();
     
 }
 
@@ -389,4 +391,20 @@ function buildCardObjectArray(imageQuality, backFaceType){
     ];
 
     return cardObjectArray;
+}
+
+
+//Function to play audio clip
+//creates an audio element and sets it playing
+
+function playAudio(audioName, audiotype){
+
+    let audioId = "audio" + audioCounter;
+    ++audioCounter;
+    let sound = document.createElement('audio');
+    sound.src = "./assets/audio/string1.mp3";
+    sound.id = audioId;
+    document.querySelector('body').appendChild(sound);
+    //Need to add logic to loop or single play 
+    document.getElementById(audioId).play();
 }

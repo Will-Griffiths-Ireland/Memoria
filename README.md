@@ -192,6 +192,9 @@ These are the technologies used for this project.
 - Powerpoint
 - Balsamiq for wireframes
 - Paint.net (Image editing/sizing/compression)
+- XnCovert (image resizing)
+- Audacity (Sound Editing)
+- Garage Band (Song Creation)
 - Github for version control and deployment
 - Gitpod for development
 - FontAwesome for Icons
