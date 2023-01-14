@@ -1,3 +1,4 @@
+"strict mode";
 // All the core code that delivers the Memoria game
 // Every effort has been made to take a unique approach
 
@@ -42,10 +43,9 @@ function scatterCards(cardCount){
     
     for(let i = 0; i < cardCount; i++){
 
-        //generate radom card size
-        // let cardWidth = randomNumber(100,300);
+        //select a radom cane from the deck
         randSelect = Math.floor(Math.random() * newDeck.length); //pick a random card form the deck
-        //Generate a random width/size of card that is between img size and half
+        //Generate a random width/size of card
         randWidth = randomNumber((newDeck[randSelect].imgWidth / 6),(newDeck[randSelect].imgWidth / 3));
 
 
@@ -58,7 +58,7 @@ function scatterCards(cardCount){
         let card = document.createElement('img');
         card.src = newDeck[randSelect].faceImgSrc;
         card.style.position = "fixed";
-        let delay = randomNumber(1000,5000); //generate a delay for the animation and audio trigger
+        let delay = randomNumber(1000,5000); //generate a delay for the animation and (possible) audio trigger
         card.style.animationDelay = delay + "ms"; 
         card.style.top = locY;
         card.style.left = locX;
@@ -67,11 +67,10 @@ function scatterCards(cardCount){
         ++cardId;
         card.id = cardId;
         card.classList = "dropIn cardHere";
-
         body.appendChild(card);
-        setTimeout(playAudio, delay);
-
+        // setTimeout(playAudio, delay); // this is an audio bomb so turning it off
     }
+    playAudio('deal_cards');
 }
 
 //function that will place a card at the current mouse location
@@ -957,15 +956,54 @@ function buildCardObjectArray(imageQuality, backFaceType){
 
 //Function to play audio
 //creates an audio element and sets it playing
-
 function playAudio(audioName, audiotype){
 
     let audioId = "audio" + audioCounter;
     ++audioCounter;
     let sound = document.createElement('audio');
-    sound.src = "./assets/audio/string1.mp3";
+    sound.src = `./assets/audio/${audioName}.mp3`;
     sound.id = audioId;
     document.querySelector('body').appendChild(sound);
     //Need to add logic to loop or single play 
     document.getElementById(audioId).play();
+}
+
+//this function fade/burns the card by applying css to fade them out
+//after 15 seconds we then call a function to remove the html elements to clean code and improve performance
+
+function burnCards(){
+    const cardsToBurn = document.getElementsByClassName('cardHere');
+    console.log(cardsToBurn);
+    for (let card of cardsToBurn)
+    {
+        // console.log("Adding burnUp class to card - " + card.id);
+        card.classList.add('burnUp');
+    }
+    setTimeout(delCards, 15000);
+    playAudio('burn_cards');
+}
+
+// This function removes elements from the DOM with a certain class.
+// Initially used 'for of' loop but this was resulting in only half the elements being removed
+// The reason was, as we delete an element, that reduces the array and index
+// I took the approach of setting a constant with the initial array length and then using that to loop
+// Each time we then remove the element at index 0
+
+function delCards(){
+
+    const cardsToDel = document.getElementsByClassName('burnUp');
+    const totalElements = cardsToDel.length;
+    console.log(cardsToDel);
+    console.log("Found " + totalElements + " to remove");
+    let loopCount = 0;
+    for (let i = 0; i < totalElements; i++)
+    {
+        console.log("Card delete loop pass = " + loopCount);
+        console.log("Details of current element");
+        console.log(cardsToDel[0]);
+        console.log("Deleting Card " + cardsToDel[0].id);
+        cardsToDel[0].remove();
+        loopCount++;
+    }
+
 }

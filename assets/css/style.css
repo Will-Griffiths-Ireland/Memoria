@@ -32,3 +32,21 @@ body{
         opacity: 1;
     }
 }
+
+/* Class to fade out card before we remove it from the DOM */
+
+.burnUp {
+
+    animation-name: fadeOut;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut{
+    0%{ transform: scale(1);
+    opacity: 1;}
+    100%{
+        transform: scale(0);
+        opacity: 0;
+    }
+}
