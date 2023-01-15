@@ -9,12 +9,17 @@ let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter  = 0; //global variable to track audio clips generated and create unique IDs
 let imageQuality = 'medium'; //image file size & quality
 let backFaceType = 'named'; //show name on back of cards
+let gameRounds = 10; //how many rounds to play
+let cardTheme = 'nature'; // controls what set of cards will be in the deck
+let cardColor = 'all'; // controls what color cards are included
 
 
 //TESTING FUNCTIONS
 
-let deckTest = buildCardObjectArray(imageQuality, backFaceType);
-console.log(deckTest);
+console.log("Here is the full deck");
+console.log( buildCardObjectArray(imageQuality, backFaceType) );
+console.log("Here is a game deck just with spooky cards");
+console.log( createGameDeck(cardTheme,cardColor) );
 
 
 //LISTENERS
@@ -37,7 +42,7 @@ function scatterCards(cardCount){
     let windowX = window.innerWidth;
     let windowY = window.innerHeight;
 
-    let newDeck = buildCardObjectArray('medium', 'named');
+    let newDeck = createGameDeck('emma','all');
     let randSelect;
     let randWidth;
     
@@ -85,7 +90,7 @@ function placeCard(e){
     // }
     console.log(e);
     let body = document.querySelector('body');
-    let newDeck = buildCardObjectArray('low', 'named');
+    let newDeck = buildCardObjectArray('medium', 'named');
     let randSelect = Math.floor(Math.random() * newDeck.length); 
     let locX = e.clientY - (newDeck[randSelect].imgHeight / 2 ); 
     locX = locX + "px";
@@ -101,7 +106,7 @@ function placeCard(e){
     card.style.zIndex = 50;
     card.classList = "dropIn cardHere"; 
     body.appendChild(card); // Attach the new card to the body
-    playAudio();
+    playAudio('string2');
     
 }
 
@@ -977,6 +982,7 @@ function burnCards(){
     for (let card of cardsToBurn)
     {
         // console.log("Adding burnUp class to card - " + card.id);
+        card.style.animationDelay = '0ms';
         card.classList.add('burnUp');
     }
     setTimeout(delCards, 15000);
@@ -1006,4 +1012,86 @@ function delCards(){
         loopCount++;
     }
 
+}
+
+//build players deck and lay them out on the screen
+
+function dealPlayerCards(cardCount, gameDeck){
+
+    if(!gameDeck){
+        console.log("You didn't pass me cards to deal");
+        return;
+    }
+
+    for(let i = 0; i < gameDeck.length; i++){
+
+        let body = document.querySelector('body');
+
+        //work out placement of cards based on how many are being dealt
+        let leftPosition = (100 / gameDeck.length) * i;
+        let card = document.createElement('img');
+        card.src = gameDeck[i].faceImgSrc;
+        card.style.position = "absolute";
+        card.style.animationDelay = 500 + (i * 100) + "ms"; //stagger animation
+        card.style.bottom = "5vh";
+        card.style.left = leftPosition + "vw" ;
+        card.style.width = (100 / gameDeck.length) + "vw";
+        card.style.zIndex = 50;
+        card.classList = "dropIn cardHere";
+        card.addEventListener("mouseover", cardJiggle);
+        card.addEventListener("mouseout", cardJiggleRemove); 
+        body.appendChild(card);
+
+    }
+
+}
+
+//adds a jiggle animation style to cards when triggered
+
+function cardJiggle(e){
+    e.target.style.animationDelay = "0ms"; 
+    e.target.classList.add("jigglyPoo");   
+}
+
+//removes the jiggle animation style but with a delay to allow completion
+
+function cardJiggleRemove(e){
+    let targMe = e.target;
+    const myTimeout = setTimeout(removeClass, 1500);
+    function removeClass(){
+        console.log("remove jiggle");
+        targMe.classList.remove("jigglyPoo");
+        targMe.classList.remove("dropIn");   
+    } 
+}
+
+function gameStart(cardTheme,cardColor,gameRounds,gameDifficulty){
+
+    
+    //generate deck based on theme
+    let gameDeck = createGameDeck(cardTheme,cardColor);
+    let cardCount = randomNumber(6,16);
+    dealPlayerCards(cardCount, gameDeck);
+
+
+
+}
+
+function createGameDeck(cardTheme,cardColor){
+
+    let tempDeck = buildCardObjectArray(imageQuality,backFaceType);
+
+    let gameDeck =[];
+    let i = 0;
+
+    for (card of tempDeck){
+        if((card.category == cardTheme  && card.color == cardColor) || (card.category == cardTheme  && cardColor == 'all')){
+            gameDeck.push(card);
+        }
+    }
+    console.log("creategameDeck resulted in array ...");
+    console.log(gameDeck);
+    console.log(cardTheme);
+    console.log(cardColor);
+    return gameDeck
 }

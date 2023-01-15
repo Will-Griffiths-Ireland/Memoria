@@ -2,7 +2,7 @@
     overflow-y: hidden;
     overflow-x: hidden;
      /* Setting a custom cursor */
-    cursor:url(../images/full_combined_deck/cursor.png), pointer;
+    cursor:url(../images/cursor.png), pointer;
 }
 
 body{
@@ -38,7 +38,7 @@ body{
 .burnUp {
 
     animation-name: fadeOut;
-    animation-duration: 1.5s;
+    animation-duration: 3s;
     animation-fill-mode: forwards;
 }
 
@@ -48,5 +48,40 @@ body{
     100%{
         transform: scale(0);
         opacity: 0;
+    }
+}
+
+.jigglyPoo {
+    animation-name: cardJiggle;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate-reverse;
+    animation-duration: 1.5s;
+    animation-delay: 0;
+    animation-iteration-count: infinite;
+}
+
+@keyframes cardJiggle{
+    0%{
+        transform: rotate(0.01deg);
+    }
+    20%{
+        
+        transform: rotate(-1.5deg);
+    }
+    40%{
+        
+        transform: rotate(3deg);
+    }
+    60%{
+        
+        transform: rotate(-1.5deg);
+    }
+    80%{
+        
+        transform: rotate(3deg);
+    }
+    100%{
+        
+        transform: rotate(-1.5deg); 
     }
 }
