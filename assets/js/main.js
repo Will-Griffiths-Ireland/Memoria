@@ -7,19 +7,19 @@
 
 let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter  = 0; //global variable to track audio clips generated and create unique IDs
-let imageQuality = 'medium'; //image file size & quality
-let backFaceType = 'named'; //show name on back of cards
+let imageQuality = 'low'; //image file size & quality
+let backFaceType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 10; //how many rounds to play
-let cardTheme = 'nature'; // controls what set of cards will be in the deck
-let cardColor = 'all'; // controls what color cards are included
+let cardTheme = 'sea'; // controls what set of cards will be in the deck - 'all' adds all themes
+let cardColor = 'all'; // controls what color cards are included - 'all' adds all colors
 
 
 //TESTING FUNCTIONS
 
-console.log("Here is the full deck");
-console.log( buildCardObjectArray(imageQuality, backFaceType) );
-console.log("Here is a game deck just with spooky cards");
-console.log( createGameDeck(cardTheme,cardColor) );
+// console.log("Here is the full deck");
+// console.log( buildCardObjectArray(imageQuality, backFaceType) );
+// console.log("Here is a game deck just with spooky cards");
+// console.log( createGameDeck(cardTheme,cardColor) );
 
 
 //LISTENERS
@@ -37,43 +37,67 @@ function randomNumber(min, max) {
 //function to test filling the screen with cards
 //take a cardCount as input
 
-function scatterCards(cardCount){
-    console.log("Trying to scatter " + cardCount + " cards");
+function scatterCards(gameDeck){
+
+    // let gameDeck = createGameDeck(cardTheme,cardColor);
+    console.log("Trying to scatter " + gameDeck.length + " cards");
     let windowX = window.innerWidth;
     let windowY = window.innerHeight;
 
-    let newDeck = createGameDeck('emma','all');
     let randSelect;
     let randWidth;
     
-    for(let i = 0; i < cardCount; i++){
+    for(let i = 0; i < gameDeck.length; i++){
 
         //select a radom cane from the deck
-        randSelect = Math.floor(Math.random() * newDeck.length); //pick a random card form the deck
+        randSelect = Math.floor(Math.random() * gameDeck.length); //pick a random card form the deck
         //Generate a random width/size of card
-        randWidth = randomNumber((newDeck[randSelect].imgWidth / 6),(newDeck[randSelect].imgWidth / 3));
+        randWidth = randomNumber((gameDeck[randSelect].imgWidth / 6),(gameDeck[randSelect].imgWidth / 3));
 
 
-        let body = document.querySelector('body');
+        const gameArea = document.getElementById('gameArea');
         let locX = Math.floor(Math.random() * (windowX - randWidth));
         locX = locX  + "px";
         let locY = Math.floor(Math.random() * (windowY - (randWidth * 1.23))); //offset y position based width with multiplier
         locY = locY + "px";
         console.log("Trying to create card at " + locX + " " + locY);
-        let card = document.createElement('img');
-        card.src = newDeck[randSelect].faceImgSrc;
-        card.style.position = "fixed";
         let delay = randomNumber(1000,5000); //generate a delay for the animation and (possible) audio trigger
-        card.style.animationDelay = delay + "ms"; 
-        card.style.top = locY;
-        card.style.left = locX;
-        card.style.width = randWidth  + "px"; 
-        card.style.zIndex = 10;
+        //create html elements
+        const cardContainer = document.createElement('div');
+        const cardFace = document.createElement('img');
+        const cardBack = document.createElement('img');
+        //set the related images
+        cardFace.src = gameDeck[i].faceImgSrc;
+        cardBack.src = gameDeck[i].backImgSrc;
+        cardContainer.dataset.cardName = gameDeck[i].name;
+        cardContainer.dataset.cardColor = gameDeck[i].color;
+        cardContainer.dataset.cardTheme = gameDeck[i].category;
+        cardContainer.style.position = "absolute";
+        cardContainer.style.animationDelay = delay + "ms";
+        cardContainer.style.top = locY;
+        cardContainer.style.left = locX;
+        cardContainer.style.width = randWidth  + "px";
+        cardContainer.style.height = (randWidth * 1.23)  + "px"; 
+        cardContainer.style.zIndex = 10;
         ++cardId;
-        card.id = cardId;
-        card.classList = "dropIn cardHere";
-        body.appendChild(card);
-        // setTimeout(playAudio, delay); // this is an audio bomb so turning it off
+        cardContainer.id = cardId;
+        cardContainer.classList = "dropIn cardContainer";
+        cardBack.classList = "cardBack";
+        cardFace.classList = "cardFace";
+
+        //need to optimize and find a solution here if time allows.
+        //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
+        //this technique works for now where we trigger a delayed function to switch out style classes
+        setTimeout(fCard, (delay + 1000));
+        function fCard(){
+            cardContainer.classList.remove("dropIn");
+            cardContainer.classList.add("cardFlipped");
+        } 
+        
+        gameArea.appendChild(cardContainer);
+        cardContainer.appendChild(cardBack);
+        cardContainer.appendChild(cardFace);
+        cardContainer.classList = "dropIn cardContainer";
     }
     playAudio('deal_cards');
 }
@@ -975,15 +999,28 @@ function playAudio(audioName, audiotype){
 
 //this function fade/burns the card by applying css to fade them out
 //after 15 seconds we then call a function to remove the html elements to clean code and improve performance
+//things quickly got complicated when trying to control animations
 
 function burnCards(){
-    const cardsToBurn = document.getElementsByClassName('cardHere');
-    console.log(cardsToBurn);
+    const cardsToBurn = document.getElementsByClassName('cardContainer');
+    const backFaces = document.getElementsByClassName('cardBack');
+    const frontFaces = document.getElementsByClassName('cardFace');
+    const totalToDel = backFaces.length;
+
+    for(let i = 0; i < totalToDel; i++)
+    {
+        console.log(frontFaces[i]);
+        frontFaces[0].classList.add("cardFaceDel");
+        frontFaces[0].classList.remove("cardFace");
+        backFaces[0].remove();
+    }
+
     for (let card of cardsToBurn)
     {
         // console.log("Adding burnUp class to card - " + card.id);
-        card.style.animationDelay = '0ms';
+        // card.style.animationDelay = '0ms';
         card.classList.add('burnUp');
+        
     }
     setTimeout(delCards, 15000);
     playAudio('burn_cards');
@@ -1025,43 +1062,88 @@ function dealPlayerCards(cardCount, gameDeck){
 
     for(let i = 0; i < gameDeck.length; i++){
 
-        let body = document.querySelector('body');
+        const gameArea = document.getElementById('gameArea');
 
         //work out placement of cards based on how many are being dealt
         let leftPosition = (100 / gameDeck.length) * i;
-        let card = document.createElement('img');
-        card.src = gameDeck[i].faceImgSrc;
-        card.style.position = "absolute";
-        card.style.animationDelay = 500 + (i * 100) + "ms"; //stagger animation
-        card.style.bottom = "5vh";
-        card.style.left = leftPosition + "vw" ;
-        card.style.width = (100 / gameDeck.length) + "vw";
-        card.style.zIndex = 50;
-        card.classList = "dropIn cardHere";
-        card.addEventListener("mouseover", cardJiggle);
-        card.addEventListener("mouseout", cardJiggleRemove); 
-        body.appendChild(card);
+        //create html elements
+        const cardContainer = document.createElement('div');
+        const cardFace = document.createElement('img');
+        const cardBack = document.createElement('img');
+        //set the related images
+        cardFace.src = gameDeck[i].faceImgSrc;
+        cardBack.src = gameDeck[i].backImgSrc;
+        cardContainer.dataset.cardName = gameDeck[i].name;
+        cardContainer.dataset.cardColor = gameDeck[i].color;
+        cardContainer.dataset.cardTheme = gameDeck[i].category;
+        cardContainer.style.position = "absolute";
+        let delay = 500 + (i * 250); 
+        cardContainer.style.animationDelay =  delay + "ms"; //stagger animation for dropping in the cards
+        cardContainer.style.bottom = "5vh";
+        cardContainer.style.left = leftPosition + "vw" ;
+        cardContainer.style.width = (100 / gameDeck.length) + "vw";
+        cardContainer.style.height = ((window.innerWidth / gameDeck.length) * 1.23) + "px";
+        // cardContainer.style.zIndex = 50;
+        
+        cardBack.classList = "cardBack";
+        cardFace.classList = "cardFace";
+        // cardContainer.addEventListener("mouseover", cardJiggle);
+        // cardContainer.addEventListener("mouseout", cardJiggleRemove);
+        cardContainer.addEventListener("click", cardFlip);
+        
+        //need to optimize and find a solution here if time allows.
+        //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
+        //this technique works for now where we trigger a delayed function to switch out style classes
+        setTimeout(fCard, (delay + 1000));
+        function fCard(){
+            cardContainer.classList.remove("dropIn");
+            cardContainer.classList.add("cardFlipped");
+        } 
+        
+        gameArea.appendChild(cardContainer);
+        cardContainer.appendChild(cardBack);
+        cardContainer.appendChild(cardFace);
+        cardContainer.classList = "dropIn cardContainer";
 
     }
 
 }
 
+//triggers card to flip
+
+function cardFlip(e){
+    //since the event target will be the image element we go up to the container div (parent)
+    const target = e.target.parentElement;
+    target.style.animationDelay = "0ms";
+    // target.classList.remove("cardFlip");
+    target.removeEventListener("mouseover", cardJiggle);
+    target.removeEventListener("mouseout", cardJiggleRemove);
+    target.classList.remove("dropIn");
+    target.classList.remove("cardJiggle");
+    target.classList.add("cardFlipped");
+}
+
+
 //adds a jiggle animation style to cards when triggered
 
 function cardJiggle(e){
-    e.target.style.animationDelay = "0ms"; 
-    e.target.classList.add("jigglyPoo");   
+    //since the event target will be the image element we go up to the container div (parent)
+    console.log(e)
+    const target = e.target.parentElement;
+    target.style.animationDelay = "0ms"; 
+    // target.classList.add("jigglyPoo");
+    target.classList.add("cardJiggle"); 
 }
 
 //removes the jiggle animation style but with a delay to allow completion
 
 function cardJiggleRemove(e){
-    let targMe = e.target;
-    const myTimeout = setTimeout(removeClass, 1500);
+    const target = e.target.parentElement;
+    setTimeout(removeClass, 1500);
     function removeClass(){
         console.log("remove jiggle");
-        targMe.classList.remove("jigglyPoo");
-        targMe.classList.remove("dropIn");   
+        target.classList.remove("cardJiggle");
+        target.classList.remove("dropIn");   
     } 
 }
 
@@ -1072,6 +1154,10 @@ function gameStart(cardTheme,cardColor,gameRounds,gameDifficulty){
     let gameDeck = createGameDeck(cardTheme,cardColor);
     let cardCount = randomNumber(6,16);
     dealPlayerCards(cardCount, gameDeck);
+
+    //ask user to select cards
+
+
 
 
 
@@ -1084,8 +1170,10 @@ function createGameDeck(cardTheme,cardColor){
     let gameDeck =[];
     let i = 0;
 
+
     for (card of tempDeck){
-        if((card.category == cardTheme  && card.color == cardColor) || (card.category == cardTheme  && cardColor == 'all')){
+        if((card.category == cardTheme  && card.color == cardColor) || (card.category == cardTheme  && cardColor == 'all')
+        || (cardTheme == 'all' && cardColor == 'all') || (cardTheme == 'all' && card.color == cardColor) ){
             gameDeck.push(card);
         }
     }
@@ -1093,5 +1181,5 @@ function createGameDeck(cardTheme,cardColor){
     console.log(gameDeck);
     console.log(cardTheme);
     console.log(cardColor);
-    return gameDeck
+    return gameDeck;
 }

@@ -11,11 +11,12 @@ Nearly all code is generated and insert to the DOM through JavaScript -->
     <title>Memoria</title>
 </head>
 <header>
-    <h1 style="color: #fff;z-index: 5000; background-color: #000;position: relative ; display: inline" onclick="scatterCards(150)">  [ Scatter Some Cards ]  </h1>
-    <h1 style="color: #fff;z-index: 5000; background-color: #000;position: relative ; display: inline" onclick="burnCards()">  [ Burn Cards ]  </h1>
-    <h1 style="color: #fff;z-index: 5000; background-color: #000;position: relative ; display: inline" onclick="gameStart(cardTheme,cardColor)">  [ Game Start ]  </h1>
-
+    <h1 style="color: #fff;z-index: 5000; background-color: #000;position: relative ; display: inline" onclick="scatterCards(createGameDeck('all','all'))">  [ Scatter Full Card Deck ]  </h1>
+    <h1 style="color: #fff;z-index: 5000; background-color: #000;position: relative ; display: inline" onclick="scatterCards(createGameDeck(cardTheme,cardColor))">  [ Scatter Select Card Deck ]  </h1>
+    <h1 style="color: #fff;z-index: 5000; background-color: #000;position: relative ; display: inline" onclick="burnCards()">  [ Burn All Cards ]  </h1>
+    <h1 style="color: #fff;z-index: 5000; background-color: #000;position: relative ; display: inline" onclick="gameStart(cardTheme,cardColor)">  [ Game Start Test ]  </h1>
 </header>
+<section id="gameArea"></section>
 <body>
 <script src="./assets/js/main.js" type="text/javascript"></script>   
 </body>
