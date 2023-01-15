@@ -7,11 +7,11 @@
 
 let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter  = 0; //global variable to track audio clips generated and create unique IDs
-let imageQuality = 'low'; //image file size & quality
+let imageQuality = 'medium'; //image file size & quality
 let backFaceType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 10; //how many rounds to play
 let cardTheme = 'sea'; // controls what set of cards will be in the deck - 'all' adds all themes
-let cardColor = 'all'; // controls what color cards are included - 'all' adds all colors
+let cardColor = 'blue'; // controls what color cards are included - 'all' adds all colors
 
 
 //TESTING FUNCTIONS
@@ -1083,7 +1083,7 @@ function dealPlayerCards(cardCount, gameDeck){
         cardContainer.style.left = leftPosition + "vw" ;
         cardContainer.style.width = (100 / gameDeck.length) + "vw";
         cardContainer.style.height = ((window.innerWidth / gameDeck.length) * 1.23) + "px";
-        // cardContainer.style.zIndex = 50;
+        cardContainer.style.zIndex = 50;
         
         cardBack.classList = "cardBack";
         cardFace.classList = "cardFace";
