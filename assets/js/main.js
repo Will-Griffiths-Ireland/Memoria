@@ -8,10 +8,12 @@
 let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter  = 0; //global variable to track audio clips generated and create unique IDs
 let imageQuality = 'medium'; //image file size & quality
-let backFaceType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
+let backFaceType = 'unnamed'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 10; //how many rounds to play
 let cardTheme = 'sea'; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = 'blue'; // controls what color cards are included - 'all' adds all colors
+let playerSelectedCards = []; // array that stores the cards the player has selected
+let cardsToMatch = []; // array holds the cards the player has to remember
 
 
 //TESTING FUNCTIONS
@@ -43,7 +45,8 @@ function scatterCards(gameDeck){
     console.log("Trying to scatter " + gameDeck.length + " cards");
     let windowX = window.innerWidth;
     let windowY = window.innerHeight;
-
+    console.log(windowX);
+    console.log(windowY);
     let randSelect;
     let randWidth;
     
@@ -72,7 +75,7 @@ function scatterCards(gameDeck){
         cardContainer.dataset.cardName = gameDeck[i].name;
         cardContainer.dataset.cardColor = gameDeck[i].color;
         cardContainer.dataset.cardTheme = gameDeck[i].category;
-        cardContainer.style.position = "absolute";
+        cardContainer.style.position = "fixed";
         cardContainer.style.animationDelay = delay + "ms";
         cardContainer.style.top = locY;
         cardContainer.style.left = locX;
@@ -1009,7 +1012,6 @@ function burnCards(){
 
     for(let i = 0; i < totalToDel; i++)
     {
-        console.log(frontFaces[i]);
         frontFaces[0].classList.add("cardFaceDel");
         frontFaces[0].classList.remove("cardFace");
         backFaces[0].remove();
@@ -1053,7 +1055,7 @@ function delCards(){
 
 //build players deck and lay them out on the screen
 
-function dealPlayerCards(cardCount, gameDeck){
+function dealPlayerCards(gameDeck){
 
     if(!gameDeck){
         console.log("You didn't pass me cards to deal");
@@ -1079,7 +1081,6 @@ function dealPlayerCards(cardCount, gameDeck){
         cardContainer.style.position = "absolute";
         let delay = 500 + (i * 250); 
         cardContainer.style.animationDelay =  delay + "ms"; //stagger animation for dropping in the cards
-        cardContainer.style.bottom = "5vh";
         cardContainer.style.left = leftPosition + "vw" ;
         cardContainer.style.width = (100 / gameDeck.length) + "vw";
         cardContainer.style.height = ((window.innerWidth / gameDeck.length) * 1.23) + "px";
@@ -1087,9 +1088,7 @@ function dealPlayerCards(cardCount, gameDeck){
         
         cardBack.classList = "cardBack";
         cardFace.classList = "cardFace";
-        // cardContainer.addEventListener("mouseover", cardJiggle);
-        // cardContainer.addEventListener("mouseout", cardJiggleRemove);
-        cardContainer.addEventListener("click", cardFlip);
+        cardContainer.addEventListener("click", selectCard);
         
         //need to optimize and find a solution here if time allows.
         //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
@@ -1099,12 +1098,10 @@ function dealPlayerCards(cardCount, gameDeck){
             cardContainer.classList.remove("dropIn");
             cardContainer.classList.add("cardFlipped");
         } 
-        
         gameArea.appendChild(cardContainer);
         cardContainer.appendChild(cardBack);
         cardContainer.appendChild(cardFace);
         cardContainer.classList = "dropIn cardContainer";
-
     }
 
 }
@@ -1152,8 +1149,9 @@ function gameStart(cardTheme,cardColor,gameRounds,gameDifficulty){
     
     //generate deck based on theme
     let gameDeck = createGameDeck(cardTheme,cardColor);
-    let cardCount = randomNumber(6,16);
-    dealPlayerCards(cardCount, gameDeck);
+    selectCardsToMatch(gameDeck);
+    dealPlayerCards(gameDeck);
+    dealCardsToMatch(gameDeck, cardsToMatch);
 
     //ask user to select cards
 
@@ -1182,4 +1180,115 @@ function createGameDeck(cardTheme,cardColor){
     console.log(cardTheme);
     console.log(cardColor);
     return gameDeck;
+}
+
+//function that allows player to select a card
+
+function selectCard(e)
+{
+    let target = e.target.parentElement;
+    console.log(target);
+    console.log("selected card was a " + target.dataset['cardColor'] + " " + target.dataset['cardName']);
+    let tempCard = {
+        "name": target.dataset['cardName'],
+        "color": target.dataset['cardColor']  
+    }
+    playerSelectedCards.push(tempCard);
+
+    //add a visual cue that the card is selected
+    target.classList.add("cardSelected");
+    // target.style.filter = `drop-shadow(0px 0px 5px #f40909)`;
+
+    console.log("Here is the current player selected cards")
+    console.log(playerSelectedCards);
+}
+
+//function that selects cards for the player to match
+
+function selectCardsToMatch(gameDeck){
+
+    totalCards = randomNumber(1,6);
+    let randSelect;
+    cardsToMatch = []; // clear the array
+    tempGameDeck = game
+
+    for(i = 0; i < totalCards; i++)
+    {
+        //need to make sure that the next random card hasn't be added already
+        
+        randSelect = Math.floor(Math.random() * gameDeck.length); //pick a random card form the deck
+        
+        
+        let tempCard = {
+            "name": gameDeck[randSelect].name,
+            "color": gameDeck[randSelect].color  
+        }
+        cardsToMatch.push(tempCard);
+    }
+
+    console.log("You need to recall " + totalCards + " cards");
+    console.log("Here are the card details...");
+    console.log(cardsToMatch);
+}
+
+function dealCardsToMatch(gameDeck, cardsToMatch){
+
+    if(!gameDeck){
+        console.log("You didn't pass me cards to deal");
+        return;
+    }
+
+    for(let i = 0; i < cardsToMatch.length; i++){
+
+        for(let card of gameDeck)
+        {
+            if( card.name == cardsToMatch[i].name && card.color == cardsToMatch[i].color )
+            {
+                //thats the card we need to display
+            
+                const gameArea = document.getElementById('gameArea');
+
+                //work out placement of cards based on how many are being dealt
+                let leftPosition = (100 / gameDeck.length) * i;
+                //create html elements
+                const cardContainer = document.createElement('div');
+                const cardFace = document.createElement('img');
+                const cardBack = document.createElement('img');
+                //set the related images
+                cardFace.src = card.faceImgSrc;
+                cardBack.src = card.backImgSrc;
+                cardContainer.dataset.cardName = card.name;
+                cardContainer.dataset.cardColor = card.color;
+                cardContainer.dataset.cardTheme = card.category;
+                cardContainer.style.position = "absolute";
+                let delay = 500 + (i * 250); 
+                cardContainer.style.animationDelay =  delay + "ms"; //stagger animation for dropping in the cards
+                cardContainer.style.left = leftPosition + "vw" ;
+                cardContainer.style.bottom = 50 + "vh" ;
+                cardContainer.style.width = (100 / gameDeck.length) + "vw";
+                cardContainer.style.height = ((window.innerWidth / gameDeck.length) * 1.23) + "px";
+                cardContainer.style.zIndex = 50;
+                
+                cardBack.classList = "cardBack";
+                cardFace.classList = "cardFace";
+                // cardContainer.addEventListener("click", selectCard);
+                
+                //need to optimize and find a solution here if time allows.
+                //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
+                //this technique works for now where we trigger a delayed function to switch out style classes
+                setTimeout(fCard, (delay + 1000));
+                function fCard(){
+                    cardContainer.classList.remove("dropIn");
+                    cardContainer.classList.add("cardFlipped");
+                } 
+                gameArea.appendChild(cardContainer);
+                cardContainer.appendChild(cardBack);
+                cardContainer.appendChild(cardFace);
+                cardContainer.classList = "dropIn cardContainer";}
+
+        }
+
+
+    }
+
 }

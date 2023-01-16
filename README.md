@@ -2,14 +2,15 @@
 # Memoria
 ## **Site Overview**
 
-This site is a demonstration of my Javascript skills to present an interactive website in HTML5 & CSS3
+This site is a demonstration of my Javascript skills, presented through an interactive website in HTML5 & CSS3
 
-Memoria is a card based memory game that aims to be family friendly
+Memoria is a card based memory reaction game that aims to be family friendly.
+The game uses a combination of card themes and colors
 ​
 
 
 
-#### [The deployed website is here on GitHub Pages](??)​
+#### [The deployed website is here on GitHub Pages](https://will-griffiths-ireland.github.io/Memoria/)​
 
 ## Table of contents:
 1. [**Site Overview**](#site-overview)
@@ -54,9 +55,9 @@ Memoria is a card based memory game that aims to be family friendly
 
 ### **Planning Overview:**
 
-I gave a lot of thought to producing a site that was an example of something a large company/corp would produce.
+My aim with the game was to create something simple and engaging for younger children to develop visual memory
 
-* Sleek promotion of their project/mission
+* Smooth minimalist
 * Captivate the user and sell the dream of living on Mars
 * Bold minimalist design
 * Highly responsive from ultra-wide desktops down to mobile phones
@@ -67,7 +68,10 @@ I gave a lot of thought to producing a site that was an example of something a l
 
 ### **User Stories:**
 
-* ??
+* As a user, I want to page to load quickly on my device
+* As a user, I want a fun experience
+* As a user, I want to have a clear objective that provides a challenge
+* as a user, I want progression and reward
 
 ### **Site Aims:**
 
