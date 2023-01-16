@@ -3,17 +3,18 @@
 // Every effort has been made to take a unique approach
 
 
-//global game variables
+//global variables
 
 let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter  = 0; //global variable to track audio clips generated and create unique IDs
 let imageQuality = 'medium'; //image file size & quality
-let backFaceType = 'unnamed'; //show name on back of cards - use 'named' or 'unnamed'
+let backFaceType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 10; //how many rounds to play
-let cardTheme = 'sea'; // controls what set of cards will be in the deck - 'all' adds all themes
-let cardColor = 'blue'; // controls what color cards are included - 'all' adds all colors
+let cardTheme = 'spooky'; // controls what set of cards will be in the deck - 'all' adds all themes
+let cardColor = 'orange'; // controls what color cards are included - 'all' adds all colors
 let playerSelectedCards = []; // array that stores the cards the player has selected
 let cardsToMatch = []; // array holds the cards the player has to remember
+let cardsSelectedCount = 0;
 
 
 //TESTING FUNCTIONS
@@ -1005,6 +1006,11 @@ function playAudio(audioName, audiotype){
 //things quickly got complicated when trying to control animations
 
 function burnCards(){
+
+    //reset vars
+    cardsSelectedCount = 0;
+    playerSelectedCards = [];
+
     const cardsToBurn = document.getElementsByClassName('cardContainer');
     const backFaces = document.getElementsByClassName('cardBack');
     const frontFaces = document.getElementsByClassName('cardFace');
@@ -1197,10 +1203,25 @@ function selectCard(e)
 
     //add a visual cue that the card is selected
     target.classList.add("cardSelected");
-    // target.style.filter = `drop-shadow(0px 0px 5px #f40909)`;
 
     console.log("Here is the current player selected cards")
     console.log(playerSelectedCards);
+
+    if(playerSelectedCards[cardsSelectedCount].name == cardsToMatch[cardsSelectedCount].name &&
+        playerSelectedCards[cardsSelectedCount].color == cardsToMatch[cardsSelectedCount].color)
+        {
+            console.log("you picked the right card!!")
+            ++cardsSelectedCount;
+            if(cardsSelectedCount == cardsToMatch.length)
+            {
+                console.log("Congrats you win this round"); 
+            }
+            
+        }
+        else
+        {
+            console.log("You failed!!!!")
+        }
 }
 
 //function that selects cards for the player to match
@@ -1210,20 +1231,30 @@ function selectCardsToMatch(gameDeck){
     totalCards = randomNumber(1,6);
     let randSelect;
     cardsToMatch = []; // clear the array
-    tempGameDeck = game
+    let tempGameDeck = [];
+    for(let i = 0; i < gameDeck.length; i++)
+    {
+        tempGameDeck.push(gameDeck[i]);
+    }
+
+    console.log("Here is the tempGameDeck...");
+    console.log(tempGameDeck);
+
 
     for(i = 0; i < totalCards; i++)
     {
         //need to make sure that the next random card hasn't be added already
         
-        randSelect = Math.floor(Math.random() * gameDeck.length); //pick a random card form the deck
+        randSelect = (Math.floor(Math.random() * tempGameDeck.length)); //select a random card index
         
         
         let tempCard = {
-            "name": gameDeck[randSelect].name,
-            "color": gameDeck[randSelect].color  
+            "name": tempGameDeck[randSelect].name,
+            "color": tempGameDeck[randSelect].color  
         }
         cardsToMatch.push(tempCard);
+        tempGameDeck.splice(randSelect, 1); //remove the card we picked from the deck of available cards
+        console.log(tempGameDeck);
     }
 
     console.log("You need to recall " + totalCards + " cards");
@@ -1249,7 +1280,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch){
                 const gameArea = document.getElementById('gameArea');
 
                 //work out placement of cards based on how many are being dealt
-                let leftPosition = (100 / gameDeck.length) * i;
+                let leftPosition = (100 / cardsToMatch.length) * i;
                 //create html elements
                 const cardContainer = document.createElement('div');
                 const cardFace = document.createElement('img');
