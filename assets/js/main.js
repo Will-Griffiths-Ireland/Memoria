@@ -15,12 +15,14 @@ let cardColor = 'orange'; // controls what color cards are included - 'all' adds
 let playerSelectedCards = []; // array that stores the cards the player has selected
 let cardsToMatch = []; // array holds the cards the player has to remember
 let cardsSelectedCount = 0;
+let playerCardsDealDelay = 0;
 
 
 //TESTING FUNCTIONS
 
 // console.log("Here is the full deck");
-// console.log( buildCardObjectArray(imageQuality, backFaceType) );
+// gameDeck = buildCardObjectArray(imageQuality, backFaceType);
+// shuffleDeck(gameDeck);
 // console.log("Here is a game deck just with spooky cards");
 // console.log( createGameDeck(cardTheme,cardColor) );
 
@@ -989,13 +991,14 @@ function buildCardObjectArray(imageQuality, backFaceType){
 
 //Function to play audio
 //creates an audio element and sets it playing
-function playAudio(audioName, audiotype){
+function playAudio(audioName, audioType){
 
     let audioId = "audio" + audioCounter;
     ++audioCounter;
     let sound = document.createElement('audio');
     sound.src = `./assets/audio/${audioName}.mp3`;
     sound.id = audioId;
+    sound.dataset.audioType = "effect";
     document.querySelector('body').appendChild(sound);
     //Need to add logic to loop or single play 
     document.getElementById(audioId).play();
@@ -1127,28 +1130,7 @@ function cardFlip(e){
 }
 
 
-//adds a jiggle animation style to cards when triggered
 
-function cardJiggle(e){
-    //since the event target will be the image element we go up to the container div (parent)
-    console.log(e)
-    const target = e.target.parentElement;
-    target.style.animationDelay = "0ms"; 
-    // target.classList.add("jigglyPoo");
-    target.classList.add("cardJiggle"); 
-}
-
-//removes the jiggle animation style but with a delay to allow completion
-
-function cardJiggleRemove(e){
-    const target = e.target.parentElement;
-    setTimeout(removeClass, 1500);
-    function removeClass(){
-        console.log("remove jiggle");
-        target.classList.remove("cardJiggle");
-        target.classList.remove("dropIn");   
-    } 
-}
 
 function gameStart(cardTheme,cardColor,gameRounds,gameDifficulty){
 
@@ -1156,24 +1138,24 @@ function gameStart(cardTheme,cardColor,gameRounds,gameDifficulty){
     //generate deck based on theme
     let gameDeck = createGameDeck(cardTheme,cardColor);
     selectCardsToMatch(gameDeck);
-    dealPlayerCards(gameDeck);
+    
     dealCardsToMatch(gameDeck, cardsToMatch);
-
-    //ask user to select cards
+    setTimeout(() => {
+        dealPlayerCards(gameDeck);
+    }, playerCardsDealDelay);
+    
 
 
 
 
 
 }
-
+// build a deck with the cards required for the theme of this game
 function createGameDeck(cardTheme,cardColor){
 
     let tempDeck = buildCardObjectArray(imageQuality,backFaceType);
 
     let gameDeck =[];
-    let i = 0;
-
 
     for (card of tempDeck){
         if((card.category == cardTheme  && card.color == cardColor) || (card.category == cardTheme  && cardColor == 'all')
@@ -1185,6 +1167,9 @@ function createGameDeck(cardTheme,cardColor){
     console.log(gameDeck);
     console.log(cardTheme);
     console.log(cardColor);
+
+    gameDeck = shuffleDeck(gameDeck);
+
     return gameDeck;
 }
 
@@ -1193,6 +1178,7 @@ function createGameDeck(cardTheme,cardColor){
 function selectCard(e)
 {
     let target = e.target.parentElement;
+    let cardTag;
     console.log(target);
     console.log("selected card was a " + target.dataset['cardColor'] + " " + target.dataset['cardName']);
     let tempCard = {
@@ -1211,16 +1197,34 @@ function selectCard(e)
         playerSelectedCards[cardsSelectedCount].color == cardsToMatch[cardsSelectedCount].color)
         {
             console.log("you picked the right card!!")
+            cardTag = "cTM" + (cardsSelectedCount + 1);
+            console.log(cardTag);
             ++cardsSelectedCount;
+            
+            document.getElementById(cardTag).classList.add("cardFlipped");
+            document.getElementById(cardTag).classList.remove("cardFlippedBack");
+
             if(cardsSelectedCount == cardsToMatch.length)
             {
-                console.log("Congrats you win this round"); 
+                console.log("Congrats you win this round");
+             
             }
             
         }
         else
         {
             console.log("You failed!!!!")
+            const cardsToFlip = document.getElementsByClassName("cardsToMatch");
+            for (card of cardsToFlip)
+            {
+                card.classList.add("cardFlipped");
+                card.classList.remove("cardFlippedBack");
+            }
+
+            setTimeout(() => {
+                burnCards();
+            }, 3000);
+
         }
 }
 
@@ -1228,7 +1232,7 @@ function selectCard(e)
 
 function selectCardsToMatch(gameDeck){
 
-    totalCards = randomNumber(1,6);
+    totalCards = randomNumber(1,8);
     let randSelect;
     cardsToMatch = []; // clear the array
     let tempGameDeck = [];
@@ -1269,18 +1273,21 @@ function dealCardsToMatch(gameDeck, cardsToMatch){
         return;
     }
 
+    let leftPosition = ((100 / gameDeck.length) * ((8 - cardsToMatch.length) / 2)); //use to position cards from the left
+    let delay; // used for timing
     for(let i = 0; i < cardsToMatch.length; i++){
+
 
         for(let card of gameDeck)
         {
+            
+
             if( card.name == cardsToMatch[i].name && card.color == cardsToMatch[i].color )
             {
                 //thats the card we need to display
-            
+                console.log(leftPosition);
                 const gameArea = document.getElementById('gameArea');
 
-                //work out placement of cards based on how many are being dealt
-                let leftPosition = (100 / cardsToMatch.length) * i;
                 //create html elements
                 const cardContainer = document.createElement('div');
                 const cardFace = document.createElement('img');
@@ -1288,13 +1295,16 @@ function dealCardsToMatch(gameDeck, cardsToMatch){
                 //set the related images
                 cardFace.src = card.faceImgSrc;
                 cardBack.src = card.backImgSrc;
+                cardContainer.id = "cTM" + (i + 1); //set a unique id so we can flip it when the player gets it right
                 cardContainer.dataset.cardName = card.name;
                 cardContainer.dataset.cardColor = card.color;
                 cardContainer.dataset.cardTheme = card.category;
                 cardContainer.style.position = "absolute";
-                let delay = 500 + (i * 250); 
+                delay = 500 + (i * 250);
+                console.log(delay); 
                 cardContainer.style.animationDelay =  delay + "ms"; //stagger animation for dropping in the cards
                 cardContainer.style.left = leftPosition + "vw" ;
+                leftPosition = leftPosition + (100 / gameDeck.length); //increase left for the next card
                 cardContainer.style.bottom = 50 + "vh" ;
                 cardContainer.style.width = (100 / gameDeck.length) + "vw";
                 cardContainer.style.height = ((window.innerWidth / gameDeck.length) * 1.23) + "px";
@@ -1312,14 +1322,37 @@ function dealCardsToMatch(gameDeck, cardsToMatch){
                     cardContainer.classList.remove("dropIn");
                     cardContainer.classList.add("cardFlipped");
                 } 
+                setTimeout(fBCard, (delay + delay + 2000));
+                function fBCard(){
+                    cardContainer.classList.remove("cardFlipped");
+                    cardContainer.classList.add("cardFlippedBack");
+                } 
                 gameArea.appendChild(cardContainer);
                 cardContainer.appendChild(cardBack);
                 cardContainer.appendChild(cardFace);
-                cardContainer.classList = "dropIn cardContainer";}
+                cardContainer.classList = "dropIn cardContainer cardsToMatch";}
+
+                playerCardsDealDelay = (delay * 3) + 2000 + 500; // trying to set the overall time delay needed to deal the players cards
 
         }
 
 
     }
 
+}
+
+//function to shuffle deck. Uses fisher yates algo
+
+function shuffleDeck(gameDeck)
+{
+    console.log(gameDeck);
+
+    for (let i = gameDeck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = gameDeck[i];
+        gameDeck[i] = gameDeck[j];
+        gameDeck[j] = temp;
+      }
+      console.log(gameDeck);
+      return gameDeck;
 }

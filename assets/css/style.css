@@ -78,17 +78,16 @@ img {
     animation-name: flip;
     animation-delay: 0ms;
     animation-iteration-count: 1;
-    animation-duration: 2s;
+    animation-duration: 1s;
     animation-fill-mode: forwards;
     
 }
 /* flip card back */
 .cardFlippedBack{
-    animation-name: flip;
-    animation-delay: 0ms;
+    animation-name: flipBack;
     animation-iteration-count: 1;
-    animation-duration: 2s;
-    animation-fill-mode: forwards;
+    animation-duration: 1s;
+    animation-fill-mode:backwards;
     animation-direction: reverse;
 }
 
@@ -96,6 +95,12 @@ img {
     0%{}
     100%{
         transform: rotateY(180deg);
+    } 
+}
+@keyframes flipBack {
+    0%{}
+    100%{
+        transform: rotateY(-180deg);
     } 
 }
 
