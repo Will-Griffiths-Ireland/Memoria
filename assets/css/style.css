@@ -20,7 +20,18 @@ img {
     /* This filter to add drop shadows gives the cards some definition in stacks/overlap so that colors dor not blend into one.
     The advantage over a border is that this conforms to the actual image border and ignores transparency */   
     filter: drop-shadow(0px 0px 1px #000);
-} 
+}
+
+.mainMenu{
+    position: absolute;
+    top: 30vh;
+    left: 30vw;
+    height: 40vh;
+    width: 40vw;
+    background-color: #678945;
+    opacity: .5;
+    border-radius: 5%;
+}
 
 /* This is the for the general game are that covers the entire viewable screen */
 

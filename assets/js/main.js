@@ -25,6 +25,8 @@ let playerCardsDealDelay = 0;
 // shuffleDeck(gameDeck);
 // console.log("Here is a game deck just with spooky cards");
 // console.log( createGameDeck(cardTheme,cardColor) );
+// localStorage.setItem("name","Will");
+// console.log(localStorage.getItem("name"));
 
 
 //LISTENERS
@@ -39,9 +41,17 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-//function to test filling the screen with cards
-//take a cardCount as input
+//display the main menu
 
+function displayMenu(){
+    let gameArea = document.getElementById("gameArea");
+    mainM = document.createElement('div');
+    mainM.classList.add('mainMenu');
+    gameArea.appendChild(mainM);
+}
+
+//function to test filling the screen with cards in radom positions with various sizes
+//take gameDeck as input
 function scatterCards(gameDeck){
 
     // let gameDeck = createGameDeck(cardTheme,cardColor);
@@ -1095,7 +1105,7 @@ function dealPlayerCards(gameDeck){
         cardContainer.style.left = leftPosition + "vw" ;
         cardContainer.style.width = (100 / gameDeck.length) + "vw";
         cardContainer.style.height = ((100 / gameDeck.length) * 1.23) + "vw";
-        cardContainer.style.zIndex = 50;
+        cardContainer.style.zIndex = 10000;
         
         cardBack.classList = "cardBack";
         cardFace.classList = "cardFace";
@@ -1209,6 +1219,11 @@ function selectCard(e)
             if(cardsSelectedCount == cardsToMatch.length)
             {
                 console.log("Congrats you win this round");
+                scatterCards(createGameDeck('all','all'))
+                //wait 3 seconds and reset
+                 setTimeout(() => {
+                    burnCards();
+                }, 10000);
              
             }
             
@@ -1223,6 +1238,7 @@ function selectCard(e)
                 card.classList.remove("cardFlippedBack");
             }
 
+            //wait 3 seconds and reset
             setTimeout(() => {
                 burnCards();
             }, 3000);
@@ -1310,7 +1326,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch){
                 cardContainer.style.bottom = 50 + "vh" ;
                 cardContainer.style.width = (100 / gameDeck.length) + "vw";
                 cardContainer.style.height = ((100 / gameDeck.length) * 1.23) + "vw";
-                cardContainer.style.zIndex = 50;
+                cardContainer.style.zIndex = 10000;
                 
                 cardBack.classList = "cardBack";
                 cardFace.classList = "cardFace";
