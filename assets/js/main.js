@@ -9,14 +9,17 @@ let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter  = 0; //global variable to track audio clips generated and create unique IDs
 let imageQuality = 'medium'; //image file size & quality
 let backFaceType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
-let gameRounds = 10; //how many rounds to play
-let cardTheme = 'spooky'; // controls what set of cards will be in the deck - 'all' adds all themes
-let cardColor = 'orange'; // controls what color cards are included - 'all' adds all colors
+let gameRounds = 8; //how many rounds to play in total
+let currentRound = 1 // always start with round 1
+let deckSize = 8; //control how big the player deck is
+let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
+let cardColor = ''; // controls what color cards are included - 'all' adds all colors
 let playerSelectedCards = []; // array that stores the cards the player has selected
 let cardsToMatch = []; // array holds the cards the player has to remember
 let cardsSelectedCount = 0;
 let playerCardsDealDelay = 0;
 let menuOn = false; // Bool to track if menu is being displayed
+let gameActive = false; // bool to track active game state
 
 
 //TESTING FUNCTIONS
@@ -34,24 +37,17 @@ let menuOn = false; // Bool to track if menu is being displayed
 
 //attach a listener to the body to capture right click and create a card there
 document.querySelector('body').addEventListener("contextmenu", placeCard);
-document.querySelector('body').addEventListener("contextmenu", placeCard);
 
-//show menu if escape is pressed
-document.addEventListener("keydown", (e) => {
-    if (e.key == "Escape" && menuOn) {
-        menuOn = false;
-        removeMenu();
-        console.log("removing menu");
+//show menu if escape is pressed and remove it if escape is pressed again
+document.addEventListener("keydown", function (e) {
+        if (e.key == "Escape" && menuOn) {
+            removeMenu();
+        }
+        else if (e.key == "Escape") {
+            displayMenu();
+        }
         return;
-    }
-    else if (e.key == "Escape"){
-        menuOn = true;
-        displayMenu();
-        console.log("creating menu");
-        return;  
-    }
-    return;
-  });
+    });
 
 //BASIC UTILITY FUNCTIONS
 
@@ -69,20 +65,21 @@ function displayMenu(){
     mainM.classList.add("menuDrop");
     mainM.innerHTML = `
     <section class="innerMenu">
-    <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','all'))">Scatter Full Card Deck</h2>
-    <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','white'))">Scatter White Card Deck</h2>
-    <h2 class="menuItem" onclick="scatterCards(createGameDeck(cardTheme,cardColor))">Scatter Select Card Deck</h2>
+    <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','all','118'))">Scatter Full Card Deck</h2>
+    <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','white',deckSize))">Scatter White Card Deck</h2>
+    <h2 class="menuItem" onclick="scatterCards(createGameDeck(cardTheme,cardColor,deckSize))">Scatter Select Card Deck</h2>
     <h2 class="menuItem" onclick="burnCards()">Burn All Cards</h2>
-    <h2 class="menuItem" onclick="gameStart('spooky','orange')">Spooky Game</h2>
-    <h2 class="menuItem" onclick="gameStart('space','black')">Space Game</h2>
-    <h2 class="menuItem" onclick="gameStart('history','brown')">History Game</h2>
-    <h2 class="menuItem" onclick="gameStart('nature','green')">Nature Game</h2>
-    <h2 class="menuItem" onclick="gameStart('sea','blue')">Sea Game</h2>
-    <h2 class="menuItem" onclick="gameStart('science','red')">Science Game</h2>
-    <h2 class="menuItem" onclick="gameStart('all','all')">Mixed Game</h2>
+    <h2 class="menuItem" onclick="gameStart('spooky','orange',deckSize)">Spooky Game</h2>
+    <h2 class="menuItem" onclick="gameStart('space','black',deckSize)">Space Game</h2>
+    <h2 class="menuItem" onclick="gameStart('history','brown',deckSize)">History Game</h2>
+    <h2 class="menuItem" onclick="gameStart('nature','green',deckSize)">Nature Game</h2>
+    <h2 class="menuItem" onclick="gameStart('sea','blue',deckSize)">Sea Game</h2>
+    <h2 class="menuItem" onclick="gameStart('science','red',deckSize)">Science Game</h2>
+    <h2 class="menuItem" onclick="gameStart('all','all','118',deckSize)">Mixed Game</h2>
     </section>
 `
     gameArea.appendChild(mainM);
+    menuOn = true;
 }
 
 function removeMenu(){
@@ -104,8 +101,6 @@ function scatterCards(gameDeck){
     console.log("Trying to scatter " + gameDeck.length + " cards");
     let windowX = window.innerWidth;
     let windowY = window.innerHeight;
-    console.log(windowX);
-    console.log(windowY);
     let randSelect;
     let randWidth;
     let top;
@@ -116,15 +111,15 @@ function scatterCards(gameDeck){
         //select a radom cane from the deck
         randSelect = Math.floor(Math.random() * gameDeck.length); //pick a random card form the deck
         //Generate a random width/size of card
-        randWidth = randomNumber(5,8); // setting cards to be a random size between 2% and 10% of viewport width
+        randWidth = randomNumber(5,8); // setting cards to be a random % size
 
 
         const gameArea = document.getElementById('gameArea');
 
         left = randomNumber(0, (100 - randWidth))  + "vw";
-        top = randomNumber(0, (98 - (randWidth * 1.23))) + "vh";
+        top = randomNumber(0, (98 - (randWidth * 1.23))) + "vh"; // messed this for ages but still have cards spilling over the bottom of the screen
         console.log("Trying to create card at " + left + " " + top);
-        let delay = randomNumber(1000,5000); //generate a delay for the animation and (possible) audio trigger
+        let delay = randomNumber(0,2000); //generate a delay for the animation and (possible) audio trigger
         //create html elements
         const cardContainer = document.createElement('div');
         const cardFace = document.createElement('img');
@@ -1105,15 +1100,10 @@ function delCards(){
 
     const cardsToDel = document.getElementsByClassName('burnUp');
     const totalElements = cardsToDel.length;
-    console.log(cardsToDel);
-    console.log("Found " + totalElements + " to remove");
     let loopCount = 0;
     for (let i = 0; i < totalElements; i++)
     {
-        console.log("Card delete loop pass = " + loopCount);
-        console.log("Details of current element");
-        console.log(cardsToDel[0]);
-        console.log("Deleting Card " + cardsToDel[0].id);
+        
         cardsToDel[0].remove();
         loopCount++;
     }
@@ -1190,27 +1180,34 @@ function cardFlip(e){
 
 
 
-function gameStart(cardTheme,cardColor,gameRounds,gameDifficulty){
+function gameStart(cardThemeSelected,cardColorSelected){
 
-    removeMenu();
-    //generate deck based on theme
-    let gameDeck = createGameDeck(cardTheme,cardColor);
-    selectCardsToMatch(gameDeck);
+    if(menuOn){
+        removeMenu(); // get rid of main menu
+    }
+
+    cardTheme = cardThemeSelected;
+    cardColor = cardColorSelected;
     
+
+    //generate deck based on theme
+    let gameDeck = createGameDeck(cardTheme,cardColor,deckSize);
+    selectCardsToMatch(gameDeck, currentRound);
     dealCardsToMatch(gameDeck, cardsToMatch);
     setTimeout(() => {
         dealPlayerCards(gameDeck);
     }, playerCardsDealDelay);
-    
-
 
 
 
 
 }
 // build a deck with the cards required for the theme of this game
-function createGameDeck(cardTheme,cardColor){
+function createGameDeck(cardTheme,cardColor,deckSize){
 
+    console.log("createGameDeck called and 'deckSize' = " + deckSize);
+    console.log("createGameDeck called and 'theme' = " + cardTheme);
+    console.log("createGameDeck called and 'color' = " + cardColor);
     let tempDeck = buildCardObjectArray(imageQuality,backFaceType);
 
     let gameDeck =[];
@@ -1227,6 +1224,11 @@ function createGameDeck(cardTheme,cardColor){
     console.log(cardColor);
 
     gameDeck = shuffleDeck(gameDeck);
+
+    //if we sleect a mixed mode then this will reduce the deck down
+    while(gameDeck.length > deckSize){
+        gameDeck.pop();
+    }
 
     return gameDeck;
 }
@@ -1265,11 +1267,15 @@ function selectCard(e)
             if(cardsSelectedCount == cardsToMatch.length)
             {
                 console.log("Congrats you win this round");
-                scatterCards(createGameDeck('all','all'))
+                scatterCards(createGameDeck('all','all',(currentRound * 10)))
                 //wait 3 seconds and reset
                  setTimeout(() => {
                     burnCards();
-                }, 10000);
+                    ++currentRound;
+                    setTimeout(() => {
+                        gameStart(cardTheme, cardColor);
+                    }, 3000);
+                }, 5000);
              
             }
             
@@ -1287,6 +1293,8 @@ function selectCard(e)
             //wait 3 seconds and reset
             setTimeout(() => {
                 burnCards();
+                currentRound = 1; // reset round back to 1
+
             }, 3000);
 
         }
@@ -1294,9 +1302,10 @@ function selectCard(e)
 
 //function that selects cards for the player to match
 
-function selectCardsToMatch(gameDeck){
+function selectCardsToMatch(gameDeck, gameRound){
 
-    totalCards = randomNumber(1,8);
+    totalCards = currentRound;
+    console.log("This is round " + currentRound);
     let randSelect;
     cardsToMatch = []; // clear the array
     let tempGameDeck = [];
