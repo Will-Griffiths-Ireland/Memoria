@@ -52,21 +52,22 @@ function scatterCards(gameDeck){
     console.log(windowY);
     let randSelect;
     let randWidth;
+    let top;
+    let left;
     
     for(let i = 0; i < gameDeck.length; i++){
 
         //select a radom cane from the deck
         randSelect = Math.floor(Math.random() * gameDeck.length); //pick a random card form the deck
         //Generate a random width/size of card
-        randWidth = randomNumber((gameDeck[randSelect].imgWidth / 6),(gameDeck[randSelect].imgWidth / 3));
+        randWidth = randomNumber(5,8); // setting cards to be a random size between 2% and 10% of viewport width
 
 
         const gameArea = document.getElementById('gameArea');
-        let locX = Math.floor(Math.random() * (windowX - randWidth));
-        locX = locX  + "px";
-        let locY = Math.floor(Math.random() * (windowY - (randWidth * 1.23))); //offset y position based width with multiplier
-        locY = locY + "px";
-        console.log("Trying to create card at " + locX + " " + locY);
+
+        left = randomNumber(0, (100 - randWidth))  + "vw";
+        top = randomNumber(0, (98 - (randWidth * 1.23))) + "vh";
+        console.log("Trying to create card at " + left + " " + top);
         let delay = randomNumber(1000,5000); //generate a delay for the animation and (possible) audio trigger
         //create html elements
         const cardContainer = document.createElement('div');
@@ -78,13 +79,14 @@ function scatterCards(gameDeck){
         cardContainer.dataset.cardName = gameDeck[i].name;
         cardContainer.dataset.cardColor = gameDeck[i].color;
         cardContainer.dataset.cardTheme = gameDeck[i].category;
-        cardContainer.style.position = "fixed";
+        cardContainer.style.position = "absolute";
         cardContainer.style.animationDelay = delay + "ms";
-        cardContainer.style.top = locY;
-        cardContainer.style.left = locX;
-        cardContainer.style.width = randWidth  + "px";
-        cardContainer.style.height = (randWidth * 1.23)  + "px"; 
-        cardContainer.style.zIndex = 10;
+        cardContainer.style.top = top;
+        cardContainer.style.left = left;
+        
+        cardContainer.style.width = randWidth  + "vw";
+        cardContainer.style.height = (randWidth * 1.23)  + "vw";
+        cardContainer.style.zIndex = 10 + cardId;
         ++cardId;
         cardContainer.id = cardId;
         cardContainer.classList = "dropIn cardContainer";
@@ -1092,7 +1094,7 @@ function dealPlayerCards(gameDeck){
         cardContainer.style.animationDelay =  delay + "ms"; //stagger animation for dropping in the cards
         cardContainer.style.left = leftPosition + "vw" ;
         cardContainer.style.width = (100 / gameDeck.length) + "vw";
-        cardContainer.style.height = ((window.innerWidth / gameDeck.length) * 1.23) + "px";
+        cardContainer.style.height = ((100 / gameDeck.length) * 1.23) + "vw";
         cardContainer.style.zIndex = 50;
         
         cardBack.classList = "cardBack";
@@ -1273,7 +1275,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch){
         return;
     }
 
-    let leftPosition = ((100 / gameDeck.length) * ((8 - cardsToMatch.length) / 2)); //use to position cards from the left
+    let leftPosition = ((100 / gameDeck.length) * ((gameDeck.length - cardsToMatch.length) / 2)); //use to position cards from the left
     let delay; // used for timing
     for(let i = 0; i < cardsToMatch.length; i++){
 
@@ -1307,7 +1309,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch){
                 leftPosition = leftPosition + (100 / gameDeck.length); //increase left for the next card
                 cardContainer.style.bottom = 50 + "vh" ;
                 cardContainer.style.width = (100 / gameDeck.length) + "vw";
-                cardContainer.style.height = ((window.innerWidth / gameDeck.length) * 1.23) + "px";
+                cardContainer.style.height = ((100 / gameDeck.length) * 1.23) + "vw";
                 cardContainer.style.zIndex = 50;
                 
                 cardBack.classList = "cardBack";
