@@ -22,15 +22,59 @@ img {
     filter: drop-shadow(0px 0px 1px #000);
 }
 
-.mainMenu{
+/* styling for main menu div */
+#mainMenu{
     position: absolute;
+    z-index: 20000;
+    border-color: #908e8ef4;
+    box-shadow: 5px 5px #00000055;
+    border-style: solid;
+    border-width: 1vmin;
     top: 30vh;
     left: 30vw;
     height: 40vh;
     width: 40vw;
-    background-color: #678945;
-    opacity: .5;
-    border-radius: 5%;
+    background-color: #fffffff4;
+    opacity: 1;
+    border-radius: 5vmax;
+}
+
+.menuDrop{
+    animation-name: dropIn;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.innerMenu{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    
+}
+
+.menuItem{
+    color: rgb(0, 0, 0);
+    font-size: 1.5vmax;
+    text-align: center;
+    display: block;
+    border: 0;
+    margin: 0;
+    transition-duration: 500ms;  
+}
+
+.menuItem:hover{
+    color: #f00303;
+    transition-duration: 500ms;  
+}
+
+.menuBurn{
+    animation-name: fadeOut;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
 }
 
 /* This is the for the general game are that covers the entire viewable screen */
@@ -47,6 +91,7 @@ img {
 /* pushing the card up to indicate selection. Temp solution and uses !important to override positioning in other class */
 .cardSelected{
     bottom: 10vh !important;
+    transition: 500ms;
 }
 
 /* Class that applies default styling to the card container div */
@@ -157,36 +202,4 @@ img {
     }
 }
 
-.cardJiggle {
-    animation-name: cardJiggle;
-    animation-timing-function: ease-in-out;
-    animation-direction: forwards;
-    animation-duration: 1.5s;
-    animation-iteration-count: infinite;
-}
 
-@keyframes cardJiggle{
-    0%{
-        transform: rotate(0.01deg);
-    }
-    20%{
-        
-        transform: rotate(-1.5deg);
-    }
-    40%{
-        
-        transform: rotate(3deg);
-    }
-    60%{
-        
-        transform: rotate(-1.5deg);
-    }
-    80%{
-        
-        transform: rotate(3deg);
-    }
-    100%{
-        
-        transform: rotate(-1.5deg); 
-    }
-}

@@ -16,6 +16,7 @@ let playerSelectedCards = []; // array that stores the cards the player has sele
 let cardsToMatch = []; // array holds the cards the player has to remember
 let cardsSelectedCount = 0;
 let playerCardsDealDelay = 0;
+let menuOn = false; // Bool to track if menu is being displayed
 
 
 //TESTING FUNCTIONS
@@ -33,6 +34,24 @@ let playerCardsDealDelay = 0;
 
 //attach a listener to the body to capture right click and create a card there
 document.querySelector('body').addEventListener("contextmenu", placeCard);
+document.querySelector('body').addEventListener("contextmenu", placeCard);
+
+//show menu if escape is pressed
+document.addEventListener("keydown", (e) => {
+    if (e.key == "Escape" && menuOn) {
+        menuOn = false;
+        removeMenu();
+        console.log("removing menu");
+        return;
+    }
+    else if (e.key == "Escape"){
+        menuOn = true;
+        displayMenu();
+        console.log("creating menu");
+        return;  
+    }
+    return;
+  });
 
 //BASIC UTILITY FUNCTIONS
 
@@ -46,9 +65,36 @@ function randomNumber(min, max) {
 function displayMenu(){
     let gameArea = document.getElementById("gameArea");
     mainM = document.createElement('div');
-    mainM.classList.add('mainMenu');
+    mainM.id = "mainMenu";
+    mainM.classList.add("menuDrop");
+    mainM.innerHTML = `
+    <section class="innerMenu">
+    <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','all'))">Scatter Full Card Deck</h2>
+    <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','white'))">Scatter White Card Deck</h2>
+    <h2 class="menuItem" onclick="scatterCards(createGameDeck(cardTheme,cardColor))">Scatter Select Card Deck</h2>
+    <h2 class="menuItem" onclick="burnCards()">Burn All Cards</h2>
+    <h2 class="menuItem" onclick="gameStart('spooky','orange')">Spooky Game</h2>
+    <h2 class="menuItem" onclick="gameStart('space','black')">Space Game</h2>
+    <h2 class="menuItem" onclick="gameStart('history','brown')">History Game</h2>
+    <h2 class="menuItem" onclick="gameStart('nature','green')">Nature Game</h2>
+    <h2 class="menuItem" onclick="gameStart('sea','blue')">Sea Game</h2>
+    <h2 class="menuItem" onclick="gameStart('science','red')">Science Game</h2>
+    <h2 class="menuItem" onclick="gameStart('all','all')">Mixed Game</h2>
+    </section>
+`
     gameArea.appendChild(mainM);
 }
+
+function removeMenu(){
+    document.getElementById("mainMenu").classList.remove("menuDrop");
+    document.getElementById("mainMenu").classList.add("menuBurn");
+    setTimeout(() => {
+        document.getElementById("mainMenu").remove();
+    }, 1000);
+    menuOn = false;
+}
+
+
 
 //function to test filling the screen with cards in radom positions with various sizes
 //take gameDeck as input
@@ -1146,7 +1192,7 @@ function cardFlip(e){
 
 function gameStart(cardTheme,cardColor,gameRounds,gameDifficulty){
 
-    
+    removeMenu();
     //generate deck based on theme
     let gameDeck = createGameDeck(cardTheme,cardColor);
     selectCardsToMatch(gameDeck);
