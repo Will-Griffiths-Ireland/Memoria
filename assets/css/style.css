@@ -80,8 +80,8 @@ img {
 /* This is the for the general game are that covers the entire viewable screen */
 
 #gameArea{
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
     perspective: 2000px;
     position: fixed;
     top: 0;
@@ -97,7 +97,7 @@ img {
 /* Class that applies default styling to the card container div */
 .cardContainer {
     transform-style: preserve-3d;
-    bottom: 5vh; 
+    bottom: 5dvh; 
 }
 
 /* Class that applies default styling to a cards face and back */

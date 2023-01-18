@@ -250,7 +250,6 @@ function buildCardObjectArray(imageQuality, backFaceType){
     }
 
     //main card array
-    //when I know more
     
     let cardObjectArray = [
     {name: "astronaut",
@@ -1189,6 +1188,8 @@ function gameStart(cardThemeSelected,cardColorSelected){
 
     cardTheme = cardThemeSelected;
     cardColor = cardColorSelected;
+
+    document.getElementById('gameArea').style.backgroundColor = cardColor;
     
 
     //generate deck based on theme
