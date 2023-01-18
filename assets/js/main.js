@@ -10,7 +10,7 @@ let audioCounter  = 0; //global variable to track audio clips generated and crea
 let imageQuality = 'medium'; //image file size & quality
 let backFaceType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 8; //how many rounds to play in total
-let currentRound = 1 // always start with round 1
+let currentRound = 8 // always start with round 1
 let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
@@ -29,8 +29,9 @@ let gameActive = false; // bool to track active game state
 // shuffleDeck(gameDeck);
 // console.log("Here is a game deck just with spooky cards");
 // console.log( createGameDeck(cardTheme,cardColor) );
-// localStorage.setItem("name","Will");
-// console.log(localStorage.getItem("name"));
+localStorage.setItem("name","Will");
+console.log(localStorage.getItem("name"));
+console.table(localStorage);
 
 
 //LISTENERS
@@ -1273,7 +1274,13 @@ function selectCard(e)
                     burnCards();
                     ++currentRound;
                     setTimeout(() => {
-                        gameStart(cardTheme, cardColor);
+                        if (currentRound < gameRounds){
+                            gameStart(cardTheme, cardColor);
+                        }
+                        else{
+                            console.log("you win this theme. well done !!")
+                            currentRound = 1;
+                        } 
                     }, 3000);
                 }, 5000);
              
