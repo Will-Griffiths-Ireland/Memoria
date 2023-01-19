@@ -170,7 +170,7 @@ function scatterCards(gameDeck) {
         cardContainer.appendChild(cardFace);
         cardContainer.classList = "dropIn cardContainer";
     }
-    playAudio('deal_cards');
+    // playAudio('deal_cards');
 }
 
 //function to build deck of cards in an array of objects
@@ -1287,7 +1287,7 @@ function burnCards() {
 
     }
     setTimeout(delCards, 15000);
-    playAudio('burn_cards');
+    // playAudio('burn_cards');
 }
 
 // This function removes elements from the DOM with a certain class.
@@ -1341,12 +1341,9 @@ function dealPlayerCards(gameDeck) {
         cardContainer.dataset.cardName = gameDeck[i].name;
         cardContainer.dataset.cardColor = gameDeck[i].color;
         cardContainer.dataset.cardTheme = gameDeck[i].category;
-        // cardContainer.style.position = "relative";
-        // cardContainer.style.display = "inline";
         delay = 500 + (i * 250);
         cardContainer.style.animationDelay = delay + "ms"; //stagger animation for dropping in the cards
         
-        cardContainer.style.zIndex = 10000;
         cardBack.classList = "cardBack";
         cardFace.classList = "cardFace";
         cardContainer.addEventListener("click", selectCard);
@@ -1576,8 +1573,13 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
         return;
     }
 
-    let leftPosition = ((100 / gameDeck.length) * ((gameDeck.length - cardsToMatch.length) / 2)); //use to position cards from the left
+    const gameArea = document.getElementById('gameArea');    
     let delay; // used for timing
+
+    const cardsToMatchArea = document.createElement('div');
+    cardsToMatchArea.id = 'cardsToMatchArea';
+    gameArea.appendChild(cardsToMatchArea);
+
     for (let i = 0; i < cardsToMatch.length; i++) {
 
 
@@ -1586,8 +1588,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
 
             if (card.name == cardsToMatch[i].name && card.color == cardsToMatch[i].color) {
                 //thats the card we need to display
-                console.log(leftPosition);
-                const gameArea = document.getElementById('gameArea');
+                
 
                 //create html elements
                 const cardContainer = document.createElement('div');
@@ -1600,20 +1601,11 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
                 cardContainer.dataset.cardName = card.name;
                 cardContainer.dataset.cardColor = card.color;
                 cardContainer.dataset.cardTheme = card.category;
-                cardContainer.style.position = "absolute";
                 delay = 500 + (i * 250);
-                console.log(delay);
                 cardContainer.style.animationDelay = delay + "ms"; //stagger animation for dropping in the cards
-                cardContainer.style.left = leftPosition + "vw";
-                leftPosition = leftPosition + (100 / gameDeck.length); //increase left for the next card
-                cardContainer.style.bottom = 50 + "vh";
-                cardContainer.style.width = (100 / gameDeck.length) + "vw";
-                cardContainer.style.height = ((100 / gameDeck.length) * 1.23) + "vw";
-                cardContainer.style.zIndex = 10000;
 
                 cardBack.classList = "cardBack";
                 cardFace.classList = "cardFace";
-                // cardContainer.addEventListener("click", selectCard);
 
                 //need to optimize and find a solution here if time allows.
                 //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
@@ -1630,7 +1622,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
                     cardContainer.classList.remove("cardFlipped");
                     cardContainer.classList.add("cardFlippedBack");
                 }
-                gameArea.appendChild(cardContainer);
+                cardsToMatchArea.appendChild(cardContainer);
                 cardContainer.appendChild(cardBack);
                 cardContainer.appendChild(cardFace);
                 cardContainer.classList = "dropIn cardContainer cardsToMatch";
@@ -1644,6 +1636,83 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
     }
 
 }
+
+// OLD FUNC
+// function dealCardsToMatch(gameDeck, cardsToMatch) {
+
+//     if (!gameDeck) {
+//         console.log("You didn't pass me cards to deal");
+//         return;
+//     }
+
+//     let leftPosition = ((100 / gameDeck.length) * ((gameDeck.length - cardsToMatch.length) / 2)); //use to position cards from the left
+//     let delay; // used for timing
+//     for (let i = 0; i < cardsToMatch.length; i++) {
+
+
+//         for (let card of gameDeck) {
+
+
+//             if (card.name == cardsToMatch[i].name && card.color == cardsToMatch[i].color) {
+//                 //thats the card we need to display
+//                 console.log(leftPosition);
+//                 const gameArea = document.getElementById('gameArea');
+
+//                 //create html elements
+//                 const cardContainer = document.createElement('div');
+//                 const cardFace = document.createElement('img');
+//                 const cardBack = document.createElement('img');
+//                 //set the related images
+//                 cardFace.src = card.faceImgSrc;
+//                 cardBack.src = card.backImgSrc;
+//                 cardContainer.id = "cTM" + (i + 1); //set a unique id so we can flip it when the player gets it right
+//                 cardContainer.dataset.cardName = card.name;
+//                 cardContainer.dataset.cardColor = card.color;
+//                 cardContainer.dataset.cardTheme = card.category;
+//                 cardContainer.style.position = "absolute";
+//                 delay = 500 + (i * 250);
+//                 console.log(delay);
+//                 cardContainer.style.animationDelay = delay + "ms"; //stagger animation for dropping in the cards
+//                 cardContainer.style.left = leftPosition + "vw";
+//                 leftPosition = leftPosition + (100 / gameDeck.length); //increase left for the next card
+//                 cardContainer.style.bottom = 50 + "vh";
+//                 cardContainer.style.width = (100 / gameDeck.length) + "vw";
+//                 cardContainer.style.height = ((100 / gameDeck.length) * 1.23) + "vw";
+//                 cardContainer.style.zIndex = 10000;
+
+//                 cardBack.classList = "cardBack";
+//                 cardFace.classList = "cardFace";
+//                 // cardContainer.addEventListener("click", selectCard);
+
+//                 //need to optimize and find a solution here if time allows.
+//                 //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
+//                 //this technique works for now where we trigger a delayed function to switch out style classes
+//                 setTimeout(fCard, (delay + 1000));
+
+//                 function fCard() {
+//                     cardContainer.classList.remove("dropIn");
+//                     cardContainer.classList.add("cardFlipped");
+//                 }
+//                 setTimeout(fBCard, (delay + delay + 2000));
+
+//                 function fBCard() {
+//                     cardContainer.classList.remove("cardFlipped");
+//                     cardContainer.classList.add("cardFlippedBack");
+//                 }
+//                 gameArea.appendChild(cardContainer);
+//                 cardContainer.appendChild(cardBack);
+//                 cardContainer.appendChild(cardFace);
+//                 cardContainer.classList = "dropIn cardContainer cardsToMatch";
+//             }
+
+//             playerCardsDealDelay = (delay * 3) + 2000 + 500; // trying to set the overall time delay needed to deal the players cards
+
+//         }
+
+
+//     }
+
+// }
 
 //function to shuffle deck. Uses fisher yates algo
 
