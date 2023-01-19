@@ -17,9 +17,10 @@ let cardColor = ''; // controls what color cards are included - 'all' adds all c
 let playerSelectedCards = []; // array that stores the cards the player has selected
 let cardsToMatch = []; // array holds the cards the player has to remember
 let totalSelectedCards = 0;
-let playerCardsDealDelay = 0;
+let playerCardsDealDelay = 0; // deal players cards dealign till all cards they have to remmeber are displayed
 let menuOn = false; // Bool to track if menu is being displayed
 let gameActive = false; // bool to track active game state
+let portraitDisplay = false; 
 let selectLocked = false; //block selecting cards till current move finished.
 let audioEffectsOn = false;
 let audioMusicOn = false;
@@ -1316,13 +1317,19 @@ function dealPlayerCards(gameDeck) {
         return;
     }
 
+    const gameArea = document.getElementById('gameArea');
+
+    const playerCardsArea = document.createElement('div');
+    playerCardsArea.id = 'playerCardsArea';
+    gameArea.appendChild(playerCardsArea);
+
     for (let i = 0; i < gameDeck.length; i++) {
 
-        const gameArea = document.getElementById('gameArea');
+        
 
         //work out placement of cards based on how many are being dealt
-        let leftPosition = (100 / gameDeck.length) * i;
         //create html elements
+        
         const cardContainer = document.createElement('div');
         const cardFace = document.createElement('img');
         const cardBack = document.createElement('img');
@@ -1332,17 +1339,47 @@ function dealPlayerCards(gameDeck) {
         cardContainer.dataset.cardName = gameDeck[i].name;
         cardContainer.dataset.cardColor = gameDeck[i].color;
         cardContainer.dataset.cardTheme = gameDeck[i].category;
-        cardContainer.style.position = "absolute";
+        // cardContainer.style.position = "relative";
+        // cardContainer.style.display = "inline";
         let delay = 500 + (i * 250);
         cardContainer.style.animationDelay = delay + "ms"; //stagger animation for dropping in the cards
-        cardContainer.style.left = leftPosition + "vw";
-        cardContainer.style.width = (100 / gameDeck.length) + "vw";
-        cardContainer.style.height = ((100 / gameDeck.length) * 1.23) + "vw";
-        cardContainer.style.zIndex = 10000;
+        
+        // let leftPosition = (100 / gameDeck.length) * i;
+        //display cards in rows of 4 on displays with a portrait type aspect ratio
+        if(portraitDisplay){
 
+            // cardContainer.style.width = (100 / (gameDeck.length / 2)) + 'vw';
+            // leftPosition = (100 / (gameDeck.length / 2)) * i;
+            
+            // cardContainer.style.width = (100 / (gameDeck.length / 2)) + "vw";
+            // cardContainer.style.height = (100 / (gameDeck.length / 2) * 1.23) + "vw";
+            // if (i >= (gameDeck.length / 2)){
+            //     cardContainer.style.bottom = 5 + 'vh';
+            //     leftPosition = (100 / (gameDeck.length / 2)) * (i - (gameDeck.length / 2) );
+            // }
+            // else{
+            //     cardContainer.style.bottom = 5 + (100 / (gameDeck.length) / 1.23) + 'vw';
+            // }
+            // cardContainer.style.left = leftPosition + "vw";
+
+        }
+        else{
+            // cardContainer.style.width = (100 / gameDeck.length) + 'vw';
+            // cardContainer.style.left = leftPosition + "vw";
+            // cardContainer.style.width = (100 / gameDeck.length) + "vw";
+            // cardContainer.style.height = ((100 / gameDeck.length) * 1.23) + "vw";
+            // cardContainer.style.bottom = 5 + 'vw';
+        }
+
+
+        
+        // cardContainer.style.height = '100%';
+        cardContainer.style.zIndex = 10000;
         cardBack.classList = "cardBack";
         cardFace.classList = "cardFace";
         cardContainer.addEventListener("click", selectCard);
+
+        
 
         //need to optimize and find a solution here if time allows.
         //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
@@ -1353,7 +1390,8 @@ function dealPlayerCards(gameDeck) {
             cardContainer.classList.remove("dropIn");
             cardContainer.classList.add("cardFlipped");
         }
-        gameArea.appendChild(cardContainer);
+        
+        playerCardsArea.appendChild(cardContainer);
         cardContainer.appendChild(cardBack);
         cardContainer.appendChild(cardFace);
         cardContainer.classList = "dropIn cardContainer";
@@ -1387,7 +1425,7 @@ function gameStart(cardThemeSelected, cardColorSelected) {
     if (menuOn) {
         removeMenu(); // get rid of main menu
     }
-
+    if ( window.innerWidth < window.innerHeight) { portraitDisplay = true;}
     cardTheme = cardThemeSelected;
     cardColor = cardColorSelected;
     gameActive = true;
