@@ -20,7 +20,8 @@ let totalSelectedCards = 0;
 let playerCardsDealDelay = 0; // deal players cards dealign till all cards they have to remmeber are displayed
 let menuOn = false; // Bool to track if menu is being displayed
 let gameActive = false; // bool to track active game state
-let portraitDisplay = false; 
+let portraitDisplay = false;
+let allowClick = true; // bool to stop click spamming issues 
 let selectLocked = false; //block selecting cards till current move finished.
 let audioEffectsOn = false;
 let audioMusicOn = false;
@@ -1318,6 +1319,7 @@ function dealPlayerCards(gameDeck) {
     }
 
     const gameArea = document.getElementById('gameArea');
+    let delay; //used for timing and blocking
 
     const playerCardsArea = document.createElement('div');
     playerCardsArea.id = 'playerCardsArea';
@@ -1341,39 +1343,9 @@ function dealPlayerCards(gameDeck) {
         cardContainer.dataset.cardTheme = gameDeck[i].category;
         // cardContainer.style.position = "relative";
         // cardContainer.style.display = "inline";
-        let delay = 500 + (i * 250);
+        delay = 500 + (i * 250);
         cardContainer.style.animationDelay = delay + "ms"; //stagger animation for dropping in the cards
         
-        // let leftPosition = (100 / gameDeck.length) * i;
-        //display cards in rows of 4 on displays with a portrait type aspect ratio
-        if(portraitDisplay){
-
-            // cardContainer.style.width = (100 / (gameDeck.length / 2)) + 'vw';
-            // leftPosition = (100 / (gameDeck.length / 2)) * i;
-            
-            // cardContainer.style.width = (100 / (gameDeck.length / 2)) + "vw";
-            // cardContainer.style.height = (100 / (gameDeck.length / 2) * 1.23) + "vw";
-            // if (i >= (gameDeck.length / 2)){
-            //     cardContainer.style.bottom = 5 + 'vh';
-            //     leftPosition = (100 / (gameDeck.length / 2)) * (i - (gameDeck.length / 2) );
-            // }
-            // else{
-            //     cardContainer.style.bottom = 5 + (100 / (gameDeck.length) / 1.23) + 'vw';
-            // }
-            // cardContainer.style.left = leftPosition + "vw";
-
-        }
-        else{
-            // cardContainer.style.width = (100 / gameDeck.length) + 'vw';
-            // cardContainer.style.left = leftPosition + "vw";
-            // cardContainer.style.width = (100 / gameDeck.length) + "vw";
-            // cardContainer.style.height = ((100 / gameDeck.length) * 1.23) + "vw";
-            // cardContainer.style.bottom = 5 + 'vw';
-        }
-
-
-        
-        // cardContainer.style.height = '100%';
         cardContainer.style.zIndex = 10000;
         cardBack.classList = "cardBack";
         cardFace.classList = "cardFace";
@@ -1395,22 +1367,15 @@ function dealPlayerCards(gameDeck) {
         cardContainer.appendChild(cardBack);
         cardContainer.appendChild(cardFace);
         cardContainer.classList = "dropIn cardContainer";
+
+        
     }
-
-}
-
-//triggers card to flip
-
-function cardFlip(e) {
-    //since the event target will be the image element we go up to the container div (parent)
-    const target = e.target.parentElement;
-    target.style.animationDelay = "0ms";
-    // target.classList.remove("cardFlip");
-    target.removeEventListener("mouseover", cardJiggle);
-    target.removeEventListener("mouseout", cardJiggleRemove);
-    target.classList.remove("dropIn");
-    target.classList.remove("cardJiggle");
-    target.classList.add("cardFlipped");
+    
+    //allow user to select card
+    setTimeout(() => {
+            
+        allowClick = true;
+    }, delay + delay + 2000);
 }
 
 
@@ -1429,6 +1394,7 @@ function gameStart(cardThemeSelected, cardColorSelected) {
     cardTheme = cardThemeSelected;
     cardColor = cardColorSelected;
     gameActive = true;
+    allowClick = false; //no card selection till cards are on the table
 
     //Display current round
     let roundDisplay = document.createElement('h1');
@@ -1485,6 +1451,11 @@ function createGameDeck(cardTheme, cardColor, deckSize) {
 
 function selectCard(e) {
 
+    if(!allowClick){
+        return;
+    }
+    allowClick = false;
+
     let target = e.target.parentElement;
     let cardTag;
     console.log(target);
@@ -1510,6 +1481,9 @@ function selectCard(e) {
 
         document.getElementById(cardTag).classList.add("cardFlipped");
         document.getElementById(cardTag).classList.remove("cardFlippedBack");
+        setTimeout(() => {
+            allowClick = true;
+        }, 1000);
 
         if (totalSelectedCards == cardsToMatch.length) {
             console.log("Congrats you win this round");
@@ -1519,6 +1493,7 @@ function selectCard(e) {
                 burnCards();
                 document.getElementById('roundDisplay').remove();
                 ++currentRound;
+                allowClick = true;
                 setTimeout(() => {
                     if (currentRound < gameRounds) {
                         gameStart(cardTheme, cardColor);
@@ -1541,6 +1516,7 @@ function selectCard(e) {
             card.classList.add("cardFlipped");
             card.classList.remove("cardFlippedBack");
             gameActive = false;
+            
         }
 
         //wait 3 seconds and reset
