@@ -9,7 +9,7 @@ let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter = 0; //global variable to track audio clips generated and create unique IDs
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
-let gameRounds = 8; //how many rounds to play in total
+const gameRounds = 8; //how many rounds to play in total
 let currentRound = 8 // always start with round 1
 let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
@@ -26,6 +26,9 @@ let audioEffectsOn = false;
 let audioMusicOn = false;
 
 
+const gameArea = document.getElementById("gameArea");
+
+
 //TESTING FUNCTIONS
 
 // console.log("Here is the full deck");
@@ -40,7 +43,7 @@ console.table(localStorage);
 
 //LISTENERS
 
-document.onload = displayMenu();
+document.onload = captureUsername();
 
 //show menu if escape is pressed and remove it if escape is pressed again
 document.addEventListener("keydown", function (e) {
@@ -60,12 +63,47 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+function captureUsername() {
+
+
+    userCapture = document.createElement('div');
+    userCapture.id = "userCapture";
+
+        userCapture.innerHTML = `
+        <div class="innerMenu">
+        <form onsubmit="storeName()">
+            <p class="welcomeText">Welcome to Memoria!</p>
+            <p class="welcomeText">Enter your name to begin</p>
+            <input id="userName" type="text">
+            <button id="startButton" type="submit" value="submit">Start</button>
+        </form>
+        </div>
+        `;
+    
+    gameArea.appendChild(userCapture);
+    userCapture.classList.add('menuDrop');
+}
+
+function storeName(){
+
+    event.preventDefault();
+    console.log(" here is the name" + document.getElementById('userName').value);
+    localStorage.setItem("name", document.getElementById('userName').value);
+    document.getElementById('userCapture').classList.add('menuBurn');
+    setTimeout(() => {
+        document.getElementById('userCapture').remove();
+        displayMenu();
+    }, 1000);
+}
+
+
 //display the main menu
 
 function displayMenu() {
     if (menuOn) {
         return;
     };
+
 
     let gameArea = document.getElementById("gameArea");
     mainM = document.createElement('div');
@@ -77,7 +115,7 @@ function displayMenu() {
                 <h2 class="menuItem" onclick="endGame()">End Game</h2>
                 </section>`;
     } else {
-        mainM.innerHTML = `<section class="innerMenu">
+        mainM.innerHTML = `
                 <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','all','128'))">Scatter Full Card Deck</h2>
                 <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','white','56'))">Scatter White Card Deck</h2>
                 <h2 class="menuItem" onclick="burnCards()">Burn All Cards</h2>
@@ -88,8 +126,7 @@ function displayMenu() {
                 <h2 class="menuItem" onclick="gameStart('sea','blue',deckSize)">Sea Game</h2>
                 <h2 class="menuItem" onclick="gameStart('science','red',deckSize)">Science Game</h2>
                 <h2 class="menuItem" onclick="gameStart('emma','purple',deckSize)">Emma Game</h2>
-                <h2 class="menuItem" onclick="gameStart('all','all','16')">Mixed Game</h2>
-        </section>`;
+                <h2 class="menuItem" onclick="gameStart('all','all','16')">Mixed Game</h2>`;
     }
 
 
@@ -1488,7 +1525,9 @@ function selectCard(e) {
                     } else {
                         console.log("you win this theme. well done !!")
                         //need logic to update high scores
-                        endGame()
+                        gameActive = false;
+        currentRound = 1; // reset round back to 1
+        document.getElementById('roundDisplay').remove();
                         displayMenu();
                     }
                 }, 3000);
@@ -1502,12 +1541,14 @@ function selectCard(e) {
         for (card of cardsToFlip) {
             card.classList.add("cardFlipped");
             card.classList.remove("cardFlippedBack");
-            endGame();
         }
 
         //wait 3 seconds and reset
         setTimeout(() => {
-            endGame()
+            gameActive = false;
+        currentRound = 1; // reset round back to 1
+        burnCards();
+        document.getElementById('roundDisplay').remove();
             displayMenu()
 
         }, 3000);
