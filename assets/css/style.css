@@ -143,10 +143,24 @@ img {
     display: block;
     text-align: center;
     color: #fff;
-    font-size: 4rem;
+    font-size: 2rem;
     top: calc(50vh - 2rem);
     z-index: 20000;
+}
 
+@media only screen and (min-width: 600px) {
+
+    #roundDisplay {
+
+        position: relative;
+        margin: 0;
+        display: block;
+        text-align: center;
+        color: #fff;
+        font-size: 4rem;
+        top: calc(50vh - 2rem);
+        z-index: 20000;
+    }
 
 }
 
