@@ -35,7 +35,7 @@ img {
     position: absolute;
     z-index: 20000;
     border-color: #908e8ef4;
-    box-shadow: 5px 5px #00000055;
+    box-shadow: 1vw 1vw #00000055;
     border-style: solid;
     border-width: 1vmin;
     top: 15vh;
@@ -44,7 +44,7 @@ img {
     width: 80vw;
     background-color: #fffffff4;
     opacity: 1;
-    border-radius: 2%;
+    border-radius: 2vw;
 }
 
 
@@ -53,16 +53,16 @@ img {
         position: absolute;
         z-index: 20000;
         border-color: #908e8ef4;
-        box-shadow: 5px 5px #00000055;
+        box-shadow: 1vw 1vw #00000055;
         border-style: solid;
-        border-width: 1vmin;
+        border-width: 1vw;
         top: 15vh;
         left: 35vw;
         height: 70vh;
         width: 30vw;
         background-color: #fffffff4;
         opacity: 1;
-        border-radius: 2%;
+        border-radius: 2vw;
 
     }
 }
