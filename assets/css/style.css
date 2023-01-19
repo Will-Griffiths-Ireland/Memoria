@@ -288,6 +288,11 @@ img {
     animation-fill-mode: forwards;
 }
 
+.burnGameArea{
+    opacity: 0;
+    transition-duration: 1s;
+}
+
 @keyframes fadeOut {
     0% {
         transform: scale(1);

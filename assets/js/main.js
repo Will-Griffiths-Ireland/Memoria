@@ -20,7 +20,6 @@ let totalSelectedCards = 0;
 let playerCardsDealDelay = 0; // deal players cards dealign till all cards they have to remmeber are displayed
 let menuOn = false; // Bool to track if menu is being displayed
 let gameActive = false; // bool to track active game state
-let portraitDisplay = false;
 let allowClick = true; // bool to stop click spamming issues 
 let selectLocked = false; //block selecting cards till current move finished.
 let audioEffectsOn = false;
@@ -1265,6 +1264,9 @@ function playAudio(audioName, audioType) {
 
 function burnCards() {
 
+    if (menuOn) {
+        removeMenu();
+    };
     //reset vars
     totalSelectedCards = 0;
     playerSelectedCards = [];
@@ -1286,7 +1288,7 @@ function burnCards() {
         card.classList.add('burnUp');
 
     }
-    setTimeout(delCards, 15000);
+    setTimeout(delCards, 10000);
     // playAudio('burn_cards');
 }
 
@@ -1313,6 +1315,8 @@ function delCards() {
 
 function dealPlayerCards(gameDeck) {
 
+    if(!gameActive){return;};
+
     if (!gameDeck) {
         console.log("You didn't pass me cards to deal");
         return;
@@ -1321,9 +1325,7 @@ function dealPlayerCards(gameDeck) {
     const gameArea = document.getElementById('gameArea');
     let delay; //used for timing and blocking
 
-    const playerCardsArea = document.createElement('div');
-    playerCardsArea.id = 'playerCardsArea';
-    gameArea.appendChild(playerCardsArea);
+    const playerCardsArea = document.getElementById('playerCardsArea');
 
     for (let i = 0; i < gameDeck.length; i++) {
 
@@ -1356,6 +1358,7 @@ function dealPlayerCards(gameDeck) {
         setTimeout(fCard, (delay + 1000));
 
         function fCard() {
+            if(!gameActive){return;}
             cardContainer.classList.remove("dropIn");
             cardContainer.classList.add("cardFlipped");
         }
@@ -1387,7 +1390,6 @@ function gameStart(cardThemeSelected, cardColorSelected) {
     if (menuOn) {
         removeMenu(); // get rid of main menu
     }
-    if ( window.innerWidth < window.innerHeight) { portraitDisplay = true;}
     cardTheme = cardThemeSelected;
     cardColor = cardColorSelected;
     gameActive = true;
@@ -1429,18 +1431,7 @@ function createGameDeck(cardTheme, cardColor, deckSize) {
             gameDeck.push(card);
         }
     }
-    console.log("creategameDeck resulted in array ...");
-    console.log(gameDeck);
-    console.log(cardTheme);
-    console.log(cardColor);
-
     gameDeck = shuffleDeck(gameDeck);
-
-    //if we sleect a mixed mode then this will reduce the deck down
-    while (gameDeck.length > deckSize) {
-        gameDeck.pop();
-    }
-
     return gameDeck;
 }
 
@@ -1496,9 +1487,8 @@ function selectCard(e) {
                         gameStart(cardTheme, cardColor);
                     } else {
                         console.log("you win this theme. well done !!")
-                        currentRound = 1;
-                        gameActive = false;
-                        document.getElementById('roundDisplay').remove();
+                        //need logic to update high scores
+                        endGame()
                         displayMenu();
                     }
                 }, 3000);
@@ -1512,16 +1502,12 @@ function selectCard(e) {
         for (card of cardsToFlip) {
             card.classList.add("cardFlipped");
             card.classList.remove("cardFlippedBack");
-            gameActive = false;
-            
+            endGame();
         }
 
         //wait 3 seconds and reset
         setTimeout(() => {
-            document.getElementById('roundDisplay').remove();
-            burnCards();
-            currentRound = 1; // reset round back to 1
-            gameActive = false;
+            endGame()
             displayMenu()
 
         }, 3000);
@@ -1573,12 +1559,9 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
         return;
     }
 
-    const gameArea = document.getElementById('gameArea');    
+    const gameArea = document.getElementById('gameArea');
+    const cardsToMatchArea = document.getElementById('cardsToMatchArea');    
     let delay; // used for timing
-
-    const cardsToMatchArea = document.createElement('div');
-    cardsToMatchArea.id = 'cardsToMatchArea';
-    gameArea.appendChild(cardsToMatchArea);
 
     for (let i = 0; i < cardsToMatch.length; i++) {
 
@@ -1651,4 +1634,35 @@ function shuffleDeck(gameDeck) {
     }
     console.log(gameDeck);
     return gameDeck;
+}
+
+
+function endGame(){
+    if (menuOn) {
+        gameActive = false;
+        removeMenu();
+    };
+    document.getElementById('gameArea').classList.add('burnGameArea');
+
+
+    setTimeout(() => {
+        const cardsToDel = document.getElementsByClassName('cardContainer');
+        const totalElements = cardsToDel.length;
+        let loopCount = 0;
+        for (let i = 0; i < totalElements; i++) {
+    
+            cardsToDel[0].remove();
+            loopCount++;
+        }
+        
+    }, 1000);
+
+    setTimeout(() => {
+        document.getElementById('gameArea').classList.remove('burnGameArea');
+        console.log("trying to unburn playaear");
+        document.getElementById('roundDisplay').remove();
+        gameActive = false;
+        currentRound = 1; // reset round back to 1
+        displayMenu();
+    }, 1100);
 }
