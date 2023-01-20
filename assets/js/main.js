@@ -9,8 +9,8 @@ let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter = 0; //global variable to track audio clips generated and create unique IDs
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
-const gameRounds = 8; //how many rounds to play in total
-let currentRound = 8 // always start with round 1
+let gameRounds = 16; //how many rounds to play in total
+let currentRound = 16; // always start with round 1
 let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
@@ -65,6 +65,11 @@ function randomNumber(min, max) {
 
 function captureUsername() {
 
+    //check to see if we have a username stored
+    if(localStorage.getItem('name')){
+        displayMenu();
+        return;
+    };
 
     userCapture = document.createElement('div');
     userCapture.id = "userCapture";
@@ -1422,13 +1427,14 @@ function dealPlayerCards(gameDeck) {
  * @param {*} cardThemeSelected 
  * @param {*} cardColorSelected 
  */
-function gameStart(cardThemeSelected, cardColorSelected) {
+function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
 
     if (menuOn) {
         removeMenu(); // get rid of main menu
     }
     cardTheme = cardThemeSelected;
     cardColor = cardColorSelected;
+    deckSize = deckSizeSelected;
     gameActive = true;
     allowClick = false; //no card selection till cards are on the table
 
@@ -1436,6 +1442,7 @@ function gameStart(cardThemeSelected, cardColorSelected) {
     let roundDisplay = document.createElement('h1');
     roundDisplay.innerText = 'Round ' + currentRound;
     roundDisplay.id = 'roundDisplay';
+    roundDisplay.classList = 'menuItem';
     document.getElementById('gameArea').appendChild(roundDisplay);
 
 
@@ -1468,7 +1475,12 @@ function createGameDeck(cardTheme, cardColor, deckSize) {
             gameDeck.push(card);
         }
     }
-    gameDeck = shuffleDeck(gameDeck);
+
+    shuffleDeck(gameDeck);
+    
+    while(gameDeck.length > deckSize){
+        gameDeck.pop();
+    }
     return gameDeck;
 }
 
