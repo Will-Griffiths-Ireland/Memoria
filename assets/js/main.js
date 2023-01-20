@@ -9,8 +9,8 @@ let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter = 0; //global variable to track audio clips generated and create unique IDs
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
-let gameRounds = 16; //how many rounds to play in total
-let currentRound = 16; // always start with round 1
+let gameRounds = 8; //how many rounds to play in total
+let currentRound = 1; // always start with round 1
 let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
@@ -47,9 +47,11 @@ document.onload = captureUsername();
 
 //show menu if escape is pressed and remove it if escape is pressed again
 document.addEventListener("keydown", function (e) {
-    if (e.key == "Escape" && menuOn) {
+    if (e.repeat) {
+        return;
+    } else if (e.key == "Escape" && menuOn) {
         removeMenu();
-    } else if (e.key == "Escape") {
+    }else if (e.key == "Escape") {
         displayMenu();
     }
     return;
@@ -1449,7 +1451,7 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
 
     //generate deck based on theme
     let gameDeck = createGameDeck(cardTheme, cardColor, deckSize);
-    selectCardsToMatch(gameDeck, currentRound);
+    selectCardsToMatch(gameDeck);
     dealCardsToMatch(gameDeck, cardsToMatch);
     setTimeout(() => {
         dealPlayerCards(gameDeck);
@@ -1472,15 +1474,21 @@ function createGameDeck(cardTheme, cardColor, deckSize) {
     for (card of tempDeck) {
         if ((card.category == cardTheme && card.color == cardColor) || (card.category == cardTheme && cardColor == 'all') ||
             (cardTheme == 'all' && cardColor == 'all') || (cardTheme == 'all' && card.color == cardColor)) {
-            gameDeck.push(card);
+                gameDeck.push(card);
         }
     }
 
-    shuffleDeck(gameDeck);
+    shuffleDeck(gameDeck); //shuffle the cards up randomly
     
+    //get rid of cards from the top of the stack will we are down to the requested gameDeck size
     while(gameDeck.length > deckSize){
         gameDeck.pop();
     }
+
+
+    console.log("here is the final deck - ");
+    console.log(gameDeck);
+
     return gameDeck;
 }
 
@@ -1570,7 +1578,7 @@ function selectCard(e) {
 
 //function that selects cards for the player to match
 
-function selectCardsToMatch(gameDeck, gameRound) {
+function selectCardsToMatch(gameDeck) {
 
     totalCards = currentRound;
     console.log("This is round " + currentRound);
@@ -1593,7 +1601,8 @@ function selectCardsToMatch(gameDeck, gameRound) {
 
         let tempCard = {
             "name": tempGameDeck[randSelect].name,
-            "color": tempGameDeck[randSelect].color
+            "color": tempGameDeck[randSelect].color,
+            "trackId": tempGameDeck[randSelect].trackId
         }
         cardsToMatch.push(tempCard);
         tempGameDeck.splice(randSelect, 1); //remove the card we picked from the deck of available cards
@@ -1624,6 +1633,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
 
             if (card.name == cardsToMatch[i].name && card.color == cardsToMatch[i].color) {
                 //thats the card we need to display
+                console.log(card);
                 
 
                 //create html elements
