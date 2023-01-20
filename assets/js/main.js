@@ -24,6 +24,7 @@ let allowClick = true; // bool to stop click spamming issues
 let selectLocked = false; //block selecting cards till current move finished.
 let audioEffectsOn = false;
 let audioMusicOn = false;
+let backGroundColor = 'white';
 
 
 const gameArea = document.getElementById("gameArea");
@@ -65,26 +66,44 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+function setBackgroundColor(newColor)
+{
+    //if no color is passed then switch between black and white
+    if(!newColor){
+        if(backGroundColor == 'white')
+        {
+            document.querySelector('body').style.backgroundColor = '#000000';
+            backGroundColor = 'black';
+        }
+        else if(backGroundColor == 'black'){
+            document.querySelector('body').style.backgroundColor = '#ffffff';
+            backGroundColor = 'white';
+
+        }
+    }
+
+    //may add theme color background later
+
+}
+
 function captureUsername() {
 
     //check to see if we have a username stored
-    if(localStorage.getItem('name')){
-        displayMenu();
-        return;
-    };
+    // if(localStorage.getItem('name')){
+    //     displayMenu();
+    //     return;
+    // };
 
     userCapture = document.createElement('div');
     userCapture.id = "userCapture";
 
         userCapture.innerHTML = `
-        <div class="innerMenu">
-        <form onsubmit="storeName()">
+        <form class="mainMenu" onsubmit="storeName()">
             <p class="welcomeText">Welcome to Memoria!</p>
             <p class="welcomeText">Enter your name to begin</p>
-            <input id="userName" type="text">
-            <button id="startButton" type="submit" value="submit">Start</button>
+            <input id="userName" class="menuItem" type="text">
+            <button id="startButton" class="menuItem" type="submit" value="submit">Start</button>
         </form>
-        </div>
         `;
     
     gameArea.appendChild(userCapture);
@@ -116,6 +135,7 @@ function displayMenu() {
     mainM = document.createElement('div');
     mainM.id = "mainMenu";
     mainM.classList.add("menuDrop");
+    mainM.classList.add("mainMenu");
 
     if (gameActive) {
         mainM.innerHTML = `<section class="innerMenu">

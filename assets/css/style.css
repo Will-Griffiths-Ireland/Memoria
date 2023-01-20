@@ -18,7 +18,7 @@
 
 
 body {
-    background-color: #000;
+    background-color: #fff;
     margin: 0;
     width: 100vw;
     height: 100vh;
@@ -31,22 +31,27 @@ body {
 img {
     /* This filter to add drop shadows gives the cards some definition in stacks/overlap so that colors dor not blend into one.
     The advantage over a border is that this conforms to the actual image border and ignores transparency */
-    filter: drop-shadow(0px 0px 1px #000);
+    filter: drop-shadow(.5vw .5vw .5vw #000);
 }
 
 
 #userCapture{
 
-    position: absolute;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     z-index: 20000;
+    font-size: 2rem;
+    letter-spacing: .2rem;
+    padding: 1vw;
     border-color: #908e8ef4;
-    box-shadow: 1vw 1vw #00000055;
+    box-shadow: 1vw 1vw 1vw #000;
     border-style: solid;
     border-width: 1vmin;
-    top: 45vh;
-    left: 20vw;
-    height: 10vh;
-    width: 60vw;
+    height: auto;
+    width: auto;
     background-color: #fffffff4;
     opacity: 1;
     border-radius: 2vw;
@@ -87,29 +92,159 @@ img {
 
     position: absolute;
     display: block;
-    width: fit-content;
-    height: fit-content;
+    top: 1vw;
+    left: 1vw;
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    box-shadow: 1vw 1vw 1vw #000;
+    background-color: #908e8ef4;
+    z-index: 60000;
+}
+
+@media only screen and (min-width: 600px) {
+
+    #menuIconContainer{
+
+        width: 3vw;
+        height: 3vw;
+        border-radius: 50%;
+        box-shadow: .5vw .5vw .5vw #000;
+    }
+        
+}
+
+#settingsIconContainer{
+
+    position: absolute;
+    display: block;
+    top: 1vw;
+    right: 1vw;
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    box-shadow: 1vw 1vw 1vw #000;
+    background-color: #908e8ef4;
     z-index: 60000;
 
 }
+
+@media only screen and (min-width: 600px) {
+    #settingsIconContainer{
+        width: 3vw;
+        height: 3vw;
+        border-radius: 50%;
+        box-shadow: .5vw .5vw .5vw #000;
+    }
+
+}
+
+#musicIconContainer{
+
+    position: absolute;
+    display: block;
+    top: 1vw;
+    right: 5vw;
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    box-shadow: 1vw 1vw 1vw #000;
+    background-color: #908e8ef4;
+    z-index: 60000;
+
+}
+
+@media only screen and (min-width: 600px) {
+    #musicIconContainer{
+        width: 3vw;
+        height: 3vw;
+        border-radius: 50%;
+        box-shadow: .5vw .5vw .5vw #000;
+    }
+
+}
+
+#audioIconContainer{
+
+    position: absolute;
+    display: block;
+    top: 1vw;
+    right: 9vw;
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    box-shadow: 1vw 1vw 1vw #000;
+    background-color: #908e8ef4;
+    z-index: 60000;
+
+}
+
+@media only screen and (min-width: 600px) {
+    #audioIconContainer{
+        width: 3vw;
+        height: 3vw;
+        border-radius: 50%;
+        box-shadow: .5vw .5vw .5vw #000;
+    }
+}
+
+#lightDarkIconContainer{
+
+    position: absolute;
+    display: block;
+    top: 1vw;
+    right: 13vw;
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    box-shadow: 1vw 1vw 1vw #000;
+    background-color: #908e8ef4;
+    z-index: 60000;
+
+}
+
+@media only screen and (min-width: 600px) {
+    #lightDarkIconContainer{
+        width: 3vw;
+        height: 3vw;
+        border-radius: 50%;
+        box-shadow: .5vw .5vw .5vw #000;
+    }
+
+}
+
+
 .menuIcon{
 
     display: inline;
     position: relative;
-    color: #fff;
+    color: #000;
     font-size: 5vw;
+    transition-duration: 500ms;
 }
 
-.menuIcon:hover{
+@media only screen and (min-width: 600px) {
+    .menuIcon{
 
-    color: #908e8ef4;
-    font-size: 5.1vw;
-    transition-duration: 100ms;
+        color: #000;
+        font-size: 3vw;
+        transition-duration: 500ms;
     }
 
+}
+.menuIcon:hover{
+
+    color: #fff;
+    transition-duration: 500ms;
+    }
+
+    @media only screen and (min-width: 600px) {
+
+
+    }
 
 /* styling for main menu div */
-#mainMenu {
+.mainMenu {
     
     position: relative;
     display: flex;
@@ -121,7 +256,7 @@ img {
     letter-spacing: .2rem;
     padding: 1vw;
     border-color: #908e8ef4;
-    box-shadow: 1vw 1vw #00000055;
+    box-shadow: 1vw 1vw 1vw #000;
     border-style: solid;
     border-width: 1vmin;
     height: auto;
@@ -133,13 +268,13 @@ img {
 
 
 @media only screen and (min-width: 600px) {
-    #mainMenu {
+    .mainMenu {
         position: relative;
         z-index: 20000;
         font-size: 2.5rem;
         letter-spacing: .5rem;
         border-color: #908e8ef4;
-        box-shadow: 1vw 1vw #00000055;
+        box-shadow: 1vw 1vw 1vw #000;
         border-style: solid;
         border-width: 1vw;
         height: auto;
@@ -266,13 +401,14 @@ img {
     transform-style: preserve-3d;
     position: relative;
     display: inline-block;
-    width: calc(25%);
+    width: calc(84vw / 4);
     height: auto;
+    margin: 1vw;
 }
 
 @media only screen and (min-width: 600px) {
     .cardContainer {
-        width: calc(25% / 2);
+        width: calc(84vw / 8);
     }
 
 }
