@@ -10,7 +10,7 @@ let audioCounter = 0; //global variable to track audio clips generated and creat
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 8; //how many rounds to play in total
-let currentRound = 1; // always start with round 1
+let currentRound = 8; // always start with round 1
 let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
@@ -23,7 +23,7 @@ let gameActive = false; // bool to track active game state
 let allowClick = true; // bool to stop click spamming issues 
 let selectLocked = false; //block selecting cards till current move finished.
 let audioEffectsOn = false;
-let audioMusicOn = false;
+let musicOn = true;
 let backGroundColor = 'white';
 
 
@@ -86,6 +86,20 @@ function setBackgroundColor(newColor)
 
 }
 
+function setMusicOnOff()
+{
+        if(musicOn)
+        {
+            document.getElementById('musicIcon').innerText = 'music_off';
+            musicOn = false;
+        }
+        else if(!musicOn)
+        {
+            document.getElementById('musicIcon').innerText = 'music_note';
+            musicOn = true;
+        }
+    }
+
 function captureUsername() {
 
     //check to see if we have a username stored
@@ -100,8 +114,8 @@ function captureUsername() {
         userCapture.innerHTML = `
         <form class="mainMenu" onsubmit="storeName()">
             <p class="welcomeText">Welcome to Memoria!</p>
-            <p class="welcomeText">Enter your name to begin</p>
-            <input id="userName" class="menuItem" type="text">
+            <p class="welcomeText">Please enter your name and click start</p>
+            <input id="userName" class="menuItem" type="text" placeholder="Enter Name">
             <button id="startButton" class="menuItem" type="submit" value="submit">Start</button>
         </form>
         `;
@@ -143,6 +157,7 @@ function displayMenu() {
                 </section>`;
     } else {
         mainM.innerHTML = `
+                <h1>Menu</h1>
                 <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','all','128'))">Scatter Full Card Deck</h2>
                 <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','white','56'))">Scatter White Card Deck</h2>
                 <h2 class="menuItem" onclick="burnCards()">Burn All Cards</h2>
@@ -153,7 +168,7 @@ function displayMenu() {
                 <h2 class="menuItem" onclick="gameStart('sea','blue',deckSize)">Sea Game</h2>
                 <h2 class="menuItem" onclick="gameStart('science','red',deckSize)">Science Game</h2>
                 <h2 class="menuItem" onclick="gameStart('emma','purple',deckSize)">Emma Game</h2>
-                <h2 class="menuItem" onclick="gameStart('all','all','16')">Mixed Game</h2>`;
+                <h2 class="menuItem" onclick="gameStart('all','all','8')">Mixed Game</h2>`;
     }
 
 
