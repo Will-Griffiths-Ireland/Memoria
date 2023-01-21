@@ -19,6 +19,7 @@ let cardsToMatch = []; // array holds the cards the player has to remember
 let totalSelectedCards = 0;
 let playerCardsDealDelay = 0; // deal players cards dealign till all cards they have to remmeber are displayed
 let menuOn = false; // Bool to track if menu is being displayed
+let settingsMenuOn = false;
 let gameActive = false; // bool to track active game state
 let allowClick = true; // bool to stop click spamming issues 
 let selectLocked = false; //block selecting cards till current move finished.
@@ -103,7 +104,7 @@ function captureUsername() {
     //check to see if we have a username stored
     if(localStorage.getItem('name')){
         
-        let currentPlayerName = localStorage.getItem('name');
+        currentPlayerName = localStorage.getItem('name');
         userCapture = document.createElement('div');
         userCapture.id = "userCapture";
     
@@ -167,9 +168,47 @@ function storeName(){
     }, 1000);
 }
 
-function displaySettings(){
+function displaySettingsMenu(){
+
+    if (settingsMenuOn) {
+        removeSettingsMenu();
+        return;
+    }
+
+    if (menuOn) {
+        removeMenu();
+        setTimeout(() => {
+            displaySettingsMenu();
+        }, 1000);
+        return;
+    }
 
 
+    let gameArea = document.getElementById("gameArea");
+    let settingsMenu = document.createElement('div');
+    settingsMenu.id = "settingsMenu";
+    settingsMenu.classList.add("menuDrop");
+    settingsMenu.classList.add("mainMenu");
+
+    settingsMenu.innerHTML = `
+                <h1>Settings</h1>
+                <h2 class="menuItem" onclick="">Current Player Name - <span class="bold">${currentPlayerName}</span></h2>
+                `;
+    
+
+
+
+    gameArea.appendChild(settingsMenu);
+    settingsMenuOn = true;
+}
+
+function removeSettingsMenu() {
+    document.getElementById("settingsMenu").classList.remove("menuDrop");
+    document.getElementById("settingsMenu").classList.add("menuBurn");
+    setTimeout(() => {
+        document.getElementById("settingsMenu").remove();
+    }, 1000);
+    settingsMenuOn = false;
 }
 
 
@@ -177,20 +216,31 @@ function displaySettings(){
 
 function displayMenu() {
     if (menuOn) {
+        removeMenu();
         return;
-    };
+    }
+
+    if (settingsMenuOn) {
+        removeSettingsMenu();
+        setTimeout(() => {
+            displayMenu();
+        }, 1000);
+        return;
+    }
 
 
     let gameArea = document.getElementById("gameArea");
-    mainM = document.createElement('div');
+    let mainM = document.createElement('div');
     mainM.id = "mainMenu";
     mainM.classList.add("menuDrop");
     mainM.classList.add("mainMenu");
 
     if (gameActive) {
-        mainM.innerHTML = `<section class="innerMenu">
-                <h2 class="menuItem" onclick="endGame()">End Game</h2>
-                </section>`;
+        mainM.innerHTML = `
+                <img src="./assets/images/memoria_logo2.webp" id="logo">
+                <h2 class="menuItem" onclick="endGame()">End Current Game</h2>
+                <h2 class="menuItem" onclick="displayMenu()">Continue Game</h2>
+                `;
     } else {
         mainM.innerHTML = `
                 <img src="./assets/images/memoria_logo2.webp" id="logo">
@@ -1445,7 +1495,7 @@ function burnCards() {
     playerSelectedCards = [];
 
     const cardsToBurn = document.getElementsByClassName('cardContainer');
-    const smilesToBurn = document.getElementsByClassName('smiles');
+    const smilesToBurn = document.getElementsByClassName('winSmile');
     const backFaces = document.getElementsByClassName('cardBack');
     const frontFaces = document.getElementsByClassName('cardFace');
     const totalToDel = backFaces.length;
@@ -1457,16 +1507,10 @@ function burnCards() {
     }
 
     //burn the round counter elements
-    if(document.getElementById('roundDisplay')){
-     document.getElementById('roundDisplay').classList.add('burnUp');       
-    }
     if(document.getElementById('roundDisplayContainer')){
         document.getElementById('roundDisplayContainer').classList.add('burnUp');       
        }
  
-
-    
-
     for (let card of cardsToBurn) {
         // console.log("Adding burnUp class to card - " + card.id);
         card.style.animationDelay = '0ms';
@@ -1475,6 +1519,7 @@ function burnCards() {
     }
     for (let smile of smilesToBurn) {
         // console.log("Adding burnUp class to card - " + card.id);
+        smile.style.animationDelay = '0ms';
         smile.style.animationDuration = '2000ms';
         smile.classList.add('burnUp');
     }
@@ -1494,9 +1539,10 @@ function delCards() {
 
     const cardsToDel = document.getElementsByClassName('burnUp');
     const totalElements = cardsToDel.length;
-    
-    for (let i = 0; i < totalElements; i++) {
 
+    console.log("delCards() removing a total of " + totalElements);    
+    for (let i = 0; i < totalElements; i++) {
+        console.log("Removing - " + i + " " + cardsToDel[0].id);
         cardsToDel[0].remove();
     }
 
@@ -1690,7 +1736,6 @@ function selectCard(e) {
                         //need logic to update high scores
                         gameActive = false;
         currentRound = 1; // reset round back to 1
-        document.getElementById('roundDisplay').remove();
                         displayMenu();
                     }
                 }, 3000);
@@ -1847,7 +1892,7 @@ function endGame(){
         gameActive = false;
         removeMenu();
     };
-    document.getElementById('gameArea').classList.add('burnGameArea');
+    document.querySelector('body').classList.add('burnGameArea');
 
 
     setTimeout(() => {
@@ -1863,9 +1908,9 @@ function endGame(){
     }, 1000);
 
     setTimeout(() => {
-        document.getElementById('gameArea').classList.remove('burnGameArea');
+        document.querySelector('body').classList.remove('burnGameArea');
         console.log("trying to unburn playaear");
-        document.getElementById('roundDisplay').remove();
+        document.getElementById('roundDisplayContainer').remove();
         gameActive = false;
         currentRound = 1; // reset round back to 1
         displayMenu();
