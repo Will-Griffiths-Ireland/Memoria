@@ -24,14 +24,15 @@ body {
     height: 100vh;
     box-sizing: border-box;
     border: 0;
-    /* overflow-y: hidden;
-    overflow-x: hidden; */
+    overflow-y: hidden;
+    overflow-x: hidden;
+    z-index: 1;
 }
 
 img {
     /* This filter to add drop shadows gives the cards some definition in stacks/overlap so that colors dor not blend into one.
     The advantage over a border is that this conforms to the actual image border and ignores transparency */
-    filter: drop-shadow(.5vw .5vw .5vw #000);
+    filter: drop-shadow(.25vw .25vw .25vw #000);
 }
 
 .welcomeText{
@@ -64,14 +65,39 @@ img {
 
 #userName, #startButton{
     border-style: none;
-    font-size: 2rem;
+    font-size: .7rem;
 
 }
+
+@media only screen and (min-width: 600px) {
+
+    #userName, #startButton{
+        border-style: none;
+        font-size: 2rem;
+    
+    }
+
+}
+
+#logo{
+    width: auto;
+    height: auto;
+    max-width: 60vw;
+}
+
+@media only screen and (min-width: 600px) {
+    #logo{
+    max-width: 20vw;
+    }
+}
+
 
 #menuIconContainer{
 
     position: absolute;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 1vw;
     left: 1vw;
     width: 8vw;
@@ -97,7 +123,9 @@ img {
 #settingsIconContainer{
 
     position: absolute;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 1vw;
     right: 2vw;
     width: 8vw;
@@ -113,8 +141,9 @@ img {
     #settingsIconContainer{
         width: 3vw;
         height: 3vw;
+        right: 1vw;
         border-radius: 50%;
-        box-shadow: .5vw .5vw .5vw #000;
+        box-shadow: .25vw .25vw .25vw #000;
     }
 
 }
@@ -122,7 +151,9 @@ img {
 #musicIconContainer{
 
     position: absolute;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 1vw;
     right: 11vw;
     width: 8vw;
@@ -148,7 +179,9 @@ img {
 #audioIconContainer{
 
     position: absolute;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 1vw;
     right: 20vw;
     width: 8vw;
@@ -173,7 +206,9 @@ img {
 #lightDarkIconContainer{
 
     position: absolute;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 1vw;
     right: 29vw;
     width: 8vw;
@@ -238,8 +273,8 @@ img {
     font-size: 2rem;
     letter-spacing: .2rem;
     padding: 1vw;
-    border-color: #908e8ef4;
-    box-shadow: 1vw 1vw 1vw #000;
+    border-color: #404040f4;
+    box-shadow: .5vw .5vw .5vw #000;
     border-style: solid;
     border-width: 1vw;
     height: auto;
@@ -257,10 +292,8 @@ img {
         z-index: 20000;
         font-size: 2.5rem;
         letter-spacing: .5rem;
-        border-color: #908e8ef4;
-        box-shadow: 1vw 1vw 1vw #000;
         border-style: solid;
-        border-width: .5vw;
+        border-width: .25vw;
         height: auto;
         max-height: 100vh;
         width: auto;
@@ -283,9 +316,9 @@ img {
     display: block;
     width: fit-content;
     background-color: #908e8ef4;
-    box-shadow: .5vw .5vw .5vw #000;
+    box-shadow: .25vw .25vw .25vw #000;
     border-radius: 2vw;
-    padding: .5vw;
+    padding: 1.5vw;
     margin: 2vw;
     transition-duration: 250ms;
 }
@@ -327,6 +360,7 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 
 #playerCardsArea {
@@ -337,6 +371,7 @@ img {
     bottom: 1vh;
     width: 100vw;
     height: 40vh;
+    z-index: 100;
 }
 
 #cardsToMatchArea {
@@ -347,6 +382,17 @@ img {
     top: 5vh;
     width: 100vw;
     height: 40vh;
+    z-index: 100;
+}
+
+#roundDisplayContainer{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    position: static;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
 }
 
 #roundDisplay {
@@ -356,8 +402,15 @@ img {
     display: block;
     text-align: center;
     color: #000;
-    font-size: 2rem;
-    z-index: 20000;
+    font-size: 1rem;
+    z-index: 10;
+    text-align: center;
+    display: block;
+    background-color: #908e8ef4;
+    box-shadow: .25vw .25vw .25vw #000;
+    border-radius: 2vw;
+    padding: 1.5vw;
+    margin: 2vw;
 }
 
 @media only screen and (min-width: 600px) {
@@ -369,7 +422,6 @@ img {
         display: block;
         text-align: center;
         font-size: 4rem;
-        z-index: 15000;
     }
 
 }
@@ -388,6 +440,7 @@ img {
     width: calc(84vw / 4);
     height: auto;
     margin: 1vw;
+    z-index: 110;
 }
 
 @media only screen and (min-width: 600px) {
@@ -405,7 +458,7 @@ img {
     object-fit: contain;
     width: 100%;
     height: 100%;
-    z-index: 100;
+    z-index: 110;
 }
 
 /* This one is a little funky but its used as part of the fade out animation when we burn cards */
@@ -423,7 +476,7 @@ img {
     transform: rotateY(180deg);
     position: absolute;
     object-fit: contain;
-    z-index: 50;
+    z-index: 110;
     backface-visibility: hidden;
     width: 100%;
     height: 100%;

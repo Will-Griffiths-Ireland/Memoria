@@ -10,7 +10,7 @@ let audioCounter = 0; //global variable to track audio clips generated and creat
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 8; //how many rounds to play in total
-let currentRound = 8; // always start with round 1
+let currentRound = 1; // always start with round 1
 let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
@@ -157,9 +157,9 @@ function displayMenu() {
                 </section>`;
     } else {
         mainM.innerHTML = `
-                <h1>Menu</h1>
-                <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','all','128'))">Scatter Full Card Deck</h2>
-                <h2 class="menuItem" onclick="scatterCards(createGameDeck('all','white','56'))">Scatter White Card Deck</h2>
+                <img src="./assets/images/memoria_logo2.webp" id="logo">
+                <h2 class="menuItem" onclick="scatterCards()">Scatter Full Card Deck</h2>
+                <h2 class="menuItem" onclick="scatterWinSmiles('200')">Win Animation</h2>
                 <h2 class="menuItem" onclick="burnCards()">Burn All Cards</h2>
                 <h2 class="menuItem" onclick="gameStart('spooky','orange',deckSize)">Spooky Game</h2>
                 <h2 class="menuItem" onclick="gameStart('space','black',deckSize)">Space Game</h2>
@@ -186,20 +186,79 @@ function removeMenu() {
     menuOn = false;
 }
 
+function displayRound(){
+
+    //Display current round
+    let roundDisplay = document.createElement('h1');
+    let roundDisplayContainer = document.createElement('div');
+    roundDisplayContainer.id = 'roundDisplayContainer';
+    roundDisplayContainer.style.zIndex = '9';
+    roundDisplay.innerText = 'Round ' + currentRound;
+    roundDisplay.id = 'roundDisplay';
+    roundDisplay.classList = 'dropIn';
+
+    document.querySelector('body').appendChild(roundDisplayContainer);
+    document.getElementById('roundDisplayContainer').appendChild(roundDisplay);
+}
+
+function scatterWinSmiles(count) {
+
+    let randWidth;
+    let top;
+    let left;
+    for (let i = 0; i < count; i++) {
+
+        //choosing random widths based on screen res
+        if(window.innerWidth > 600)
+        {
+           randWidth = randomNumber(2, 6);  
+        }
+        else{
+            randWidth = randomNumber(10, 15); 
+        }
+        
+
+
+        const body = document.querySelector('body');
+
+        left = randomNumber(0, (100 - randWidth)) + "vw";
+        top = randomNumber(10, (90 - randWidth)) + "vh"; 
+        let delay = randomNumber(0, 2000); //generate a delay for the animation and (possible) audio trigger
+        //create html elements
+        
+        const smile = document.createElement('img');
+        //set the related images
+        smile.src = "./assets/images/win_smile.webp";
+        smile.style.position = "absolute";
+        smile.style.animationDelay = delay + "ms";
+        smile.style.top = top;
+        smile.style.left = left;
+
+        smile.style.width = randWidth + "vw";
+        smile.style.height = randWidth + "vw";
+        smile.style.zIndex = 2000;
+        smile.classList = "dropIn winSmile";
+        body.appendChild(smile);
+        smile.classList = "dropIn cardContainer";
+    }
+}
 
 
 //function to test filling the screen with cards in radom positions with various sizes
 //take gameDeck as input
-function scatterCards(gameDeck) {
+function scatterCards() {
 
     let randWidth;
     let top;
     let left;
 
-    for (let i = 0; i < gameDeck.length; i++) {
+    let cardsToScatter = buildCardObjectArray('low', backOfCardType)
+
+
+    for (let i = 0; i < cardsToScatter.length; i++) {
 
         //select a radom cane from the deck
-        randSelect = Math.floor(Math.random() * gameDeck.length); //pick a random card form the deck
+        randSelect = Math.floor(Math.random() * cardsToScatter.length); //pick a random card form the deck
         //Generate a random width/size of card
         randWidth = randomNumber(5, 8); // setting cards to be a random % size
 
@@ -208,17 +267,17 @@ function scatterCards(gameDeck) {
 
         left = randomNumber(0, (100 - randWidth)) + "vw";
         top = randomNumber(0, (98 - (randWidth * 1.23))) + "vh"; // messed this for ages but still have cards spilling over the bottom of the screen
-        let delay = randomNumber(0, 2000); //generate a delay for the animation and (possible) audio trigger
+        let delay = randomNumber(0, 500); //generate a delay for the animation and (possible) audio trigger
         //create html elements
         const cardContainer = document.createElement('div');
         const cardFace = document.createElement('img');
         const cardBack = document.createElement('img');
         //set the related images
-        cardFace.src = gameDeck[i].faceImgSrc;
-        cardBack.src = gameDeck[i].backImgSrc;
-        cardContainer.dataset.cardName = gameDeck[i].name;
-        cardContainer.dataset.cardColor = gameDeck[i].color;
-        cardContainer.dataset.cardTheme = gameDeck[i].category;
+        cardFace.src = cardsToScatter[i].faceImgSrc;
+        cardBack.src = "./assets/images/memoria_logo2.webp"; // cardsToScatter[i].backImgSrc;
+        cardContainer.dataset.cardName = cardsToScatter[i].name;
+        cardContainer.dataset.cardColor = cardsToScatter[i].color;
+        cardContainer.dataset.cardTheme = cardsToScatter[i].category;
         cardContainer.style.position = "absolute";
         cardContainer.style.animationDelay = delay + "ms";
         cardContainer.style.top = top;
@@ -226,7 +285,7 @@ function scatterCards(gameDeck) {
 
         cardContainer.style.width = randWidth + "vw";
         cardContainer.style.height = (randWidth * 1.23) + "vw";
-        cardContainer.style.zIndex = 10 + cardId;
+        cardContainer.style.zIndex = 2000 + cardId;
         ++cardId;
         cardContainer.id = cardId;
         cardContainer.classList = "dropIn cardContainer";
@@ -236,12 +295,12 @@ function scatterCards(gameDeck) {
         //need to optimize and find a solution here if time allows.
         //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
         //this technique works for now where we trigger a delayed function to switch out style classes
-        setTimeout(fCard, (delay + 1000));
+        // setTimeout(fCard, (delay + 1000));
 
-        function fCard() {
-            cardContainer.classList.remove("dropIn");
-            cardContainer.classList.add("cardFlipped");
-        }
+        // function fCard() {
+        //     cardContainer.classList.remove("dropIn");
+        //     cardContainer.classList.add("cardFlipped");
+        // }
 
         gameArea.appendChild(cardContainer);
         cardContainer.appendChild(cardBack);
@@ -1351,6 +1410,7 @@ function burnCards() {
     playerSelectedCards = [];
 
     const cardsToBurn = document.getElementsByClassName('cardContainer');
+    const smilesToBurn = document.getElementsByClassName('smiles');
     const backFaces = document.getElementsByClassName('cardBack');
     const frontFaces = document.getElementsByClassName('cardFace');
     const totalToDel = backFaces.length;
@@ -1361,13 +1421,28 @@ function burnCards() {
         backFaces[0].remove();
     }
 
+    //burn the round counter if its there
+    if(document.getElementById('roundDisplay')){
+     document.getElementById('roundDisplay').classList.add('burnUp');       
+    }
+ 
+
+    
+
     for (let card of cardsToBurn) {
         // console.log("Adding burnUp class to card - " + card.id);
-        // card.style.animationDelay = '0ms';
+        card.style.animationDelay = '0ms';
+        card.style.animationDuration = '2000ms';
         card.classList.add('burnUp');
-
     }
-    setTimeout(delCards, 10000);
+    for (let smile of smilesToBurn) {
+        // console.log("Adding burnUp class to card - " + card.id);
+        smile.style.animationDuration = '2000ms';
+        smile.classList.add('burnUp');
+    }
+
+
+    setTimeout(delCards, 2000);
     // playAudio('burn_cards');
 }
 
@@ -1475,12 +1550,7 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     gameActive = true;
     allowClick = false; //no card selection till cards are on the table
 
-    //Display current round
-    let roundDisplay = document.createElement('h1');
-    roundDisplay.innerText = 'Round ' + currentRound;
-    roundDisplay.id = 'roundDisplay';
-    roundDisplay.classList = 'menuItem';
-    document.getElementById('gameArea').appendChild(roundDisplay);
+    displayRound();
 
 
 
@@ -1567,11 +1637,10 @@ function selectCard(e) {
 
         if (totalSelectedCards == cardsToMatch.length) {
             console.log("Congrats you win this round");
-            scatterCards(createGameDeck('all', 'all', (currentRound * 10)))
+            scatterWinSmiles(currentRound * 25);
             //wait 3 seconds and reset
             setTimeout(() => {
                 burnCards();
-                document.getElementById('roundDisplay').remove();
                 ++currentRound;
                 allowClick = true;
                 setTimeout(() => {
