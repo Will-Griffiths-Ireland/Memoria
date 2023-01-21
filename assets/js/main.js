@@ -160,6 +160,7 @@ function storeName(){
     if(document.getElementById('userName')){
     console.log(" here is the name" + document.getElementById('userName').value);
     localStorage.setItem("name", document.getElementById('userName').value);
+    currentPlayerName = document.getElementById('userName').value;
     }  
     document.getElementById('userCapture').classList.add('menuBurn');
     setTimeout(() => {
@@ -281,7 +282,7 @@ function displayRound(){
     roundDisplayContainer.style.zIndex = '9';
     roundDisplay.innerText = 'Round ' + currentRound;
     roundDisplay.id = 'roundDisplay';
-    roundDisplay.classList = 'dropIn';
+    roundDisplay.classList = 'fadeIn';
 
     document.querySelector('body').appendChild(roundDisplayContainer);
     document.getElementById('roundDisplayContainer').appendChild(roundDisplay);
@@ -1636,14 +1637,17 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     gameActive = true;
     allowClick = false; //no card selection till cards are on the table
 
-    displayRound();
+    
+    setTimeout(() => {
+        displayRound();
+    }, 500);
 
 
-
-    //generate deck based on theme
+    //generate deck based on current theme
     let gameDeck = createGameDeck(cardTheme, cardColor, deckSize);
     selectCardsToMatch(gameDeck);
-    dealCardsToMatch(gameDeck, cardsToMatch);
+        dealCardsToMatch(gameDeck, cardsToMatch);
+    
     setTimeout(() => {
         dealPlayerCards(gameDeck);
     }, playerCardsDealDelay);
