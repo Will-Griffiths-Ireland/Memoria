@@ -25,6 +25,7 @@ let selectLocked = false; //block selecting cards till current move finished.
 let audioEffectsOn = false;
 let musicOn = true;
 let backGroundColor = 'white';
+let currentPlayerName ='';
 
 
 const gameArea = document.getElementById("gameArea");
@@ -37,9 +38,6 @@ const gameArea = document.getElementById("gameArea");
 // shuffleDeck(gameDeck);
 // console.log("Here is a game deck just with spooky cards");
 // console.log( createGameDeck(cardTheme,cardColor) );
-localStorage.setItem("name", "Will");
-console.log(localStorage.getItem("name"));
-console.table(localStorage);
 
 
 //LISTENERS
@@ -103,37 +101,75 @@ function setMusicOnOff()
 function captureUsername() {
 
     //check to see if we have a username stored
-    // if(localStorage.getItem('name')){
-    //     displayMenu();
-    //     return;
-    // };
-
-    userCapture = document.createElement('div');
-    userCapture.id = "userCapture";
-
-        userCapture.innerHTML = `
-        <form class="mainMenu" onsubmit="storeName()">
-            <p class="welcomeText">Welcome to Memoria!</p>
-            <p class="welcomeText">Please enter your name and click start</p>
-            <input id="userName" class="menuItem" type="text" placeholder="Enter Name">
-            <button id="startButton" class="menuItem" type="submit" value="submit">Start</button>
-        </form>
-        `;
+    if(localStorage.getItem('name')){
+        
+        let currentPlayerName = localStorage.getItem('name');
+        userCapture = document.createElement('div');
+        userCapture.id = "userCapture";
     
-    gameArea.appendChild(userCapture);
-    userCapture.classList.add('menuDrop');
+            userCapture.innerHTML = `
+            <form class="mainMenu">
+                <p class="welcomeText">Welcome back to Memoria<span class="bold"> ${currentPlayerName}</span>!</p>
+                <p class="welcomeText">Do you want to continue with your saved progress?</p>
+                <button id="continueButton" class="menuItem" type="submit" value="submit" onclick="storeName()">Continue</button>
+                <button id="resetButton" class="menuItem" onclick="resetGame()">Restart Game</button>
+            </form>
+            `;
+        
+        gameArea.appendChild(userCapture);
+        userCapture.classList.add('menuDrop');
+    }
+    else{
+        userCapture = document.createElement('div');
+        userCapture.id = "userCapture";
+    
+            userCapture.innerHTML = `
+            <form class="mainMenu" onsubmit="storeName()">
+                <p class="welcomeText">Welcome to Memoria!</p>
+                <p class="welcomeText">Please enter your name and click start</p>
+                <input id="userName" class="menuItem" type="text" placeholder="Enter Name">
+                <button id="startButton" class="menuItem" type="submit" value="submit">Start</button>
+            </form>
+            `;
+        
+        gameArea.appendChild(userCapture);
+        userCapture.classList.add('menuDrop');
+
+    }
+
+
+}
+
+function resetGame(){
+
+    console.log("Clearing local storage");
+    localStorage.clear();
+
+    document.getElementById('userCapture').classList.add('menuBurn');
+    setTimeout(() => {
+        document.getElementById('userCapture').remove();
+        captureUsername();
+    }, 1000);
+    
 }
 
 function storeName(){
 
     event.preventDefault();
+    if(document.getElementById('userName')){
     console.log(" here is the name" + document.getElementById('userName').value);
     localStorage.setItem("name", document.getElementById('userName').value);
+    }  
     document.getElementById('userCapture').classList.add('menuBurn');
     setTimeout(() => {
         document.getElementById('userCapture').remove();
         displayMenu();
     }, 1000);
+}
+
+function displaySettings(){
+
+
 }
 
 
@@ -211,10 +247,10 @@ function scatterWinSmiles(count) {
         //choosing random widths based on screen res
         if(window.innerWidth > 600)
         {
-           randWidth = randomNumber(2, 6);  
+           randWidth = randomNumber(4, 11);  
         }
         else{
-            randWidth = randomNumber(10, 15); 
+            randWidth = randomNumber(10, 20); 
         }
         
 
@@ -235,11 +271,10 @@ function scatterWinSmiles(count) {
         smile.style.left = left;
 
         smile.style.width = randWidth + "vw";
-        smile.style.height = randWidth + "vw";
+        smile.style.height = "auto";
         smile.style.zIndex = 2000;
-        smile.classList = "dropIn winSmile";
+        smile.classList = "winSmile dropIn";
         body.appendChild(smile);
-        smile.classList = "dropIn cardContainer";
     }
 }
 
@@ -1421,10 +1456,13 @@ function burnCards() {
         backFaces[0].remove();
     }
 
-    //burn the round counter if its there
+    //burn the round counter elements
     if(document.getElementById('roundDisplay')){
      document.getElementById('roundDisplay').classList.add('burnUp');       
     }
+    if(document.getElementById('roundDisplayContainer')){
+        document.getElementById('roundDisplayContainer').classList.add('burnUp');       
+       }
  
 
     
@@ -1456,11 +1494,10 @@ function delCards() {
 
     const cardsToDel = document.getElementsByClassName('burnUp');
     const totalElements = cardsToDel.length;
-    let loopCount = 0;
+    
     for (let i = 0; i < totalElements; i++) {
 
         cardsToDel[0].remove();
-        loopCount++;
     }
 
 }
@@ -1544,9 +1581,12 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     if (menuOn) {
         removeMenu(); // get rid of main menu
     }
+    
+
     cardTheme = cardThemeSelected;
     cardColor = cardColorSelected;
     deckSize = deckSizeSelected;
+    console.log("starting game with deckSize " + deckSize);
     gameActive = true;
     allowClick = false; //no card selection till cards are on the table
 
@@ -1624,11 +1664,10 @@ function selectCard(e) {
 
     if (playerSelectedCards[totalSelectedCards].name == cardsToMatch[totalSelectedCards].name &&
         playerSelectedCards[totalSelectedCards].color == cardsToMatch[totalSelectedCards].color) {
-        console.log("you picked the right card!!")
+        console.log("Correct card selected")
         cardTag = "cTM" + (totalSelectedCards + 1);
         console.log(cardTag);
         ++totalSelectedCards;
-
         document.getElementById(cardTag).classList.add("cardFlipped");
         document.getElementById(cardTag).classList.remove("cardFlippedBack");
         setTimeout(() => {
@@ -1645,7 +1684,7 @@ function selectCard(e) {
                 allowClick = true;
                 setTimeout(() => {
                     if (currentRound < gameRounds) {
-                        gameStart(cardTheme, cardColor);
+                        gameStart(cardTheme, cardColor, deckSize);
                     } else {
                         console.log("you win this theme. well done !!")
                         //need logic to update high scores
@@ -1672,7 +1711,6 @@ function selectCard(e) {
             gameActive = false;
         currentRound = 1; // reset round back to 1
         burnCards();
-        document.getElementById('roundDisplay').remove();
             displayMenu()
 
         }, 3000);

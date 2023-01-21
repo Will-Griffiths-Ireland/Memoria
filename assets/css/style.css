@@ -24,8 +24,8 @@ body {
     height: 100vh;
     box-sizing: border-box;
     border: 0;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    /* overflow-y: hidden;
+    overflow-x: hidden; */
     z-index: 1;
 }
 
@@ -35,11 +35,16 @@ img {
     filter: drop-shadow(.25vw .25vw .25vw #000);
 }
 
+.bold{
+    font-weight: bold;
+}
+
 .welcomeText{
 
     color: #000;
     font-size: .6rem;
     font-weight: 700;
+    line-height: 1rem;
     /* word-wrap: normal; */
     text-align: center;
     display: block;
@@ -54,6 +59,7 @@ img {
     color: #000;
     font-size: 2rem;
     font-weight: 700;
+    line-height: 2.4rem;
     text-align: center;
     display: block;
     border: 0;
@@ -523,6 +529,7 @@ img {
     animation-name: dropIn;
     animation-fill-mode: both;
     animation-duration: 1000ms;
+    animation-timing-function: ease-in;
     animation-iteration-count: 1;
 }
 
