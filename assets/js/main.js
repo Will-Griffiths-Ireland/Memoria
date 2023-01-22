@@ -9,9 +9,9 @@ let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter = 0; //global variable to track audio clips generated and create unique IDs
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
-let gameRounds = 8; //how many rounds to play in total
-let currentRound = 1; // always start with round 1
-let deckSize = 8; //control how big the player deck is
+let gameRounds = 16; //how many rounds to play in total
+let currentRound = 16; // always start with round 1
+let deckSize = 16; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
 let playerSelectedCards = []; // array that stores the cards the player has selected
@@ -194,6 +194,10 @@ function displaySettingsMenu(){
     settingsMenu.innerHTML = `
                 <h1>Settings</h1>
                 <h2 class="menuItem" onclick="">Current Player Name - <span class="bold">${currentPlayerName}</span></h2>
+                <h2 class="menuItem" onclick="">Background Color - <span class="bold">${backGroundColor}</span></h2>
+                <h2 class="menuItem" onclick="">Card Image Quality - <span class="bold">${imageQuality}</span></h2>
+                <h2 class="menuItem" onclick="">Display Type Back Face - <span class="bold">${backOfCardType}</span></h2>
+                <h2 class="menuItem" onclick="">Total Rounds - <span class="bold">${gameRounds}</span></h2>
                 `;
     
 
@@ -245,17 +249,15 @@ function displayMenu() {
     } else {
         mainM.innerHTML = `
                 <img src="./assets/images/memoria_logo2.webp" id="logo">
-                <h2 class="menuItem" onclick="scatterCards()">Scatter Full Card Deck</h2>
-                <h2 class="menuItem" onclick="scatterWinSmiles('200')">Win Animation</h2>
-                <h2 class="menuItem" onclick="burnCards()">Burn All Cards</h2>
-                <h2 class="menuItem" onclick="gameStart('spooky','orange',deckSize)">Spooky Game</h2>
-                <h2 class="menuItem" onclick="gameStart('space','black',deckSize)">Space Game</h2>
-                <h2 class="menuItem" onclick="gameStart('history','brown',deckSize)">History Game</h2>
-                <h2 class="menuItem" onclick="gameStart('nature','green',deckSize)">Nature Game</h2>
-                <h2 class="menuItem" onclick="gameStart('sea','blue',deckSize)">Sea Game</h2>
-                <h2 class="menuItem" onclick="gameStart('science','red',deckSize)">Science Game</h2>
-                <h2 class="menuItem" onclick="gameStart('emma','purple',deckSize)">Emma Game</h2>
-                <h2 class="menuItem" onclick="gameStart('all','all','8')">Mixed Game</h2>`;
+                <h2 class="menuItem" onclick="gameStart('spooky','orange',deckSize)">Spooky Cards</h2>
+                <h2 class="menuItem" onclick="gameStart('space','black',deckSize)">Space Cards</h2>
+                <h2 class="menuItem" onclick="gameStart('history','brown',deckSize)">History Cards</h2>
+                <h2 class="menuItem" onclick="gameStart('nature','green',deckSize)">Nature Cards</h2>
+                <h2 class="menuItem" onclick="gameStart('sea','blue',deckSize)">Sea Cards</h2>
+                <h2 class="menuItem" onclick="gameStart('science','red',deckSize)">Science Cards</h2>
+                <h2 class="menuItem" onclick="gameStart('emma','purple',deckSize)">Emma Cards</h2>
+                <h2 class="menuItem" onclick="gameStart('all','all','16')">Mixed Cards</h2>
+                <h2 class="menuItem" onclick="gameStart('all','white','16')">Mono Cards</h2>`;
     }
 
 
