@@ -24,7 +24,7 @@ let gameActive = false; // bool to track active game state
 let allowClick = true; // bool to stop click spamming issues 
 let selectLocked = false; //block selecting cards till current move finished.
 let audioEffectsOn = false;
-let musicOn = true;
+let musicOn = 'true'; //using a string for local storage
 let backGroundColor = 'white';
 let currentPlayerName ='';
 
@@ -44,6 +44,8 @@ const gameArea = document.getElementById("gameArea");
 //LISTENERS
 
 document.onload = captureUsername();
+document.onload = setupAudio();
+document.onload = loadSettings();
 
 //show menu if escape is pressed and remove it if escape is pressed again
 document.addEventListener("keydown", function (e) {
@@ -85,19 +87,35 @@ function setBackgroundColor(newColor)
 
 }
 
+function loadSettings(){
+
+    //check to see if music preference was saved
+    if(localStorage.getItem('musicOn')){
+        musicOn = localStorage.getItem('musicOn');
+
+    }
+
+}
+
 function setMusicOnOff()
 {
-        if(musicOn)
+        if(musicOn == 'true')
         {
             document.getElementById('musicIcon').innerText = 'music_off';
+            fadeOutAudio('menuMusic')
             musicOn = false;
+            localStorage.setItem('musicOn', 'false');
+            fadeOutAudio('menuMusic')
         }
-        else if(!musicOn)
+        else if(musicOn == 'false')
         {
             document.getElementById('musicIcon').innerText = 'music_note';
             musicOn = true;
+            localStorage.setItem('musicOn', 'true');
         }
-    }
+
+        
+}
 
 function captureUsername() {
 
@@ -263,6 +281,7 @@ function displayMenu() {
 
 
     gameArea.appendChild(mainM);
+    playAudio();
     menuOn = true;
 }
 
@@ -1468,20 +1487,47 @@ function buildCardObjectArray(imageQuality, backOfCardType) {
     return cardObjectArray;
 }
 
+function setupAudio(){
+
+    let body = document.querySelector('body');
+
+    let menuMusic = document.createElement('audio');
+    menuMusic.src = "./assets/audio/testMenuMusic.mp3";
+    menuMusic.id = 'menuMusic'
+    menuMusic.dataset.audioType = 'music';
+    body.appendChild(menuMusic);
+
+}
+
+
+function fadeOutAudio(elementId){
+
+    //grab passed element and then loop through reducing volume by 10% every 100ms
+    let sound = document.getElementById(elementId);
+
+    let volume = 100;
+    let fadeDown = setInterval(() => {
+
+            volume -= 1;
+            sound.volume = (volume / 100);
+            console.log("Setting volume to " + volume );
+        
+    }, 30);
+
+    setTimeout(() => {
+        clearInterval(fadeDown);
+    }, 3000);
+
+}
+
 
 //Function to play audio
 //creates an audio element and sets it playing
 function playAudio(audioName, audioType) {
 
-    let audioId = "audio" + audioCounter;
-    ++audioCounter;
-    let sound = document.createElement('audio');
-    sound.src = `./assets/audio/${audioName}.mp3`;
-    sound.id = audioId;
-    sound.dataset.audioType = "effect";
-    document.querySelector('body').appendChild(sound);
-    //Need to add logic to loop or single play 
-    document.getElementById(audioId).play();
+sound = document.getElementById('menuMusic');
+sound.play();
+sound.loop = true;
 }
 
 //this function fade/burns the card by applying css to fade them out
