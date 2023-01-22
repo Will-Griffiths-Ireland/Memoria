@@ -55,12 +55,9 @@ The game uses a combination of card themes and colors
 
 ### **Planning Overview:**
 
-My aim with the game was to create something simple and engaging for younger children to develop visual memory
+My aim with the game was to create something simple and engaging for younger children to develop visual memory skills.
 
-* Smooth minimalist
-* Captivate the user and sell the dream of living on Mars
-* Bold minimalist design
-* Highly responsive from ultra-wide desktops down to mobile phones
+* ?
 
 ### **Target Audiences:**
 
@@ -72,6 +69,9 @@ My aim with the game was to create something simple and engaging for younger chi
 * As a user, I want a fun experience
 * As a user, I want to have a clear objective that provides a challenge
 * as a user, I want progression and reward
+* as a user, I want to save my game settings
+* as a user, I want to save my game progress
+* as a user, I want quick access to control audio
 
 ### **Site Aims:**
 

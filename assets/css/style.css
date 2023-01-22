@@ -6,6 +6,8 @@
     cursor: url(../images/cursor.png), pointer;
     margin: 0;
     font-family: 'Varela Round', sans-serif;
+    -webkit-user-select: none;
+    user-select: none;
 
     /* this code is part of testing for a mode to disable all animations */
 
@@ -39,7 +41,7 @@ body {
 img {
     /* This filter to add drop shadows gives the cards some definition in stacks/overlap so that colors dor not blend into one.
     The advantage over a border is that this conforms to the actual image border and ignores transparency */
-    filter: drop-shadow(.25vw .25vw .25vw #000);
+    filter: drop-shadow(.25rem .25rem .25rem #000);
 }
 
 .bold{
@@ -50,9 +52,9 @@ img {
 
     color: #000;
     font-size: 1rem;
-    font-weight: 700;
+    letter-spacing: .2rem;
+    font-weight: 400;
     line-height: 1.5rem;
-    /* word-wrap: normal; */
     text-align: center;
     display: block;
     border: 0;
@@ -64,8 +66,9 @@ img {
 .welcomeText{
 
     color: #000;
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: .5rem;
+    font-weight: 400;
     line-height: 2.4rem;
     text-align: center;
     display: block;
@@ -76,7 +79,7 @@ img {
 }
 }
 
-#userName, #startButton{
+#userName, #startButton, #continueButton, #resetButton{
     border-style: none;
     font-size: .7rem;
 
@@ -84,39 +87,26 @@ img {
 
 @media only screen and (min-width: 600px) {
 
-    #userName, #startButton{
+    #userName, #startButton, #continueButton, #resetButton{
         border-style: none;
-        font-size: 2rem;
+        font-size: 1.3rem;
     
     }
 
 }
 
-#logo{
-    width: auto;
-    height: auto;
-    max-width: 60vw;
-}
-
-@media only screen and (min-width: 600px) {
-    #logo{
-    max-width: 20vw;
-    }
-}
-
-
 #menuIconContainer{
 
     position: absolute;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
-    top: 1vw;
-    left: 1vw;
-    width: 8vw;
-    height: 8vw;
+    top: .2rem;
+    left: .5rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
-    box-shadow: .5vw .5vw .5vw #000;
+    box-shadow: .25rem .25rem .25rem #000;
     background-color: #908e8ef4;
     z-index: 60000;
 }
@@ -125,8 +115,9 @@ img {
 
     #menuIconContainer{
 
-        width: 3vw;
-        height: 3vw;
+        width: 4rem;
+        height: 4rem;
+        top: .5rem;
         border-radius: 50%;
         box-shadow: .25vw .25vw .25vw #000;
     }
@@ -136,15 +127,15 @@ img {
 #settingsIconContainer{
 
     position: absolute;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
-    top: 1vw;
-    right: 2vw;
-    width: 8vw;
-    height: 8vw;
+    top: .2rem;
+    right: .5rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
-    box-shadow: .5vw .5vw .5vw #000;
+    box-shadow: .25rem .25rem .25rem #000;
     background-color: #908e8ef4;
     z-index: 60000;
 
@@ -152,9 +143,10 @@ img {
 
 @media only screen and (min-width: 600px) {
     #settingsIconContainer{
-        width: 3vw;
-        height: 3vw;
-        right: 1vw;
+        width: 4rem;
+        height: 4rem;
+        top: .5rem;
+        right: .5rem;
         border-radius: 50%;
         box-shadow: .25vw .25vw .25vw #000;
     }
@@ -167,12 +159,12 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 1vw;
-    right: 11vw;
-    width: 8vw;
-    height: 8vw;
+    top: .2rem;
+    right: 2.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
-    box-shadow: .5vw .5vw .5vw #000;
+    box-shadow: .25rem .25rem .25rem #000;
     background-color: #908e8ef4;
     z-index: 60000;
 
@@ -180,9 +172,10 @@ img {
 
 @media only screen and (min-width: 600px) {
     #musicIconContainer{
-        width: 3vw;
-        height: 3vw;
-        right: 5vw;
+        width: 4rem;
+        height: 4rem;
+        top: .5rem;
+        right: 5rem;
         border-radius: 50%;
         box-shadow: .25vw .25vw .25vw #000;
     }
@@ -195,12 +188,12 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 1vw;
-    right: 20vw;
-    width: 8vw;
-    height: 8vw;
+    top: .2rem;
+    right: 4.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
-    box-shadow: .5vw .5vw .5vw #000;
+    box-shadow: .25rem .25rem .25rem #000;
     background-color: #908e8ef4;
     z-index: 60000;
 
@@ -208,9 +201,10 @@ img {
 
 @media only screen and (min-width: 600px) {
     #audioIconContainer{
-        width: 3vw;
-        height: 3vw;
-        right: 9vw;
+        width: 4rem;
+        height: 4rem;
+        top: .5rem;
+        right: 9.5rem;
         border-radius: 50%;
         box-shadow: .25vw .25vw .25vw #000;
     }
@@ -222,12 +216,12 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 1vw;
-    right: 29vw;
-    width: 8vw;
-    height: 8vw;
+    top: .2rem;
+    right: 6.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
-    box-shadow: .5vw .5vw .5vw #000;
+    box-shadow: .25rem .25rem .25rem #000;
     background-color: #908e8ef4;
     z-index: 60000;
 
@@ -235,9 +229,10 @@ img {
 
 @media only screen and (min-width: 600px) {
     #lightDarkIconContainer{
-        width: 3vw;
-        height: 3vw;
-        right: 13vw;
+        width: 4rem;
+        height: 4rem;
+        top: .5rem;
+        right: 14rem;
         border-radius: 50%;
         box-shadow: .25vw .25vw .25vw #000;
     }
@@ -249,23 +244,23 @@ img {
 
     display: inline;
     position: relative;
-    color: #000;
-    font-size: 8vw;
+    color: #fff;
+    font-size: 1.5rem;
     transition-duration: 500ms;
 }
 
 @media only screen and (min-width: 600px) {
     .menuIcon{
 
-        color: #000;
-        font-size: 3vw;
+        color: #fff;
+        font-size: 4rem;
         transition-duration: 500ms;
     }
 
 }
 .menuIcon:hover{
 
-    color: #fff;
+    color: #000;
     transition-duration: 500ms;
     }
 
@@ -283,11 +278,9 @@ img {
     justify-content: center;
     align-items: center;
     z-index: 20000;
-    font-size: 2rem;
-    letter-spacing: .2rem;
-    padding: 1vw;
+    padding: .25rem;
     border-color: #404040f4;
-    box-shadow: .5vw .5vw .5vw #000;
+    box-shadow: .25rem .25rem .25rem #000;
     border-style: solid;
     border-width: .25rem;
     height: auto;
@@ -303,8 +296,6 @@ img {
     .mainMenu {
         position: relative;
         z-index: 20000;
-        font-size: 2.5rem;
-        letter-spacing: .5rem;
         border-style: solid;
         border-width: .25rem;
         height: auto;
@@ -325,25 +316,29 @@ img {
 
 .menuTitle{
     font-size: 1rem;
-    margin: 1rem;
+    margin: .8rem;
+    letter-spacing: .5rem;
+    text-align: center;
 }
 @media only screen and (min-width: 600px) {
     .menuTitle{
         font-size: 3rem;
-        margin: 3rem;
+        margin: 2.5rem;
+        letter-spacing: .5rem;
     }
 
 }
 
 .menuItem {
-    color: rgb(0, 0, 0);
+    color: #fff;
     font-size: .6rem;
     text-align: center;
+    letter-spacing: .2rem;
     display: block;
     width: fit-content;
     background-color: #908e8ef4;
-    box-shadow: .25vw .25vw .25vw #000;
-    border-radius: .8rem;
+    box-shadow: .25rem .25rem .25rem #000;
+    border-radius: 2rem;
     padding: .5rem;
     padding-left: .8rem;
     padding-right: .8rem;
@@ -353,7 +348,8 @@ img {
 
 @media only screen and (min-width: 600px) {
     .menuItem {
-        font-size: 2rem;
+        font-size: 1.7rem;
+        letter-spacing: .5rem;
         border-radius: 2rem;
         padding: .5rem;
         padding-left: 2rem;
@@ -367,7 +363,7 @@ img {
 }
 
 .menuItem:hover {
-    color: #fff;
+    color: #000;
     transition-duration: 250ms;
 }
 
@@ -492,20 +488,21 @@ img {
 }
 
 #roundDisplayContainer{
-    width: 50vw;
-    height: 8vw;
-    top: 1vw;
+    width: 10rem;
+    height: 1.5rem;
+    top: .2rem;
     display: flex;
-    align-items: center;
     position: absolute;
-    left: 12vw;
+    justify-content: center;
+    align-items: center;
+    left: 2rem;
     z-index: 0;
 }
 @media only screen and (min-width: 600px) {
 #roundDisplayContainer{
     width: 100vw;
-    height: 3vw;
-    top: 1vw;
+    height: 4rem;
+    top: .5rem;
     left: 0vw;
     display: flex;
     position: absolute;
@@ -520,16 +517,16 @@ img {
     margin: 0;
     display: block;
     text-align: center;
-    color: #000;
-    font-size: 1rem;
+    color: #fff;
+    font-size: .7rem;
     z-index: 0;
     text-align: center;
     display: block;
     background-color: #908e8ef4;
-    box-shadow: .5vw .5vw .5vw #000;
-    border-radius: 2vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    box-shadow: .25rem .25rem .25rem #000;
+    border-radius: 2rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
     margin: 0;
 }
 @media only screen and (min-width: 600px) {
@@ -537,7 +534,7 @@ img {
     #roundDisplay {
 
         position: relative;
-        box-shadow: .25vw .25vw .25vw #000;
+        box-shadow: .25rem .25rem .25rem #000;
         margin: 0;
         display: block;
         text-align: center;

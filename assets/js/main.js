@@ -6,7 +6,6 @@
 //global variables
 
 let cardId = 0; //keep track of how many cards have been created in this session
-let audioCounter = 0; //global variable to track audio clips generated and create unique IDs
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 8; //how many rounds to play in total
@@ -23,11 +22,12 @@ let settingsMenuOn = false;
 let gameActive = false; // bool to track active game state
 let allowClick = true; // bool to stop click spamming issues 
 let selectLocked = false; //block selecting cards till current move finished.
-let audioEffectsOn = false;
+let effectsOn = 'true';
 let musicOn = 'true'; //using a string for local storage
 let currentMusic = 'menuMusic';
 let backGroundColor = '#ffffff';
-let currentPlayerName ='';
+let currentPlayerName = '';
+let iconsOn = 'true';
 
 
 const gameArea = document.getElementById("gameArea");
@@ -47,6 +47,7 @@ const gameArea = document.getElementById("gameArea");
 document.onload = captureUsername();
 document.onload = setupAudio();
 document.onload = loadSettings();
+document.onload = showHideMenuIcons();
 
 //show menu if escape is pressed and remove it if escape is pressed again
 document.addEventListener("keydown", function (e) {
@@ -54,7 +55,7 @@ document.addEventListener("keydown", function (e) {
         return;
     } else if (e.key == "Escape" && menuOn) {
         removeMenu();
-    }else if (e.key == "Escape") {
+    } else if (e.key == "Escape") {
         displayMenu();
     }
     return;
@@ -68,21 +69,18 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-function setBackgroundColor(newColor)
-{
+function setBackgroundColor(newColor) {
     //if no color is passed then switch between black and white
-    if(!newColor){
-        if(backGroundColor == '#000000')
-        {
+    if (!newColor) {
+        if (backGroundColor == '#000000') {
             document.querySelector('body').style.backgroundColor = '#ffffff';
             backGroundColor = '#ffffff';
-            localStorage.setItem('backGroundColor','#ffffff');
-        }
-        else if(backGroundColor == '#ffffff'){
-            
+            localStorage.setItem('backGroundColor', '#ffffff');
+        } else if (backGroundColor == '#ffffff') {
+
             document.querySelector('body').style.backgroundColor = '#000000';
             backGroundColor = '#000000';
-            localStorage.setItem('backGroundColor','#000000');
+            localStorage.setItem('backGroundColor', '#000000');
         }
     }
 
@@ -90,78 +88,128 @@ function setBackgroundColor(newColor)
 
 }
 
-function loadSettings(){
+function loadSettings() {
 
     //check to see if music preference was saved
-    if(localStorage.getItem('musicOn')){
+    if (localStorage.getItem('musicOn')) {
         musicOn = localStorage.getItem('musicOn');
 
-        if(musicOn == 'true')
-        {
+        if (musicOn == 'true') {
             document.getElementById('musicIcon').innerText = 'music_note';
-        }
-        else if(musicOn == 'false')
-        {
+        } else if (musicOn == 'false') {
             document.getElementById('musicIcon').innerText = 'music_off';
         }
     }
 
-    //check for background preference
-    if(localStorage.getItem('backGroundColor')){
-    
-        backGroundColor = localStorage.getItem('backGroundColor');
-        document.querySelector('body').style.backgroundColor = backGroundColor;
+    //check for audio effect preference
+
+    if (localStorage.getItem('effectsOn')) {
+        effectsOn = localStorage.getItem('effectsOn');
+
+        if (effectsOn == 'true') {
+            document.getElementById('effectsIcon').innerText = 'volume_up';
+
+        } else if (effectsOn == 'false') {
+            document.getElementById('effectsIcon').innerText = 'volume_off';
+        }
+
+        //check for background preference
+        if (localStorage.getItem('backGroundColor')) {
+
+            backGroundColor = localStorage.getItem('backGroundColor');
+            document.querySelector('body').style.backgroundColor = backGroundColor;
+        }
+
     }
+}
+/**
+ * This function will show/hide menu icons.
+ * Tried setting display to none but it resulted in weird text pop.
+ * Opacity set to 0 and pointer events none to stop clicks
+ * 
+ */
+function showHideMenuIcons(){
+
+    if(iconsOn == 'true'){
+        console.log("Setting icons OFF");
+        let icons = document.getElementsByClassName('menuIcon');
+
+        for(let icon of icons){
+            icon.style.opacity = '0';
+            icon.style.pointerEvents = 'none';
+        }
+        iconsOn = 'false';
+        return;
+    }
+    if(iconsOn == 'false'){ 
+        console.log("Setting icons ON");
+        let icons = document.getElementsByClassName('menuIcon');
+
+        for(let icon of icons){
+            icon.style.opacity = '1';
+            icon.style.pointerEvents = 'auto';
+        }
+        iconsOn = 'true';
+        return;
+    }
+}
+
+function setMusicOnOff() {
+    if (musicOn == 'true') {
+        document.getElementById('musicIcon').innerText = 'music_off';
+        fadeOutAudio(currentMusic);
+        musicOn = 'false';
+        localStorage.setItem('musicOn', 'false');
+    } else if (musicOn == 'false') {
+        document.getElementById('musicIcon').innerText = 'music_note';
+        musicOn = 'true';
+        localStorage.setItem('musicOn', 'true');
+        playAudio(currentMusic, 'music');
+    }
+
 
 }
 
-function setMusicOnOff()
-{
-        if(musicOn == 'true')
-        {
-            document.getElementById('musicIcon').innerText = 'music_off';
-            fadeOutAudio(currentMusic);
-            musicOn = 'false';
-            localStorage.setItem('musicOn', 'false');
-        }
-        else if(musicOn == 'false')
-        {
-            document.getElementById('musicIcon').innerText = 'music_note';
-            musicOn = 'true';
-            localStorage.setItem('musicOn', 'true');
-            playAudio(currentMusic, 'music');
-        }
+function setEffectsOnOff() {
+    if (effectsOn == 'true') {
+        document.getElementById('effectsIcon').innerText = 'volume_off';
+        effectsOn = 'false';
+        localStorage.setItem('effectsOn', 'false');
+    } else if (effectsOn == 'false') {
+        document.getElementById('effectsIcon').innerText = 'volume_up';
+        effectsOn = 'true';
+        localStorage.setItem('effectsOn', 'true');
+    }
 
-        
+
 }
 
 function captureUsername() {
 
     //check to see if we have a username stored
-    if(localStorage.getItem('name')){
-        
+    if (localStorage.getItem('name')) {
+
         currentPlayerName = localStorage.getItem('name');
         userCapture = document.createElement('div');
-        currentPlayerName = currentPlayerName.toUpperCase();
+        let currentPlayerNameTemp = currentPlayerName.toUpperCase();
         userCapture.id = "userCapture";
-    
-            userCapture.innerHTML = `
+
+        userCapture.innerHTML = `
             <form class="mainMenu">
-                <p class="welcomeText">WELCOME BACK TO MEMORIA <span class="bold"> ${currentPlayerName}</span>!</p>
+                <p class="welcomeText">WELCOME BACK TO MEMORIA <span class="bold"> ${currentPlayerNameTemp}</span>!</p>
                 <p class="welcomeText">SHALL WE CONTINUE WITH YOUR SAVED GAME?</p>
                 <button id="continueButton" class="menuItem" type="submit" value="submit" onclick="storeName()">YES, CONTINUE</button>
                 <button id="resetButton" class="menuItem" onclick="resetGame()">NO, RESET GAME</button>
             </form>
             `;
-        
+
         gameArea.appendChild(userCapture);
         userCapture.classList.add('menuDrop');
-    }
-    else{
+    } else {
         userCapture = document.createElement('div');
         userCapture.id = "userCapture";
-    
-            userCapture.innerHTML = `
+
+        userCapture.innerHTML = `
             <form class="mainMenu" onsubmit="storeName()">
                 <p class="welcomeText">WELCOME TO MEMORIA!</p>
                 <p class="welcomeText">PLEASE ENTER YOUR NAME AND CLICK SAVE</p>
@@ -169,7 +217,7 @@ function captureUsername() {
                 <button id="startButton" class="menuItem" type="submit" value="submit">SAVE</button>
             </form>
             `;
-        
+
         gameArea.appendChild(userCapture);
         userCapture.classList.add('menuDrop');
 
@@ -178,7 +226,7 @@ function captureUsername() {
 
 }
 
-function resetGame(){
+function resetGame() {
 
     console.log("Clearing local storage");
     localStorage.clear();
@@ -188,25 +236,27 @@ function resetGame(){
         document.getElementById('userCapture').remove();
         captureUsername();
     }, 1000);
-    
+
 }
 
-function storeName(){
+function storeName() {
 
     event.preventDefault();
-    if(document.getElementById('userName')){
-    console.log(" here is the name" + document.getElementById('userName').value);
-    localStorage.setItem("name", document.getElementById('userName').value);
-    currentPlayerName = document.getElementById('userName').value;
-    }  
+    if (document.getElementById('userName')) {
+        console.log(" here is the name" + document.getElementById('userName').value);
+        localStorage.setItem("name", document.getElementById('userName').value);
+        currentPlayerName = document.getElementById('userName').value;
+    }
     document.getElementById('userCapture').classList.add('menuBurn');
     setTimeout(() => {
         document.getElementById('userCapture').remove();
         displayMenu();
+        showHideMenuIcons()
+        loadSettings();
     }, 1000);
 }
 
-function displaySettingsMenu(){
+function displaySettingsMenu() {
 
     if (settingsMenuOn) {
         removeSettingsMenu();
@@ -229,14 +279,14 @@ function displaySettingsMenu(){
     settingsMenu.classList.add("mainMenu");
 
     settingsMenu.innerHTML = `
-                <h1 class=""menuTitle">Settings</h1>
+                <h1 class="menuTitle">ALL SETTINGS</h1>
                 <h2 class="menuItem" onclick="">Current Player Name - <span class="bold">${currentPlayerName}</span></h2>
                 <h2 class="menuItem" onclick="">Background Color - <span class="bold">${backGroundColor}</span></h2>
                 <h2 class="menuItem" onclick="">Card Image Quality - <span class="bold">${imageQuality}</span></h2>
                 <h2 class="menuItem" onclick="">Display Type Back Face - <span class="bold">${backOfCardType}</span></h2>
                 <h2 class="menuItem" onclick="">Total Rounds - <span class="bold">${gameRounds}</span></h2>
                 `;
-    
+
 
 
 
@@ -300,7 +350,9 @@ function displayMenu() {
 
 
     gameArea.appendChild(mainM);
-    if(musicOn == 'true'){ playAudio('menuMusic','music')};
+    if (musicOn == 'true') {
+        playAudio('menuMusic', 'music')
+    };
     menuOn = true;
 }
 
@@ -313,17 +365,23 @@ function removeMenu() {
     menuOn = false;
 }
 
-function displayRound(){
+function displayRound() {
 
     //Display current round
     let roundDisplay = document.createElement('h1');
     let roundDisplayContainer = document.createElement('div');
     roundDisplayContainer.id = 'roundDisplayContainer';
     roundDisplayContainer.style.zIndex = '9';
-    let tempTheme = cardTheme.charAt(0).toUpperCase() + cardTheme.slice(1);
+    let tempTheme = cardTheme.toUpperCase();
+    if (cardTheme == 'all' && cardColor == 'all') {
+        tempTheme = 'MIXED';
+    }
+    if (cardTheme == 'all' && cardColor == 'white') {
+        tempTheme = 'MONO';
+    }
     console.log(cardTheme);
     console.log(tempTheme);
-    roundDisplay.innerText = tempTheme + ' Round ' + currentRound;
+    roundDisplay.innerText = tempTheme + ' - ROUND ' + currentRound + "\\" + gameRounds;
     roundDisplay.id = 'roundDisplay';
     roundDisplay.classList = 'fadeIn';
 
@@ -339,23 +397,21 @@ function scatterWinSmiles(count) {
     for (let i = 0; i < count; i++) {
 
         //choosing random widths based on screen res
-        if(window.innerWidth > 600)
-        {
-           randWidth = randomNumber(4, 11);  
+        if (window.innerWidth > 600) {
+            randWidth = randomNumber(4, 11);
+        } else {
+            randWidth = randomNumber(10, 20);
         }
-        else{
-            randWidth = randomNumber(10, 20); 
-        }
-        
+
 
 
         const body = document.querySelector('body');
 
         left = randomNumber(0, (100 - randWidth)) + "vw";
-        top = randomNumber(10, (90 - randWidth)) + "vh"; 
+        top = randomNumber(10, (90 - randWidth)) + "vh";
         let delay = randomNumber(0, 2000); //generate a delay for the animation and (possible) audio trigger
         //create html elements
-        
+
         const smile = document.createElement('img');
         //set the related images
         smile.src = "./assets/images/win_smile.webp";
@@ -1509,7 +1565,7 @@ function buildCardObjectArray(imageQuality, backOfCardType) {
     return cardObjectArray;
 }
 
-function setupAudio(){
+function setupAudio() {
 
     let body = document.querySelector('body');
 
@@ -1522,7 +1578,7 @@ function setupAudio(){
 }
 
 
-function fadeOutAudio(elementId){
+function fadeOutAudio(elementId) {
 
     //grab passed element and then loop through reducing volume by 10% every 100ms
     let sound = document.getElementById(elementId);
@@ -1530,10 +1586,10 @@ function fadeOutAudio(elementId){
     let volume = 100;
     let fadeDown = setInterval(() => {
 
-            volume -= 1;
-            sound.volume = (volume / 100);
-            console.log("Setting volume to " + volume );
-        
+        volume -= 1;
+        sound.volume = (volume / 100);
+        console.log("Setting volume to " + volume);
+
     }, 30);
 
     setTimeout(() => {
@@ -1547,12 +1603,23 @@ function fadeOutAudio(elementId){
 //creates an audio element and sets it playing
 function playAudio(audioName, audioType) {
 
-if(audioType == 'music'){
-    sound = document.getElementById(audioName);
-    sound.volume = 1;
-    sound.play();
-    sound.loop = true;
-}    
+    if (audioType == 'music') {
+        sound = document.getElementById(audioName);
+        sound.volume = 1;
+        sound.play();
+        sound.loop = true;
+    } else if (audioType == 'effect' && effectsOn == 'true') {
+
+        let body = document.querySelector('body');
+        let audioEffect = document.createElement('audio');
+        audioEffect.src = "./assets/audio/card1.mp3";
+        audioEffect.classList = 'audioEffect';
+        audioEffect.dataset.audioType = 'effect';
+        body.appendChild(audioEffect);
+        audioEffect.play();
+
+    }
+
 
 }
 
@@ -1582,10 +1649,10 @@ function burnCards() {
     }
 
     //burn the round counter elements
-    if(document.getElementById('roundDisplayContainer')){
-        document.getElementById('roundDisplayContainer').classList.add('burnUp');       
-       }
- 
+    if (document.getElementById('roundDisplayContainer')) {
+        document.getElementById('roundDisplayContainer').classList.add('burnUp');
+    }
+
     for (let card of cardsToBurn) {
         // console.log("Adding burnUp class to card - " + card.id);
         card.style.animationDelay = '0ms';
@@ -1613,12 +1680,20 @@ function burnCards() {
 function delCards() {
 
     const cardsToDel = document.getElementsByClassName('burnUp');
+    const audioToDel = document.getElementsByClassName('audioEffect');
+
     const totalElements = cardsToDel.length;
 
-    console.log("delCards() removing a total of " + totalElements);    
+    console.log("delCards() removing a total of " + totalElements);
     for (let i = 0; i < totalElements; i++) {
         console.log("Removing - " + i + " " + cardsToDel[0].id);
         cardsToDel[0].remove();
+    }
+
+    const totalAudioElements = audioToDel.length;
+
+    for (let i = 0; i < totalAudioElements; i++) {
+        audioToDel[0].remove();
     }
 
 }
@@ -1627,7 +1702,9 @@ function delCards() {
 
 function dealPlayerCards(gameDeck) {
 
-    if(!gameActive){return;};
+    if (!gameActive) {
+        return;
+    };
 
     if (!gameDeck) {
         console.log("You didn't pass me cards to deal");
@@ -1641,11 +1718,11 @@ function dealPlayerCards(gameDeck) {
 
     for (let i = 0; i < gameDeck.length; i++) {
 
-        
+
 
         //work out placement of cards based on how many are being dealt
         //create html elements
-        
+
         const cardContainer = document.createElement('div');
         const cardFace = document.createElement('img');
         const cardBack = document.createElement('img');
@@ -1657,12 +1734,14 @@ function dealPlayerCards(gameDeck) {
         cardContainer.dataset.cardTheme = gameDeck[i].category;
         delay = 500 + (i * 250);
         cardContainer.style.animationDelay = delay + "ms"; //stagger animation for dropping in the cards
-        
+
         cardBack.classList = "cardBack";
         cardFace.classList = "cardFace";
         cardContainer.addEventListener("click", selectCard);
+        setTimeout(() => {
+            playAudio('', 'effect');
+        }, delay);
 
-        
 
         //need to optimize and find a solution here if time allows.
         //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
@@ -1670,22 +1749,26 @@ function dealPlayerCards(gameDeck) {
         setTimeout(fCard, (delay + 1000));
 
         function fCard() {
-            if(!gameActive){return;}
+            if (!gameActive) {
+                return;
+            }
             cardContainer.classList.remove("dropIn");
             cardContainer.classList.add("cardFlipped");
+
         }
-        
+
         playerCardsArea.appendChild(cardContainer);
         cardContainer.appendChild(cardBack);
         cardContainer.appendChild(cardFace);
         cardContainer.classList = "dropIn cardContainer";
 
-        
+
+
     }
-    
+
     //allow user to select card
     setTimeout(() => {
-            
+
         allowClick = true;
     }, delay + delay + 2000);
 }
@@ -1702,7 +1785,7 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     if (menuOn) {
         removeMenu(); // get rid of main menu
     }
-    
+
 
     cardTheme = cardThemeSelected;
     cardColor = cardColorSelected;
@@ -1711,7 +1794,7 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     gameActive = true;
     allowClick = false; //no card selection till cards are on the table
 
-    
+
     setTimeout(() => {
         displayRound();
     }, 500);
@@ -1720,8 +1803,8 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     //generate deck based on current theme
     let gameDeck = createGameDeck(cardTheme, cardColor, deckSize);
     selectCardsToMatch(gameDeck);
-        dealCardsToMatch(gameDeck, cardsToMatch);
-    
+    dealCardsToMatch(gameDeck, cardsToMatch);
+
     setTimeout(() => {
         dealPlayerCards(gameDeck);
     }, playerCardsDealDelay);
@@ -1743,14 +1826,14 @@ function createGameDeck(cardTheme, cardColor, deckSize) {
     for (card of tempDeck) {
         if ((card.category == cardTheme && card.color == cardColor) || (card.category == cardTheme && cardColor == 'all') ||
             (cardTheme == 'all' && cardColor == 'all') || (cardTheme == 'all' && card.color == cardColor)) {
-                gameDeck.push(card);
+            gameDeck.push(card);
         }
     }
 
     shuffleDeck(gameDeck); //shuffle the cards up randomly
-    
+
     //get rid of cards from the top of the stack will we are down to the requested gameDeck size
-    while(gameDeck.length > deckSize){
+    while (gameDeck.length > deckSize) {
         gameDeck.pop();
     }
 
@@ -1765,7 +1848,7 @@ function createGameDeck(cardTheme, cardColor, deckSize) {
 
 function selectCard(e) {
 
-    if(!allowClick){
+    if (!allowClick) {
         return;
     }
     allowClick = false;
@@ -1813,7 +1896,7 @@ function selectCard(e) {
                         console.log("you win this theme. well done !!")
                         //need logic to update high scores
                         gameActive = false;
-        currentRound = 1; // reset round back to 1
+                        currentRound = 1; // reset round back to 1
                         displayMenu();
                     }
                 }, 3000);
@@ -1832,8 +1915,8 @@ function selectCard(e) {
         //wait 3 seconds and reset
         setTimeout(() => {
             gameActive = false;
-        currentRound = 1; // reset round back to 1
-        burnCards();
+            currentRound = 1; // reset round back to 1
+            burnCards();
             displayMenu()
 
         }, 3000);
@@ -1887,7 +1970,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
     }
 
     const gameArea = document.getElementById('gameArea');
-    const cardsToMatchArea = document.getElementById('cardsToMatchArea');    
+    const cardsToMatchArea = document.getElementById('cardsToMatchArea');
     let delay; // used for timing
 
     for (let i = 0; i < cardsToMatch.length; i++) {
@@ -1899,7 +1982,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
             if (card.name == cardsToMatch[i].name && card.color == cardsToMatch[i].color) {
                 //thats the card we need to display
                 console.log(card);
-                
+
 
                 //create html elements
                 const cardContainer = document.createElement('div');
@@ -1917,6 +2000,10 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
 
                 cardBack.classList = "cardBack";
                 cardFace.classList = "cardFace";
+
+                setTimeout(() => {
+                    playAudio('', 'effect');
+                }, delay);
 
                 //need to optimize and find a solution here if time allows.
                 //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
@@ -1965,7 +2052,7 @@ function shuffleDeck(gameDeck) {
 }
 
 
-function endGame(){
+function endGame() {
     if (menuOn) {
         gameActive = false;
         removeMenu();
@@ -1978,11 +2065,11 @@ function endGame(){
         const totalElements = cardsToDel.length;
         let loopCount = 0;
         for (let i = 0; i < totalElements; i++) {
-    
+
             cardsToDel[0].remove();
             loopCount++;
         }
-        
+
     }, 1000);
 
     setTimeout(() => {
