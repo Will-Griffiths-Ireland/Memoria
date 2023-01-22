@@ -1606,6 +1606,7 @@ function playAudio(audioName, audioType) {
     if (audioType == 'music') {
         sound = document.getElementById(audioName);
         sound.volume = 1;
+        sound.load();
         sound.play();
         sound.loop = true;
     } else if (audioType == 'effect' && effectsOn == 'true') {
@@ -1616,6 +1617,7 @@ function playAudio(audioName, audioType) {
         audioEffect.classList = 'audioEffect';
         audioEffect.dataset.audioType = 'effect';
         body.appendChild(audioEffect);
+        audioEffect.load();
         audioEffect.play();
 
     }

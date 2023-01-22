@@ -30,7 +30,7 @@ body {
     z-index: 1;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
     body{
         overflow-y: hidden;
     overflow-x: hidden;
@@ -62,7 +62,7 @@ img {
     transition-duration: 250ms;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
 .welcomeText{
 
     color: #000;
@@ -85,7 +85,7 @@ img {
 
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
 
     #userName, #startButton, #continueButton, #resetButton{
         border-style: none;
@@ -98,7 +98,7 @@ img {
 #menuIconContainer{
 
     position: absolute;
-    display: block;
+    display: flex;
     justify-content: center;
     align-items: center;
     top: .2rem;
@@ -111,7 +111,7 @@ img {
     z-index: 60000;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
 
     #menuIconContainer{
 
@@ -127,7 +127,66 @@ img {
 #settingsIconContainer{
 
     position: absolute;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: .2rem;
+    left: 2.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    box-shadow: .25rem .25rem .25rem #000;
+    background-color: #908e8ef4;
+    z-index: 60000;
+
+}
+
+@media only screen and (min-width: 900px) {
+    #settingsIconContainer{
+        width: 4rem;
+        height: 4rem;
+        top: .5rem;
+        left: 5.5rem;
+        border-radius: 50%;
+        box-shadow: .25vw .25vw .25vw #000;
+    }
+
+}
+
+#helpIconContainer{
+
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: .2rem;
+    left: 4.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    box-shadow: .25rem .25rem .25rem #000;
+    background-color: #908e8ef4;
+    z-index: 60000;
+}
+
+@media only screen and (min-width: 900px) {
+
+    #helpIconContainer{
+
+        width: 4rem;
+        height: 4rem;
+        top: .5rem;
+        left: 10.5rem;
+        border-radius: 50%;
+        box-shadow: .25vw .25vw .25vw #000;
+    }
+        
+}
+
+#musicIconContainer{
+
+    position: absolute;
+    display: flex;
     justify-content: center;
     align-items: center;
     top: .2rem;
@@ -141,8 +200,8 @@ img {
 
 }
 
-@media only screen and (min-width: 600px) {
-    #settingsIconContainer{
+@media only screen and (min-width: 900px) {
+    #musicIconContainer{
         width: 4rem;
         height: 4rem;
         top: .5rem;
@@ -153,7 +212,7 @@ img {
 
 }
 
-#musicIconContainer{
+#audioIconContainer{
 
     position: absolute;
     display: flex;
@@ -170,19 +229,18 @@ img {
 
 }
 
-@media only screen and (min-width: 600px) {
-    #musicIconContainer{
+@media only screen and (min-width: 900px) {
+    #audioIconContainer{
         width: 4rem;
         height: 4rem;
         top: .5rem;
-        right: 5rem;
+        right: 5.5rem;
         border-radius: 50%;
         box-shadow: .25vw .25vw .25vw #000;
     }
-
 }
 
-#audioIconContainer{
+#lightDarkIconContainer{
 
     position: absolute;
     display: flex;
@@ -199,40 +257,12 @@ img {
 
 }
 
-@media only screen and (min-width: 600px) {
-    #audioIconContainer{
-        width: 4rem;
-        height: 4rem;
-        top: .5rem;
-        right: 9.5rem;
-        border-radius: 50%;
-        box-shadow: .25vw .25vw .25vw #000;
-    }
-}
-
-#lightDarkIconContainer{
-
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: .2rem;
-    right: 6.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    box-shadow: .25rem .25rem .25rem #000;
-    background-color: #908e8ef4;
-    z-index: 60000;
-
-}
-
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
     #lightDarkIconContainer{
         width: 4rem;
         height: 4rem;
         top: .5rem;
-        right: 14rem;
+        right: 10.5rem;
         border-radius: 50%;
         box-shadow: .25vw .25vw .25vw #000;
     }
@@ -249,7 +279,7 @@ img {
     transition-duration: 500ms;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
     .menuIcon{
 
         color: #fff;
@@ -264,7 +294,7 @@ img {
     transition-duration: 500ms;
     }
 
-    @media only screen and (min-width: 600px) {
+    @media only screen and (min-width: 900px) {
 
 
     }
@@ -292,7 +322,7 @@ img {
 }
 
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
     .mainMenu {
         position: relative;
         z-index: 20000;
@@ -320,7 +350,7 @@ img {
     letter-spacing: .5rem;
     text-align: center;
 }
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
     .menuTitle{
         font-size: 3rem;
         margin: 2.5rem;
@@ -346,7 +376,7 @@ img {
     transition-duration: 250ms;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
     .menuItem {
         font-size: 1.7rem;
         letter-spacing: .5rem;
@@ -488,17 +518,17 @@ img {
 }
 
 #roundDisplayContainer{
-    width: 10rem;
+    width: 100vw;
     height: 1.5rem;
     top: .2rem;
     display: flex;
     position: absolute;
     justify-content: center;
     align-items: center;
-    left: 2rem;
+    left: 0;
     z-index: 0;
 }
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
 #roundDisplayContainer{
     width: 100vw;
     height: 4rem;
@@ -518,7 +548,7 @@ img {
     display: block;
     text-align: center;
     color: #fff;
-    font-size: .7rem;
+    font-size: .5rem;
     z-index: 0;
     text-align: center;
     display: block;
@@ -529,7 +559,7 @@ img {
     padding-right: .5rem;
     margin: 0;
 }
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
 
     #roundDisplay {
 
@@ -538,7 +568,8 @@ img {
         margin: 0;
         display: block;
         text-align: center;
-        font-size: 2.5vw;
+        font-size: 2rem;
+        letter-spacing: .1rem;
     }
 
 }
@@ -571,7 +602,7 @@ img {
     z-index: 110;
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 900px) {
     .cardContainer {
         width: calc(84vw / 8);
     }
