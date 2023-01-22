@@ -9,9 +9,9 @@ let cardId = 0; //keep track of how many cards have been created in this session
 let audioCounter = 0; //global variable to track audio clips generated and create unique IDs
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
-let gameRounds = 16; //how many rounds to play in total
-let currentRound = 16; // always start with round 1
-let deckSize = 16; //control how big the player deck is
+let gameRounds = 8; //how many rounds to play in total
+let currentRound = 1; // always start with round 1
+let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
 let playerSelectedCards = []; // array that stores the cards the player has selected
@@ -25,7 +25,8 @@ let allowClick = true; // bool to stop click spamming issues
 let selectLocked = false; //block selecting cards till current move finished.
 let audioEffectsOn = false;
 let musicOn = 'true'; //using a string for local storage
-let backGroundColor = 'white';
+let currentMusic = 'menuMusic';
+let backGroundColor = '#ffffff';
 let currentPlayerName ='';
 
 
@@ -71,19 +72,21 @@ function setBackgroundColor(newColor)
 {
     //if no color is passed then switch between black and white
     if(!newColor){
-        if(backGroundColor == 'white')
+        if(backGroundColor == '#000000')
         {
-            document.querySelector('body').style.backgroundColor = '#000000';
-            backGroundColor = 'black';
-        }
-        else if(backGroundColor == 'black'){
             document.querySelector('body').style.backgroundColor = '#ffffff';
-            backGroundColor = 'white';
-
+            backGroundColor = '#ffffff';
+            localStorage.setItem('backGroundColor','#ffffff');
+        }
+        else if(backGroundColor == '#ffffff'){
+            
+            document.querySelector('body').style.backgroundColor = '#000000';
+            backGroundColor = '#000000';
+            localStorage.setItem('backGroundColor','#000000');
         }
     }
 
-    //may add theme color background later
+    //may add bg switching based on theme later
 
 }
 
@@ -93,6 +96,21 @@ function loadSettings(){
     if(localStorage.getItem('musicOn')){
         musicOn = localStorage.getItem('musicOn');
 
+        if(musicOn == 'true')
+        {
+            document.getElementById('musicIcon').innerText = 'music_note';
+        }
+        else if(musicOn == 'false')
+        {
+            document.getElementById('musicIcon').innerText = 'music_off';
+        }
+    }
+
+    //check for background preference
+    if(localStorage.getItem('backGroundColor')){
+    
+        backGroundColor = localStorage.getItem('backGroundColor');
+        document.querySelector('body').style.backgroundColor = backGroundColor;
     }
 
 }
@@ -102,16 +120,16 @@ function setMusicOnOff()
         if(musicOn == 'true')
         {
             document.getElementById('musicIcon').innerText = 'music_off';
-            fadeOutAudio('menuMusic')
-            musicOn = false;
+            fadeOutAudio(currentMusic);
+            musicOn = 'false';
             localStorage.setItem('musicOn', 'false');
-            fadeOutAudio('menuMusic')
         }
         else if(musicOn == 'false')
         {
             document.getElementById('musicIcon').innerText = 'music_note';
-            musicOn = true;
+            musicOn = 'true';
             localStorage.setItem('musicOn', 'true');
+            playAudio(currentMusic, 'music');
         }
 
         
@@ -124,14 +142,15 @@ function captureUsername() {
         
         currentPlayerName = localStorage.getItem('name');
         userCapture = document.createElement('div');
+        currentPlayerName = currentPlayerName.toUpperCase();
         userCapture.id = "userCapture";
     
             userCapture.innerHTML = `
             <form class="mainMenu">
-                <p class="welcomeText">Welcome back to Memoria<span class="bold"> ${currentPlayerName}</span>!</p>
-                <p class="welcomeText">Do you want to continue with your saved progress?</p>
-                <button id="continueButton" class="menuItem" type="submit" value="submit" onclick="storeName()">Continue</button>
-                <button id="resetButton" class="menuItem" onclick="resetGame()">Restart Game</button>
+                <p class="welcomeText">WELCOME BACK TO MEMORIA <span class="bold"> ${currentPlayerName}</span>!</p>
+                <p class="welcomeText">SHALL WE CONTINUE WITH YOUR SAVED GAME?</p>
+                <button id="continueButton" class="menuItem" type="submit" value="submit" onclick="storeName()">YES, CONTINUE</button>
+                <button id="resetButton" class="menuItem" onclick="resetGame()">NO, RESET GAME</button>
             </form>
             `;
         
@@ -144,10 +163,10 @@ function captureUsername() {
     
             userCapture.innerHTML = `
             <form class="mainMenu" onsubmit="storeName()">
-                <p class="welcomeText">Welcome to Memoria!</p>
-                <p class="welcomeText">Please enter your name and click start</p>
-                <input id="userName" class="menuItem" type="text" placeholder="Enter Name">
-                <button id="startButton" class="menuItem" type="submit" value="submit">Start</button>
+                <p class="welcomeText">WELCOME TO MEMORIA!</p>
+                <p class="welcomeText">PLEASE ENTER YOUR NAME AND CLICK SAVE</p>
+                <input id="userName" class="menuItem" type="text" placeholder="ENTER NAME">
+                <button id="startButton" class="menuItem" type="submit" value="submit">SAVE</button>
             </form>
             `;
         
@@ -210,7 +229,7 @@ function displaySettingsMenu(){
     settingsMenu.classList.add("mainMenu");
 
     settingsMenu.innerHTML = `
-                <h1>Settings</h1>
+                <h1 class=""menuTitle">Settings</h1>
                 <h2 class="menuItem" onclick="">Current Player Name - <span class="bold">${currentPlayerName}</span></h2>
                 <h2 class="menuItem" onclick="">Background Color - <span class="bold">${backGroundColor}</span></h2>
                 <h2 class="menuItem" onclick="">Card Image Quality - <span class="bold">${imageQuality}</span></h2>
@@ -260,28 +279,28 @@ function displayMenu() {
 
     if (gameActive) {
         mainM.innerHTML = `
-                <img src="./assets/images/memoria_logo2.webp" id="logo">
-                <h2 class="menuItem" onclick="endGame()">End Current Game</h2>
-                <h2 class="menuItem" onclick="displayMenu()">Continue Game</h2>
+                <h1 class="menuTitle">GAME IN PROGRESS</h1>
+                <h2 class="menuItem" onclick="endGame()">END GAME</h2>
+                <h2 class="menuItem" onclick="displayMenu()">CONTINUE GAME</h2>
                 `;
     } else {
         mainM.innerHTML = `
-                <img src="./assets/images/memoria_logo2.webp" id="logo">
-                <h2 class="menuItem" onclick="gameStart('spooky','orange',deckSize)">Spooky Cards</h2>
-                <h2 class="menuItem" onclick="gameStart('space','black',deckSize)">Space Cards</h2>
-                <h2 class="menuItem" onclick="gameStart('history','brown',deckSize)">History Cards</h2>
-                <h2 class="menuItem" onclick="gameStart('nature','green',deckSize)">Nature Cards</h2>
-                <h2 class="menuItem" onclick="gameStart('sea','blue',deckSize)">Sea Cards</h2>
-                <h2 class="menuItem" onclick="gameStart('science','red',deckSize)">Science Cards</h2>
-                <h2 class="menuItem" onclick="gameStart('emma','purple',deckSize)">Emma Cards</h2>
-                <h2 class="menuItem" onclick="gameStart('all','all','16')">Mixed Cards</h2>
-                <h2 class="menuItem" onclick="gameStart('all','white','16')">Mono Cards</h2>`;
+                <h1 class="menuTitle">SELECT A THEME</h1>
+                <h2 id="spookyMenuItem" class="menuItem" onclick="gameStart('spooky','orange',deckSize)">SPOOKY</h2>
+                <h2 id="spaceMenuItem" class="menuItem" onclick="gameStart('space','black',deckSize)">SPACE</h2>
+                <h2 id="historyMenuItem" class="menuItem" onclick="gameStart('history','brown',deckSize)">HISTORY</h2>
+                <h2 id="natureMenuItem" class="menuItem" onclick="gameStart('nature','green',deckSize)">NATURE</h2>
+                <h2 id="seaMenuItem" class="menuItem" onclick="gameStart('sea','blue',deckSize)">SEA</h2>
+                <h2 id="scienceMenuItem" class="menuItem" onclick="gameStart('science','red',deckSize)">SCIENCE</h2>
+                <h2 id="emmaMenuItem" class="menuItem" onclick="gameStart('emma','purple',deckSize)">EMMA</h2>
+                <h2 id="mixedMenuItem" class="menuItem" onclick="gameStart('all','all','16')">MIXED COLOURS</h2>
+                <h2 id="monoMenuItem" class="menuItem" onclick="gameStart('all','white','16')">MONO CARDS</h2>`;
     }
 
 
 
     gameArea.appendChild(mainM);
-    playAudio();
+    if(musicOn == 'true'){ playAudio('menuMusic','music')};
     menuOn = true;
 }
 
@@ -301,7 +320,10 @@ function displayRound(){
     let roundDisplayContainer = document.createElement('div');
     roundDisplayContainer.id = 'roundDisplayContainer';
     roundDisplayContainer.style.zIndex = '9';
-    roundDisplay.innerText = 'Round ' + currentRound;
+    let tempTheme = cardTheme.charAt(0).toUpperCase() + cardTheme.slice(1);
+    console.log(cardTheme);
+    console.log(tempTheme);
+    roundDisplay.innerText = tempTheme + ' Round ' + currentRound;
     roundDisplay.id = 'roundDisplay';
     roundDisplay.classList = 'fadeIn';
 
@@ -1525,9 +1547,13 @@ function fadeOutAudio(elementId){
 //creates an audio element and sets it playing
 function playAudio(audioName, audioType) {
 
-sound = document.getElementById('menuMusic');
-sound.play();
-sound.loop = true;
+if(audioType == 'music'){
+    sound = document.getElementById(audioName);
+    sound.volume = 1;
+    sound.play();
+    sound.loop = true;
+}    
+
 }
 
 //this function fade/burns the card by applying css to fade them out

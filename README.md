@@ -192,8 +192,8 @@ These are the technologies used for this project.
 
 - HTML5
 - CSS3
-- Javascript (Only for fontawesome)
-- Powerpoint
+- Javascript (vanilla)
+- Powerpoint (cards)
 - Balsamiq for wireframes
 - Paint.net (Image editing/sizing/compression)
 - XnCovert (image resizing)
@@ -202,6 +202,7 @@ These are the technologies used for this project.
 - Github for version control and deployment
 - Gitpod for development
 - FontAwesome for Icons
+- https://cssgradient.io/ (gradient code generator)
 
 ----
 
