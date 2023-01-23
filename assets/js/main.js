@@ -29,6 +29,7 @@ let backGroundColor = '#ffffff';
 let currentPlayerName = '';
 let iconsOn = 'true';
 let showingResetConfirm = false;
+let howToPlayScreenOn = false;
 
 
 const gameArea = document.getElementById("gameArea");
@@ -70,6 +71,60 @@ document.addEventListener("keydown", function (e) {
 //simple function to return a random number within a range
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
+}
+
+function displayHowToPlay(){
+
+    if (howToPlayScreenOn) {
+        playAudio('menu1','effect');
+        removeDisplayHowToPlay()
+        return;
+    }
+
+
+    if (menuOn) {
+        removeMenu();
+        setTimeout(() => {
+            playAudio('menu1','effect');
+            displayHowToPlay();
+        }, 1000);
+        return;
+    }
+    if (settingsMenuOn) {
+        removeSettingsMenu();
+        setTimeout(() => {
+            playAudio('menu1','effect');
+            displayHowToPlay();
+        }, 1000);
+        return;
+    }
+    playAudio('menu1','effect');
+
+    let gameArea = document.getElementById("gameArea");
+    let howToPlayScreen = document.createElement('div');
+    howToPlayScreen.id = "howToPlayScreen";
+    howToPlayScreen.classList.add("menuDrop");
+    howToPlayScreen.classList.add("mainMenu");
+
+    howToPlayScreen.innerHTML = `
+                <h1 class="menuTitle">HOW TO PLAY</h1>
+                <p class="welcomeText">1. SELECT A THEME</p>
+                <p class="welcomeText">2. WATCH THE TOP OF THE SCREEN, REMEMBER THE CARDS, AND THEIR ORDER</p>
+                <p class="welcomeText">3. WAIT FOR YOUR CARDS AT THE BOTTOM OF THE SCREEN TO FLIP, CLICK THEM IN THE MATCHING ORDER</p>
+                <p class="welcomeText">NOTE - BE PATIENT, YOU MUST WAIT FOR THE CARD TO BE CONFIRMED AND FLIPPED BEFORE YOU CAN CLICK THE NEXT</p>
+                `;
+    gameArea.appendChild(howToPlayScreen);
+    howToPlayScreenOn = true;
+
+}
+
+function removeDisplayHowToPlay() {
+    document.getElementById("howToPlayScreen").classList.remove("menuDrop");
+    document.getElementById("howToPlayScreen").classList.add("menuBurn");
+    setTimeout(() => {
+        document.getElementById("howToPlayScreen").remove();
+    }, 1000);
+    howToPlayScreenOn = false;
 }
 
 function displayIntro(){
@@ -326,8 +381,17 @@ function displaySettingsMenu() {
         return;
     }
 
+
     if (menuOn) {
         removeMenu();
+        setTimeout(() => {
+            playAudio('menu1','effect');
+            displaySettingsMenu();
+        }, 1000);
+        return;
+    }
+    if (howToPlayScreenOn) {
+        removeDisplayHowToPlay();
         setTimeout(() => {
             playAudio('menu1','effect');
             displaySettingsMenu();
@@ -472,6 +536,15 @@ function displayMenu() {
 
     if (settingsMenuOn) {
         removeSettingsMenu();
+        setTimeout(() => {
+            playAudio('menu1','effect');
+            displayMenu();
+        }, 1000);
+        return;
+    }
+
+    if (howToPlayScreenOn) {
+        removeDisplayHowToPlay();
         setTimeout(() => {
             playAudio('menu1','effect');
             displayMenu();
