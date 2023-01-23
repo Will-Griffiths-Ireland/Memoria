@@ -400,74 +400,94 @@ img {
 #spookyMenuItem{
     background-color: #FFA219;
     color: #fff;
+    width: 10rem;
 }
+
+@media only screen and (min-width: 900px) {#spookyMenuItem{ width: 25rem;} #spookyMenuItem:hover{letter-spacing: 1rem;}}
 #spookyMenuItem:hover{
-    letter-spacing: 1rem;
+    letter-spacing: .5rem;
     transition-duration: 250ms;
 }
+#spookyMenuItem:hover{letter-spacing: .5rem;}
 
 #spaceMenuItem{
     background-color: #000000;
     color: #fff;
+    width: 10rem;
 }
+@media only screen and (min-width: 900px) {#spaceMenuItem{ width: 25rem;} #spaceMenuItem:hover{letter-spacing: 1rem;}}
 #spaceMenuItem:hover{
-    letter-spacing: 1rem;
+    letter-spacing: .5rem;
     transition-duration: 250ms;
 }
 #historyMenuItem{
     background-color: #996600;
     color: #fff;
+    width: 10rem;
 }
+@media only screen and (min-width: 900px) {#historyMenuItem{ width: 25rem;} #historyMenuItem:hover{letter-spacing: 1rem;}}
 #historyMenuItem:hover{
-    letter-spacing: 1rem;
+    letter-spacing: .5rem;
     transition-duration: 250ms;
 }
 #natureMenuItem{
     background-color: #0D9D08;
     color: #fff;
+    width: 10rem;
 }
+@media only screen and (min-width: 900px) {#natureMenuItem{ width: 25rem;} #natureMenuItem:hover{letter-spacing: 1rem;}}
 #natureMenuItem:hover{
-    letter-spacing: 1rem;
+    letter-spacing: .5rem;
     transition-duration: 250ms;
 }
 #seaMenuItem{
     background-color: #0098FE;
     color: #fff;
+    width: 10rem;
 }
+@media only screen and (min-width: 900px) {#seaMenuItem{ width: 25rem;} #seaMenuItem:hover{letter-spacing: 1rem;}}
 #seaMenuItem:hover{
-    letter-spacing: 1rem;
+    letter-spacing: .5rem;
     transition-duration: 250ms;
 }
 #scienceMenuItem{
     background-color: #FE0002;
     color: #fff;
+    width: 10rem;
 }
+@media only screen and (min-width: 900px) {#scienceMenuItem{ width: 25rem;} #scienceMenuItem:hover{letter-spacing: 1rem;}}
 #scienceMenuItem:hover{
-    letter-spacing: 1rem;
+    letter-spacing: .5rem;
     transition-duration: 250ms;
 }
 #emmaMenuItem{
     background-color: #B100FD;
     color: #fff;
+    width: 10rem;
 }
+@media only screen and (min-width: 900px) {#emmaMenuItem{ width: 25rem;} #emmaMenuItem:hover{letter-spacing: 1rem;}}
 #emmaMenuItem:hover{
-    letter-spacing: 1rem;
+    letter-spacing: .5rem;
     transition-duration: 250ms;
 }
 #mixedMenuItem{
     background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(255,162,25,1) 15%, rgba(153,102,0,1) 30%, rgba(13,157,8,1) 45%, rgba(0,152,254,1) 60%, rgba(254,0,2,1) 79%, rgba(177,0,253,1) 100%);
     color: #fff;
+    width: 10rem;
 }
+@media only screen and (min-width: 900px) {#mixedMenuItem{ width: 25rem;} #mixedMenuItem:hover{letter-spacing: .8rem;}}
 #mixedMenuItem:hover{
-    letter-spacing: 1rem;
+    letter-spacing: .3rem;
     transition-duration: 250ms;
 }
 #monoMenuItem{
     background-color: #908e8e;
     color: #fff;
+    width: 10rem;
 }
+@media only screen and (min-width: 900px) {#monoMenuItem{ width: 25rem;} #monoMenuItem:hover{letter-spacing: 1rem;}}
 #monoMenuItem:hover{
-    letter-spacing: 1rem;
+    letter-spacing: .5rem;
     transition-duration: 250ms;
 }
 

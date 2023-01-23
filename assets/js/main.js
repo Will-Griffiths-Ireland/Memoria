@@ -23,7 +23,7 @@ let gameActive = false; // bool to track active game state
 let allowClick = true; // bool to stop click spamming issues 
 let selectLocked = false; //block selecting cards till current move finished.
 let effectsOn = 'true';
-let musicOn = 'true'; //using a string for local storage
+let musicOn = 'false'; //using a string for local storage
 let currentMusic = 'menuMusic';
 let backGroundColor = '#ffffff';
 let currentPlayerName = '';
@@ -93,13 +93,13 @@ function loadSettings() {
     //check to see if music preference was saved
     if (localStorage.getItem('musicOn')) {
         musicOn = localStorage.getItem('musicOn');
-
+    }
         if (musicOn == 'true') {
             document.getElementById('musicIcon').innerText = 'music_note';
-        } else if (musicOn == 'false') {
+        }
+        if (musicOn == 'false') {
             document.getElementById('musicIcon').innerText = 'music_off';
         }
-    }
 
     //check for audio effect preference
 
@@ -158,6 +158,9 @@ function setMusicOnOff() {
     if (musicOn == 'true') {
         document.getElementById('musicIcon').innerText = 'music_off';
         fadeOutAudio(currentMusic);
+        setTimeout(() => {
+            document.getElementById(currentMusic).pause();
+        }, 2000);
         musicOn = 'false';
         localStorage.setItem('musicOn', 'false');
     } else if (musicOn == 'false') {
@@ -1590,11 +1593,11 @@ function fadeOutAudio(elementId) {
         sound.volume = (volume / 100);
         console.log("Setting volume to " + volume);
 
-    }, 30);
+    }, 20);
 
     setTimeout(() => {
         clearInterval(fadeDown);
-    }, 3000);
+    }, 2000);
 
 }
 
