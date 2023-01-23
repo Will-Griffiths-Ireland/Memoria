@@ -6,8 +6,8 @@
     cursor: url(../images/cursor.png), pointer;
     margin: 0;
     font-family: 'Varela Round', sans-serif;
-    -webkit-user-select: none;
-    user-select: none;
+    /* -webkit-user-select: none;
+    user-select: none; */
 
     /* this code is part of testing for a mode to disable all animations */
 
@@ -364,7 +364,10 @@ img {
     font-size: .6rem;
     text-align: center;
     letter-spacing: .2rem;
-    display: block;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
     width: fit-content;
     background-color: #908e8ef4;
     box-shadow: .25rem .25rem .25rem #000;
@@ -386,7 +389,6 @@ img {
         padding-right: 2rem;
         margin: 1rem;
         text-align: center;
-        display: block;
         transition-duration: 250ms;
     }
 
@@ -403,94 +405,102 @@ img {
     width: 10rem;
 }
 
-@media only screen and (min-width: 900px) {#spookyMenuItem{ width: 25rem;} #spookyMenuItem:hover{letter-spacing: 1rem;}}
 #spookyMenuItem:hover{
     letter-spacing: .5rem;
     transition-duration: 250ms;
 }
 #spookyMenuItem:hover{letter-spacing: .5rem;}
+@media only screen and (min-width: 900px) {#spookyMenuItem{ width: 25rem;} #spookyMenuItem:hover{letter-spacing: 1rem;}}
 
 #spaceMenuItem{
     background-color: #000000;
     color: #fff;
     width: 10rem;
 }
-@media only screen and (min-width: 900px) {#spaceMenuItem{ width: 25rem;} #spaceMenuItem:hover{letter-spacing: 1rem;}}
 #spaceMenuItem:hover{
     letter-spacing: .5rem;
     transition-duration: 250ms;
 }
+@media only screen and (min-width: 900px) {#spaceMenuItem{ width: 25rem;} #spaceMenuItem:hover{letter-spacing: 1rem;}}
 #historyMenuItem{
     background-color: #996600;
     color: #fff;
     width: 10rem;
 }
-@media only screen and (min-width: 900px) {#historyMenuItem{ width: 25rem;} #historyMenuItem:hover{letter-spacing: 1rem;}}
 #historyMenuItem:hover{
     letter-spacing: .5rem;
     transition-duration: 250ms;
 }
+@media only screen and (min-width: 900px) {#historyMenuItem{ width: 25rem;} #historyMenuItem:hover{letter-spacing: 1rem;}}
 #natureMenuItem{
     background-color: #0D9D08;
     color: #fff;
     width: 10rem;
 }
-@media only screen and (min-width: 900px) {#natureMenuItem{ width: 25rem;} #natureMenuItem:hover{letter-spacing: 1rem;}}
 #natureMenuItem:hover{
     letter-spacing: .5rem;
     transition-duration: 250ms;
 }
+@media only screen and (min-width: 900px) {#natureMenuItem{ width: 25rem;} #natureMenuItem:hover{letter-spacing: 1rem;}}
 #seaMenuItem{
     background-color: #0098FE;
     color: #fff;
     width: 10rem;
 }
-@media only screen and (min-width: 900px) {#seaMenuItem{ width: 25rem;} #seaMenuItem:hover{letter-spacing: 1rem;}}
 #seaMenuItem:hover{
     letter-spacing: .5rem;
     transition-duration: 250ms;
 }
+@media only screen and (min-width: 900px) {#seaMenuItem{ width: 25rem;} #seaMenuItem:hover{letter-spacing: 1rem;}}
 #scienceMenuItem{
     background-color: #FE0002;
     color: #fff;
     width: 10rem;
 }
-@media only screen and (min-width: 900px) {#scienceMenuItem{ width: 25rem;} #scienceMenuItem:hover{letter-spacing: 1rem;}}
 #scienceMenuItem:hover{
     letter-spacing: .5rem;
     transition-duration: 250ms;
 }
+@media only screen and (min-width: 900px) {#scienceMenuItem{ width: 25rem;} #scienceMenuItem:hover{letter-spacing: 1rem;}}
 #emmaMenuItem{
     background-color: #B100FD;
     color: #fff;
     width: 10rem;
 }
-@media only screen and (min-width: 900px) {#emmaMenuItem{ width: 25rem;} #emmaMenuItem:hover{letter-spacing: 1rem;}}
 #emmaMenuItem:hover{
     letter-spacing: .5rem;
     transition-duration: 250ms;
 }
+@media only screen and (min-width: 900px) {#emmaMenuItem{ width: 25rem;} #emmaMenuItem:hover{letter-spacing: 1rem;}}
 #mixedMenuItem{
     background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(255,162,25,1) 15%, rgba(153,102,0,1) 30%, rgba(13,157,8,1) 45%, rgba(0,152,254,1) 60%, rgba(254,0,2,1) 79%, rgba(177,0,253,1) 100%);
     color: #fff;
     width: 10rem;
 }
-@media only screen and (min-width: 900px) {#mixedMenuItem{ width: 25rem;} #mixedMenuItem:hover{letter-spacing: .8rem;}}
 #mixedMenuItem:hover{
     letter-spacing: .3rem;
     transition-duration: 250ms;
 }
+@media only screen and (min-width: 900px) {#mixedMenuItem{ width: 25rem;} #mixedMenuItem:hover{letter-spacing: .8rem;}}
 #monoMenuItem{
     background-color: #908e8e;
     color: #fff;
     width: 10rem;
 }
-@media only screen and (min-width: 900px) {#monoMenuItem{ width: 25rem;} #monoMenuItem:hover{letter-spacing: 1rem;}}
 #monoMenuItem:hover{
     letter-spacing: .5rem;
     transition-duration: 250ms;
 }
+@media only screen and (min-width: 900px) {#monoMenuItem{ width: 25rem;} #monoMenuItem:hover{letter-spacing: 1rem;}}
 
+.awardIcon{
+    font-size: .7rem;
+}
+@media only screen and (min-width: 900px) {
+    .awardIcon{
+        font-size: 1.9rem;
+    }
+}
 
 
 .menuBurn {

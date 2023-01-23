@@ -9,7 +9,7 @@ let cardId = 0; //keep track of how many cards have been created in this session
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 8; //how many rounds to play in total
-let currentRound = 1; // always start with round 1
+let currentRound = 8; // always start with round 1
 let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
@@ -40,7 +40,6 @@ const gameArea = document.getElementById("gameArea");
 // shuffleDeck(gameDeck);
 // console.log("Here is a game deck just with spooky cards");
 // console.log( createGameDeck(cardTheme,cardColor) );
-
 
 //LISTENERS
 
@@ -193,7 +192,7 @@ function captureUsername() {
     if (localStorage.getItem('name')) {
 
         currentPlayerName = localStorage.getItem('name');
-        userCapture = document.createElement('div');
+        let userCapture = document.createElement('div');
         let currentPlayerNameTemp = currentPlayerName.toUpperCase();
         userCapture.id = "userCapture";
 
@@ -209,7 +208,7 @@ function captureUsername() {
         gameArea.appendChild(userCapture);
         userCapture.classList.add('menuDrop');
     } else {
-        userCapture = document.createElement('div');
+        let userCapture = document.createElement('div');
         userCapture.id = "userCapture";
 
         userCapture.innerHTML = `
@@ -306,6 +305,99 @@ function removeSettingsMenu() {
     settingsMenuOn = false;
 }
 
+// check best result
+
+function checkThemeAwards(cardTheme){
+
+    let themeAwardCheck = cardTheme + '_award';
+    let awards;
+
+    if (localStorage.getItem(themeAwardCheck))
+    {
+        if (localStorage.getItem(themeAwardCheck) == '1')
+        {
+            awards = `<span class="material-symbols-outlined awardIcon">stars</span>` 
+        }
+        if (localStorage.getItem(themeAwardCheck) == '2')
+        {
+            awards = `<span class="material-symbols-outlined awardIcon">stars</span><span class="material-symbols-outlined awardIcon">stars</span>` 
+        }
+        if (localStorage.getItem(themeAwardCheck) == '3')
+        {
+            awards = `<span class="material-symbols-outlined awardIcon">stars</span><span class="material-symbols-outlined awardIcon">stars</span><span class="material-symbols-outlined awardIcon">stars</span>` 
+        }
+    }
+    else{
+        awards = ``;
+    }
+
+   /// <span class="material-symbols-outlined">stars</span>
+    return awards;
+}
+/**
+ * When the player reaches a certain round we trigger this to update local storage with the award
+ * @param {String} cardTheme 
+ * @param {String} awardLevel 
+ * @returns 
+ */
+function setThemeAward(cardTheme, awardLevel){
+
+    if (checkThemeAwards(cardTheme) == ''){
+        localStorage.setItem(cardTheme + "_award", awardLevel);
+        return;
+    }
+    if (localStorage.getItem(cardTheme + "_award") == '1'){
+
+        if(awardLevel =='1')
+        {
+            return;
+        }
+        else{
+            localStorage.setItem(cardTheme + "_award", awardLevel);
+            return;
+        }  
+    }
+
+    if (localStorage.getItem(cardTheme + "_award") == '2'){
+
+        if(awardLevel =='1')
+        {
+            return;
+        }
+        if(awardLevel =='2')
+        {
+            return;
+        }
+        else{
+            localStorage.setItem(cardTheme + "_award", awardLevel);
+            return;
+        }  
+    }
+
+    if (localStorage.getItem(cardTheme + "_award") == '3'){
+
+        if(awardLevel =='1')
+        {
+            return;
+        }
+        if(awardLevel =='2')
+        {
+            return;
+        }
+        if(awardLevel =='2'){
+            localStorage.setItem(cardTheme + "_award", awardLevel);
+            return;
+        } 
+        else{
+            return;
+        } 
+    }
+    
+    
+    
+    let currentAwardLevel = localStorage.getItem(cardTheme + "_award");
+
+}
 
 //display the main menu
 
@@ -337,17 +429,38 @@ function displayMenu() {
                 <h2 class="menuItem" onclick="displayMenu()">CONTINUE GAME</h2>
                 `;
     } else {
+
+        let spooky = checkThemeAwards('spooky');
+        let space = checkThemeAwards('space');
+        let history = checkThemeAwards('history');
+        let nature = checkThemeAwards('nature');
+        let sea = checkThemeAwards('sea');
+        let science = checkThemeAwards('science');
+        let emma = checkThemeAwards('emma');
+        let mixed = checkThemeAwards('mixed');
+        let mono = checkThemeAwards('mono');
+
+        //hidden mode is shown to players with the name emma
+        let emmaMode = '';
+        if(currentPlayerName.toUpperCase() == 'EMMA')
+        {
+            emmaMode = `<h2 id="emmaMenuItem" class="menuItem" onclick="gameStart('emma','purple','8')">EMMA ${emma}</h2>`;
+        }
+        else{
+            emmaMode = ``;
+        }
+
         mainM.innerHTML = `
                 <h1 class="menuTitle">SELECT A THEME</h1>
-                <h2 id="spookyMenuItem" class="menuItem" onclick="gameStart('spooky','orange',deckSize)">SPOOKY</h2>
-                <h2 id="spaceMenuItem" class="menuItem" onclick="gameStart('space','black',deckSize)">SPACE</h2>
-                <h2 id="historyMenuItem" class="menuItem" onclick="gameStart('history','brown',deckSize)">HISTORY</h2>
-                <h2 id="natureMenuItem" class="menuItem" onclick="gameStart('nature','green',deckSize)">NATURE</h2>
-                <h2 id="seaMenuItem" class="menuItem" onclick="gameStart('sea','blue',deckSize)">SEA</h2>
-                <h2 id="scienceMenuItem" class="menuItem" onclick="gameStart('science','red',deckSize)">SCIENCE</h2>
-                <h2 id="emmaMenuItem" class="menuItem" onclick="gameStart('emma','purple',deckSize)">EMMA</h2>
-                <h2 id="mixedMenuItem" class="menuItem" onclick="gameStart('all','all','16')">MIXED COLOURS</h2>
-                <h2 id="monoMenuItem" class="menuItem" onclick="gameStart('all','white','16')">MONO CARDS</h2>`;
+                <h2 id="spookyMenuItem" class="menuItem" onclick="gameStart('spooky','orange','8')">SPOOKY ${spooky}</h2>
+                <h2 id="spaceMenuItem" class="menuItem" onclick="gameStart('space','black','8')">SPACE ${space}</h2>
+                <h2 id="historyMenuItem" class="menuItem" onclick="gameStart('history','brown','8')">HISTORY ${history}</h2>
+                <h2 id="natureMenuItem" class="menuItem" onclick="gameStart('nature','green','8')">NATURE ${nature}</h2>
+                <h2 id="seaMenuItem" class="menuItem" onclick="gameStart('sea','blue','8')">SEA ${sea}</h2>
+                <h2 id="scienceMenuItem" class="menuItem" onclick="gameStart('science','red','8')">SCIENCE ${science}</h2>
+                ${emmaMode}
+                <h2 id="mixedMenuItem" class="menuItem" onclick="gameStart('all','all','16')">MIXED ${mixed}</h2>
+                <h2 id="monoMenuItem" class="menuItem" onclick="gameStart('all','white','16')">MONO ${mono}</h2>`;
     }
 
 
@@ -1573,7 +1686,7 @@ function setupAudio() {
     let body = document.querySelector('body');
 
     let menuMusic = document.createElement('audio');
-    menuMusic.src = "./assets/audio/testMenuMusic.mp3";
+    menuMusic.src = "./assets/audio/menuMusic.mp3";
     menuMusic.id = 'menuMusic'
     menuMusic.dataset.audioType = 'music';
     body.appendChild(menuMusic);
@@ -1616,7 +1729,8 @@ function playAudio(audioName, audioType) {
 
         let body = document.querySelector('body');
         let audioEffect = document.createElement('audio');
-        audioEffect.src = "./assets/audio/card1.mp3";
+        audioEffect.src = "./assets/audio/" + audioName + ".mp3";
+        console.log(audioEffect.src);
         audioEffect.classList = 'audioEffect';
         audioEffect.dataset.audioType = 'effect';
         body.appendChild(audioEffect);
@@ -1744,7 +1858,7 @@ function dealPlayerCards(gameDeck) {
         cardFace.classList = "cardFace";
         cardContainer.addEventListener("click", selectCard);
         setTimeout(() => {
-            playAudio('', 'effect');
+            playAudio('card1', 'effect');
         }, delay);
 
 
@@ -1795,6 +1909,7 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     cardTheme = cardThemeSelected;
     cardColor = cardColorSelected;
     deckSize = deckSizeSelected;
+    gameRounds = deckSize;
     console.log("starting game with deckSize " + deckSize);
     gameActive = true;
     allowClick = false; //no card selection till cards are on the table
@@ -1880,6 +1995,7 @@ function selectCard(e) {
         cardTag = "cTM" + (totalSelectedCards + 1);
         console.log(cardTag);
         ++totalSelectedCards;
+        document.getElementById(cardTag).style.animationDelay = "0ms";
         document.getElementById(cardTag).classList.add("cardFlipped");
         document.getElementById(cardTag).classList.remove("cardFlippedBack");
         setTimeout(() => {
@@ -1889,16 +2005,22 @@ function selectCard(e) {
         if (totalSelectedCards == cardsToMatch.length) {
             console.log("Congrats you win this round");
             scatterWinSmiles(currentRound * 25);
+            playAudio('wellDone', 'effect')
             //wait 3 seconds and reset
             setTimeout(() => {
                 burnCards();
-                ++currentRound;
+                if(currentRound == 4) {setThemeAward(cardTheme, '1');}
+                if(currentRound == 6) {setThemeAward(cardTheme, '2');}
+                if(currentRound == 8) {setThemeAward(cardTheme, '3');}
                 allowClick = true;
+                ++currentRound;
                 setTimeout(() => {
                     if (currentRound < gameRounds) {
                         gameStart(cardTheme, cardColor, deckSize);
                     } else {
                         console.log("you win this theme. well done !!")
+                        playAudio('beatTheme', 'effect');
+                        setThemeAward(cardTheme, '3');
                         //need logic to update high scores
                         gameActive = false;
                         currentRound = 1; // reset round back to 1
@@ -1911,6 +2033,7 @@ function selectCard(e) {
 
     } else {
         console.log("You failed!!!!")
+        playAudio('roundLoose', 'effect')
         const cardsToFlip = document.getElementsByClassName("cardsToMatch");
         for (card of cardsToFlip) {
             card.classList.add("cardFlipped");
@@ -2007,7 +2130,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
                 cardFace.classList = "cardFace";
 
                 setTimeout(() => {
-                    playAudio('', 'effect');
+                    playAudio('card1', 'effect');
                 }, delay);
 
                 //need to optimize and find a solution here if time allows.
