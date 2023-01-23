@@ -42,12 +42,15 @@ const gameArea = document.getElementById("gameArea");
 // console.log("Here is a game deck just with spooky cards");
 // console.log( createGameDeck(cardTheme,cardColor) );
 
-//LISTENERS
+//Onload functions
 
-document.onload = captureUsername();
-document.onload = setupAudio();
-document.onload = loadSettings();
+// document.onload = captureUsername();
+// document.onload = setupAudio();
+// document.onload = loadSettings();
 document.onload = showHideMenuIcons();
+
+document.onload = displayIntro();
+
 
 //show menu if escape is pressed and remove it if escape is pressed again
 document.addEventListener("keydown", function (e) {
@@ -67,6 +70,39 @@ document.addEventListener("keydown", function (e) {
 //simple function to return a random number within a range
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
+}
+
+function displayIntro(){
+
+    let introArea = document.createElement('div');
+    introArea.id = "introArea";
+    introArea.style.width = "100vw";
+    introArea.style.height = "100vh";
+    introArea.style.display = "absolute";
+    introArea.style.top = "0";
+    introArea.style.left = "0";
+    document.querySelector('body').appendChild(introArea);
+
+    let introDeck = createGameDeck('all', 'all', '16');
+    let i =1;
+    for(let card of introDeck){
+
+        let newCard = document.createElement('img');
+        newCard.src = card.faceImgSrc;
+        if(i ==16){newCard.src = card.backImgSrc;}
+        newCard.id = "c" + i;
+        introArea.appendChild(newCard);
+        i++;
+    }
+
+    let clickToContinue = document.createElement('h1');
+    clickToContinue.classList = "menuItem";
+    clickToContinue.id = "clickToContinue";
+    clickToContinue.innerText = "CLICK TO PLAY";
+    clickToContinue.setAttribute('onclick', 'captureUsername()');
+    introArea.appendChild(clickToContinue);
+
+
 }
 
 function setBackgroundColor(newColor) {
@@ -188,6 +224,14 @@ function setEffectsOnOff() {
 }
 
 function captureUsername() {
+
+    if(document.getElementById('introArea'))
+    {
+        document.getElementById('introArea').classList.add('burnUpQuick');
+        setTimeout(() => {
+            document.getElementById('introArea').remove();
+        }, 1000);
+    }
 
     //check to see if we have a username stored
     if(!showingResetConfirm){
@@ -533,7 +577,7 @@ function scatterWinSmiles(count) {
     for (let i = 0; i < count; i++) {
 
         //choosing random widths based on screen res
-        if (window.innerWidth > 600) {
+        if (window.innerWidth > 900) {
             randWidth = randomNumber(4, 11);
         } else {
             randWidth = randomNumber(10, 20);
@@ -2028,7 +2072,7 @@ function selectCard(e) {
 
         if (totalSelectedCards == cardsToMatch.length) {
             console.log("Congrats you win this round");
-            scatterWinSmiles(currentRound * 25);
+            scatterWinSmiles(currentRound * 5);
             playAudio('wellDone', 'effect')
             //wait 3 seconds and reset
             setTimeout(() => {
@@ -2226,7 +2270,6 @@ function endGame() {
 
     setTimeout(() => {
         document.querySelector('body').classList.remove('burnGameArea');
-        console.log("trying to unburn playaear");
         document.getElementById('roundDisplayContainer').remove();
         gameActive = false;
         currentRound = 1; // reset round back to 1

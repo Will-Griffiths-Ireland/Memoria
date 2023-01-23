@@ -1,11 +1,11 @@
 
 # Memoria
-## **Site Overview**
+## **Game Overview**
 
-This site is a demonstration of my Javascript skills, presented through an interactive website in HTML5 & CSS3
+This game is a demonstration of my Javascript skills, presented through an interactive website in pure HTML5 & CSS3.
 
-Memoria is a card based memory reaction game that aims to be family friendly.
-The game uses a combination of card themes and colors
+Memoria is a vibrant card based memory reaction game that aims to be family friendly.
+The game uses a combination of card themes with distinctive iconography 
 ​
 
 
@@ -13,29 +13,20 @@ The game uses a combination of card themes and colors
 #### [The deployed website is here on GitHub Pages](https://will-griffiths-ireland.github.io/Memoria/)​
 
 ## Table of contents:
-1. [**Site Overview**](#site-overview)
+1. [**Game Overview**](#game-overview)
 1. [**Planning stage**](#planning-stage)
     * [***Planning Overview***](#planning-overview)
     * [***Target Audiences***](#target-audiences)
     * [***User Stories***](#user-stories)
-    * [***Site Aims***](#site-aims)
+    * [***Game Aims***](#Game-aims)
     * [***Wireframes***](#wireframes)
     * [***Color Scheme***](#color-scheme)
     * [***Typography***](#typography)
-1. [**Site-Wide Features**](#site-wide-features)
-    * [***Site Logo***](#site-logo)
-    * [***Navigation Bar***](#navigation-bar)
+1. [**Game Features**](#site-wide-features)
+    * [***Player Name***](#player-name)
+    * [***Theme Menu***](#theme-menu)
     * [***Page Background***](#page-background)
-    * [***Footer***](#footer)
     * [***Navigation Flow***](#navigation-flow)
-1. [**Individual Page Content features**](#individual-page-content-features)
-    * [***Intro Page Content***](#intro-page-content)
-    * [***Mission Page Content***](#mission-page-content)
-    * [***Mars Page Content***](#mars-page-content)
-    * [***Ship Page Content***](#ship-page-content)
-    * [***Trip Page Content***](#trip-page-content)
-    * [***FAQ Page Content***](#faq-page-content)
-    * [***Sign-up Page Content***](#sign-up-page-content)
 1. [**Testing Phase**](#testing-phase)
     * [***Validators***](#validators)
 1. [**Deployment**](#deployment)
@@ -57,25 +48,39 @@ The game uses a combination of card themes and colors
 
 My aim with the game was to create something simple and engaging for younger children to develop visual memory skills.
 
-* ?
+There are benefits to both children and adults when they engage in an activity that stimulates memory.
+When planning Memoria I kept my focus on the player and making a memory game that had a really simple core gameplay loop, but had an increasing memory challenge factor.
+My main aims for the game were…
+
+* Clean interface to emulate a big tidy table
+* Distinctive cards with the same ‘feel’ as regular playing cards
+* Multiple themes for cards of different colours
+* Easily rememberable icons
+* Engaging animations that add to the player experience
+* Progression in difficulty with rewards
+* Storing player details, settings, and progression
+* A super hard mode for the ultimate test
+
 
 ### **Target Audiences:**
 
-* ??
+* Children of any ability level
+* Adults looking for a quick game with a challenge
+* Adults with neurological conditions, such as Alzheimer's or dementia that can benefit from cognitive stimulation
 
 ### **User Stories:**
 
-* As a user, I want to page to load quickly on my device
-* As a user, I want a fun experience
+* As a user, I want to game to load quickly on my device
+* As a user, I want a fun and engaging experience
 * As a user, I want to have a clear objective that provides a challenge
 * as a user, I want progression and reward
 * as a user, I want to save my game settings
-* as a user, I want to save my game progress
+* as a user, I want to configure the game to match my devices abilities
 * as a user, I want quick access to control audio
 
-### **Site Aims:**
+### **Game Aims:**
 
-* ??
+* The game should, display cleanly
 
 ### **Wireframes:**
 
@@ -83,7 +88,7 @@ My aim with the game was to create something simple and engaging for younger chi
 ​
 ### **Color Scheme:**
 
-??
+The star of the game is the cards and I've done my best to create vibrant assets with depth and character
 
 ### **Typography**
 ​
@@ -97,7 +102,6 @@ My aim with the game was to create something simple and engaging for younger chi
 
 ### **Intro Page Content**
 
-I used index.html as an intro page to capture the users attention and generate a "wow" factor about Mars
 
 * ??
 
@@ -203,6 +207,7 @@ These are the technologies used for this project.
 - Gitpod for development
 - FontAwesome for Icons
 - https://cssgradient.io/ (gradient code generator)
+- https://favicon.io/favicon-generator/ 
 
 ----
 

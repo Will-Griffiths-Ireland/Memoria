@@ -741,6 +741,13 @@ img {
     animation-fill-mode: forwards;
 }
 
+.burnUpQuick {
+
+    animation-name: fadeOut;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
 .burnGameArea{
     opacity: 0;
     transition-duration: 1s;
@@ -755,5 +762,196 @@ img {
     100% {
         transform: scale(0);
         opacity: 0;
+    }
+}
+
+
+/* styles for intro cards*/
+
+#introArea{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#c1 {
+    position: absolute;
+    rotate: -1deg;
+    width: 35%;
+    z-index: 5;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 2000ms;  
+}
+
+#c2 {
+    position: absolute;
+    rotate: 2deg;
+    width: 35%;
+    z-index: 6;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 2100ms;     
+}
+#c3 {
+    position: absolute;
+    rotate: 0deg;
+    width: 35%;
+    z-index: 7;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 2200ms;     
+}
+#c4 {
+    position: absolute;
+    rotate: -2deg;
+    width: 35%;
+    z-index: 8; 
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 2300ms;    
+}
+#c5 {
+    position: absolute;
+    rotate: 1.5deg;
+    width: 35%;
+    z-index: 9;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 2400ms;     
+}
+#c6 {
+    position: absolute;
+    rotate: -.5deg;
+    width: 35%;
+    z-index: 10;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 2500ms;     
+}
+#c7 {
+    position: absolute;
+    rotate: 1.4deg;
+    width: 35%;
+    z-index: 11;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 2600ms;     
+}
+#c8 {
+    position: absolute;;
+    rotate: 0.2deg;
+    width: 35%;
+    z-index: 12;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 2700ms;     
+}
+#c9 {
+    position: absolute;
+    rotate: -1deg;
+    width: 35%;
+    z-index: 13;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 2800ms;     
+}
+#c10 {
+    position: absolute;
+    rotate: 1.2deg;
+    width: 35%;
+    z-index: 14;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 2900ms;     
+}
+#c11 {
+    position: absolute;
+    rotate: -.5deg;
+    width: 35%;
+    z-index: 15;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 3000ms;     
+}
+#c12 {
+    position: absolute;
+    rotate: 0deg;
+    width: 35%;
+    z-index: 16;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 3100ms;     
+}
+#c13 {
+    position: absolute;
+    rotate: 1deg;
+    width: 35%;
+    z-index: 16;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 3200ms;     
+}
+#c14 {
+    position: absolute;
+    rotate: -.7deg;
+    width: 35%;
+    z-index: 17;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 3300ms;     
+}
+#c15 {
+    position: absolute;
+    rotate: 0deg;
+    width: 35%;
+    z-index: 18;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 100ms;
+    animation-delay: 3400ms;     
+}
+#c16 {
+    position: absolute;
+    rotate: 0deg;
+    width: 35%;
+    z-index: 19;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 1000ms;
+    animation-delay: 3500ms;     
+}
+
+#clickToContinue{
+    position: absolute;
+    bottom: 2vh;
+    z-index: 20;
+    animation-delay: 4000ms;
+    animation-name: dropInIntro;
+    animation-fill-mode: both;
+    animation-duration: 1000ms;
+}
+
+@keyframes dropInIntro {
+    0% {
+        transform: scale(4);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }
