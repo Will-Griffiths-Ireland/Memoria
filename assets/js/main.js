@@ -90,6 +90,7 @@ function displayHowToPlay() {
                 <p class="welcomeText">1. SELECT A THEME</p>
                 <p class="welcomeText">2. WATCH THE TOP OF THE SCREEN, REMEMBER THE CARDS, AND THEIR ORDER</p>
                 <p class="welcomeText">3. WAIT FOR YOUR CARDS AT THE BOTTOM OF THE SCREEN TO FLIP, CLICK THEM IN THE MATCHING ORDER</p>
+                <p class="welcomeText">4. TRY AND BEST EVERY THEME. 4 CARD STREAK UNLOCKS 1 STAR, 6 IS 2 STARS, AND 8 IS 3 STARS</p>
                 <p class="welcomeText">NOTE - BE PATIENT, YOU MUST WAIT FOR THE CARD TO BE CONFIRMED AND FLIPPED BEFORE YOU CAN CLICK THE NEXT</p>
                 `;
     gameArea.appendChild(howToPlayScreen);
@@ -114,7 +115,9 @@ function displayIntro() {
     introArea.style.top = "0";
     introArea.style.left = "0";
     document.querySelector('body').appendChild(introArea);
+    imageQuality = 'medium';
     let introDeck = createGameDeck('all', 'all', '16');
+    
     let i = 1;
     for (let card of introDeck) {
         let newCard = document.createElement('img');
@@ -149,6 +152,7 @@ function setBackgroundColor(newColor) {
         }
     }
 }
+
 function loadSettings() {
     //check to see if music preference was saved
     if (localStorage.getItem('musicOn')) {
@@ -171,7 +175,7 @@ function loadSettings() {
             document.getElementById('effectsIcon').innerText = 'volume_off';
         }
         //check for background preference
-    if (localStorage.getItem('backGroundColor')) {
+        if (localStorage.getItem('backGroundColor')) {
             backGroundColor = localStorage.getItem('backGroundColor');
             document.querySelector('body').style.backgroundColor = backGroundColor;
         }
@@ -254,8 +258,7 @@ function captureUsername() {
             </div>`;
             gameArea.appendChild(userCapture);
             userCapture.classList.add('menuDrop');
-        }
-        else {
+        } else {
             let userCapture = document.createElement('div');
             userCapture.id = "userCapture";
             userCapture.innerHTML = `
@@ -496,6 +499,7 @@ function displayMenu() {
     };
     menuOn = true;
 }
+
 function removeMenu() {
     document.getElementById("mainMenu").classList.remove("menuDrop");
     document.getElementById("mainMenu").classList.add("menuBurn");
@@ -504,6 +508,7 @@ function removeMenu() {
     }, 1000);
     menuOn = false;
 }
+
 function displayRound() {
     //Display current round
     let roundDisplay = document.createElement('h1');
@@ -525,6 +530,7 @@ function displayRound() {
     document.querySelector('body').appendChild(roundDisplayContainer);
     document.getElementById('roundDisplayContainer').appendChild(roundDisplay);
 }
+
 function scatterWinSmiles(count) {
     let randWidth;
     let top;
@@ -1693,17 +1699,13 @@ function buildCardObjectArray(imageQuality, backOfCardType) {
 }
 
 function setupAudio() {
-
     let body = document.querySelector('body');
-
     let menuMusic = document.createElement('audio');
     menuMusic.src = "./assets/audio/menuMusic.mp3";
     menuMusic.id = 'menuMusic'
     menuMusic.dataset.audioType = 'music';
     body.appendChild(menuMusic);
-
 }
-
 
 function fadeOutAudio(elementId) {
     //grab passed element and then loop through reducing volume by 10% every 100ms
@@ -1750,24 +1752,20 @@ function burnCards() {
     //reset vars
     totalSelectedCards = 0;
     playerSelectedCards = [];
-
     const cardsToBurn = document.getElementsByClassName('cardContainer');
     const smilesToBurn = document.getElementsByClassName('winSmile');
     const backFaces = document.getElementsByClassName('cardBack');
     const frontFaces = document.getElementsByClassName('cardFace');
     const totalToDel = backFaces.length;
-
     for (let i = 0; i < totalToDel; i++) {
         frontFaces[0].classList.add("cardFaceDel");
         frontFaces[0].classList.remove("cardFace");
         backFaces[0].remove();
     }
-
     //burn the round counter elements
     if (document.getElementById('roundDisplayContainer')) {
         document.getElementById('roundDisplayContainer').classList.add('burnUp');
     }
-
     for (let card of cardsToBurn) {
         // console.log("Adding burnUp class to card - " + card.id);
         card.style.animationDelay = '0ms';
@@ -1780,8 +1778,6 @@ function burnCards() {
         smile.style.animationDuration = '2000ms';
         smile.classList.add('burnUp');
     }
-
-
     setTimeout(delCards, 2000);
     // playAudio('burn_cards');
 }
@@ -1796,50 +1792,34 @@ function delCards() {
 
     const cardsToDel = document.getElementsByClassName('burnUp');
     const audioToDel = document.getElementsByClassName('audioEffect');
-
     const totalElements = cardsToDel.length;
-
     console.log("delCards() removing a total of " + totalElements);
     for (let i = 0; i < totalElements; i++) {
         console.log("Removing - " + i + " " + cardsToDel[0].id);
         cardsToDel[0].remove();
     }
-
     const totalAudioElements = audioToDel.length;
-
     for (let i = 0; i < totalAudioElements; i++) {
         audioToDel[0].remove();
     }
-
 }
 
 //build players deck and lay them out on the screen
 
 function dealPlayerCards(gameDeck) {
-
     if (!gameActive) {
         return;
     };
-
     if (!gameDeck) {
         console.log("You didn't pass me cards to deal");
         return;
     }
     let delay; //used for timing and blocking
-
     const playerCardsArea = document.getElementById('playerCardsArea');
-
     for (let i = 0; i < gameDeck.length; i++) {
-
-
-
-        //work out placement of cards based on how many are being dealt
-        //create html elements
-
         const cardContainer = document.createElement('div');
         const cardFace = document.createElement('img');
         const cardBack = document.createElement('img');
-        //set the related images
         cardFace.src = gameDeck[i].faceImgSrc;
         cardBack.src = gameDeck[i].backImgSrc;
         cardContainer.dataset.cardName = gameDeck[i].name;
@@ -1847,47 +1827,32 @@ function dealPlayerCards(gameDeck) {
         cardContainer.dataset.cardTheme = gameDeck[i].category;
         delay = 500 + (i * 250);
         cardContainer.style.animationDelay = delay + "ms"; //stagger animation for dropping in the cards
-
         cardBack.classList = "cardBack";
         cardFace.classList = "cardFace";
         cardContainer.addEventListener("click", selectCard);
         setTimeout(() => {
             playAudio('card1', 'effect');
         }, delay);
-
-
         //need to optimize and find a solution here if time allows.
         //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
         //this technique works for now where we trigger a delayed function to switch out style classes
-        setTimeout(fCard, (delay + 1000));
-
-        function fCard() {
+        setTimeout(() => {
             if (!gameActive) {
                 return;
             }
             cardContainer.classList.remove("dropIn");
             cardContainer.classList.add("cardFlipped");
-
-        }
-
+        }, delay + 1000);
         playerCardsArea.appendChild(cardContainer);
         cardContainer.appendChild(cardBack);
         cardContainer.appendChild(cardFace);
         cardContainer.classList = "dropIn cardContainer";
-
-
-
     }
-
     //allow user to select card
     setTimeout(() => {
-
         allowClick = true;
     }, delay + delay + 2000);
 }
-
-
-
 /**
  * 
  * @param {string} cardThemeSelected 
@@ -1895,12 +1860,9 @@ function dealPlayerCards(gameDeck) {
  * @param {number} deckSizeSelected 
  */
 function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
-
     if (menuOn) {
         removeMenu(); // get rid of main menu
     }
-
-
     cardTheme = cardThemeSelected;
     cardColor = cardColorSelected;
     deckSize = deckSizeSelected;
@@ -1911,54 +1873,35 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     }
     gameActive = true;
     allowClick = false; //no card selection till cards are on the table
-
-
     setTimeout(() => {
         displayRound();
     }, 500);
-
-
     //generate deck based on current theme
     let gameDeck = createGameDeck(cardTheme, cardColor, deckSize);
     selectCardsToMatch(gameDeck);
     dealCardsToMatch(gameDeck, cardsToMatch);
-
     setTimeout(() => {
         dealPlayerCards(gameDeck);
     }, playerCardsDealDelay);
-
-
-
-
 }
 // build a deck with the cards required for the theme of this game
 function createGameDeck(cardTheme, cardColor, deckSize) {
-
     console.log("createGameDeck called and 'deckSize' = " + deckSize);
     console.log("createGameDeck called and 'theme' = " + cardTheme);
     console.log("createGameDeck called and 'color' = " + cardColor);
     let tempDeck = buildCardObjectArray(imageQuality, backOfCardType);
-
     let gameDeck = [];
-
     for (card of tempDeck) {
         if ((card.category == cardTheme && card.color == cardColor) || (card.category == cardTheme && cardColor == 'all') ||
             (cardTheme == 'all' && cardColor == 'all') || (cardTheme == 'all' && card.color == cardColor)) {
             gameDeck.push(card);
         }
     }
-
     shuffleDeck(gameDeck); //shuffle the cards up randomly
-
     //get rid of cards from the top of the stack will we are down to the requested gameDeck size
     while (gameDeck.length > deckSize) {
         gameDeck.pop();
     }
-
-
-    console.log("here is the final deck - ");
-    console.log(gameDeck);
-
     return gameDeck;
 }
 
@@ -1970,7 +1913,6 @@ function selectCard(e) {
         return;
     }
     allowClick = false;
-
     let target = e.target.parentElement;
     let cardTag;
     console.log(target);
@@ -1980,13 +1922,10 @@ function selectCard(e) {
         "color": target.dataset['cardColor']
     }
     playerSelectedCards.push(tempCard);
-
     //add a visual cue that the card is selected
     target.classList.add("cardSelected");
-
     console.log("Here is the current player selected cards")
     console.log(playerSelectedCards);
-
     if (playerSelectedCards[totalSelectedCards].name == cardsToMatch[totalSelectedCards].name &&
         playerSelectedCards[totalSelectedCards].color == cardsToMatch[totalSelectedCards].color) {
         console.log("Correct card selected")
@@ -1999,7 +1938,6 @@ function selectCard(e) {
         setTimeout(() => {
             allowClick = true;
         }, 1000);
-
         if (totalSelectedCards == cardsToMatch.length) {
             scatterWinSmiles(currentRound * 10);
             playAudio('wellDone', 'effect')
@@ -2031,7 +1969,6 @@ function selectCard(e) {
                 }, 3000);
             }, 5000);
         }
-
     } else {
         console.log("You failed!!!!")
         playAudio('roundLoose', 'effect')
@@ -2153,17 +2090,10 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
                 cardContainer.appendChild(cardFace);
                 cardContainer.classList = "dropIn cardContainer cardsToMatch";
             }
-
             playerCardsDealDelay = (delay * 3) + 2000 + 500; // trying to set the overall time delay needed to deal the players cards
-
         }
-
-
     }
-
 }
-
-
 //function to shuffle deck. Uses fisher yates algo
 
 function shuffleDeck(gameDeck) {
@@ -2186,20 +2116,15 @@ function endGame() {
         removeMenu();
     };
     document.querySelector('body').classList.add('burnGameArea');
-
-
     setTimeout(() => {
         const cardsToDel = document.getElementsByClassName('cardContainer');
         const totalElements = cardsToDel.length;
         let loopCount = 0;
         for (let i = 0; i < totalElements; i++) {
-
             cardsToDel[0].remove();
             loopCount++;
         }
-
     }, 1000);
-
     setTimeout(() => {
         document.querySelector('body').classList.remove('burnGameArea');
         document.getElementById('roundDisplayContainer').remove();

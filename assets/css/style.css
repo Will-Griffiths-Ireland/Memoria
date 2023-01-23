@@ -53,7 +53,7 @@ img {
     color: #000;
     font-size: 1rem;
     letter-spacing: .2rem;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 1.5rem;
     text-align: center;
     display: block;
@@ -67,8 +67,8 @@ img {
 
     color: #000;
     font-size: 1.5rem;
-    letter-spacing: .5rem;
-    font-weight: 400;
+    letter-spacing: .3rem;
+    font-weight: 600;
     line-height: 2.4rem;
     text-align: center;
     display: block;
@@ -784,7 +784,10 @@ img {
 #c1 {
     position: absolute;
     rotate: -1deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 5;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -795,7 +798,10 @@ img {
 #c2 {
     position: absolute;
     rotate: 2deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 6;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -805,7 +811,10 @@ img {
 #c3 {
     position: absolute;
     rotate: 0deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 7;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -815,7 +824,10 @@ img {
 #c4 {
     position: absolute;
     rotate: -2deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 8; 
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -825,7 +837,10 @@ img {
 #c5 {
     position: absolute;
     rotate: 1.5deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 9;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -835,7 +850,10 @@ img {
 #c6 {
     position: absolute;
     rotate: -.5deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 10;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -845,7 +863,10 @@ img {
 #c7 {
     position: absolute;
     rotate: 1.4deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 11;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -855,7 +876,10 @@ img {
 #c8 {
     position: absolute;;
     rotate: 0.2deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 12;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -865,7 +889,10 @@ img {
 #c9 {
     position: absolute;
     rotate: -1deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 13;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -875,7 +902,10 @@ img {
 #c10 {
     position: absolute;
     rotate: 1.2deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 14;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -885,7 +915,10 @@ img {
 #c11 {
     position: absolute;
     rotate: -.5deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 15;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -895,7 +928,10 @@ img {
 #c12 {
     position: absolute;
     rotate: 0deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 16;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -905,7 +941,10 @@ img {
 #c13 {
     position: absolute;
     rotate: 1deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 16;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -915,7 +954,10 @@ img {
 #c14 {
     position: absolute;
     rotate: -.7deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 17;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -925,7 +967,10 @@ img {
 #c15 {
     position: absolute;
     rotate: 0deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 18;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -935,7 +980,10 @@ img {
 #c16 {
     position: absolute;
     rotate: 0deg;
-    width: 35%;
+    width: auto;
+    max-width: 80vw;
+    height: auto;
+    max-height: 80vh;
     z-index: 19;
     animation-name: dropInIntro;
     animation-fill-mode: both;
@@ -947,6 +995,11 @@ img {
     position: absolute;
     bottom: 2vh;
     z-index: 20;
+    background-color: #fff;
+    color: #000000;
+    border-color: #000000;
+    border-width: .5rem;
+    font-size: 2rem;
     animation-delay: 1500ms;
     animation-name: dropInIntro;
     animation-fill-mode: both;
