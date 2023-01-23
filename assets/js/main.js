@@ -9,7 +9,7 @@ let cardId = 0; //keep track of how many cards have been created in this session
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 8; //how many rounds to play in total
-let currentRound = 8; // always start with round 1
+let currentRound = 1; // always start with round 1
 let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
@@ -28,6 +28,7 @@ let currentMusic = 'menuMusic';
 let backGroundColor = '#ffffff';
 let currentPlayerName = '';
 let iconsOn = 'true';
+let showingResetConfirm = false;
 
 
 const gameArea = document.getElementById("gameArea");
@@ -189,6 +190,7 @@ function setEffectsOnOff() {
 function captureUsername() {
 
     //check to see if we have a username stored
+    if(!showingResetConfirm){
     if (localStorage.getItem('name')) {
 
         currentPlayerName = localStorage.getItem('name');
@@ -197,12 +199,12 @@ function captureUsername() {
         userCapture.id = "userCapture";
 
         userCapture.innerHTML = `
-            <form class="mainMenu">
+            <div class="mainMenu">
                 <p class="welcomeText">WELCOME BACK TO MEMORIA <span class="bold"> ${currentPlayerNameTemp}</span>!</p>
                 <p class="welcomeText">SHALL WE CONTINUE WITH YOUR SAVED GAME?</p>
-                <button id="continueButton" class="menuItem" type="submit" value="submit" onclick="storeName()">YES, CONTINUE</button>
-                <button id="resetButton" class="menuItem" onclick="resetGame()">NO, RESET GAME</button>
-            </form>
+                <button id="continueButton" class="menuItem" onclick="storeName()">YES, CONTINUE</button>
+                <button id="resetButton" class="menuItem" onclick="resetGame('maybe')">NO, RESET GAME</button>
+            </div>
             `;
 
         gameArea.appendChild(userCapture);
@@ -220,24 +222,38 @@ function captureUsername() {
             </form>
             `;
 
+
         gameArea.appendChild(userCapture);
         userCapture.classList.add('menuDrop');
 
     }
-
+    }
 
 }
 
-function resetGame() {
+function resetGame(areYouSure) {
 
-    console.log("Clearing local storage");
-    localStorage.clear();
+    if(areYouSure == 'maybe'){
+        document.getElementById('resetButton').innerText = "YES I'M SURE, WIPE DATA!!"
+        document.getElementById('resetButton').setAttribute('onclick',"resetGame('sure')");
+        document.getElementById('resetButton').style.color = "#FE0002";
+        document.getElementById('resetButton').style.fontWeight = "900";
+        showingResetConfirm = true;
+        return;
+    }
+    else if(areYouSure == 'sure'){
+        console.log("Clearing local storage");
+        localStorage.clear();
+        showingResetConfirm = false;
+        document.getElementById('userCapture').classList.add('menuBurn');
+        setTimeout(() => {
+            document.getElementById('userCapture').remove();
+            captureUsername();
+        }, 1000);
 
-    document.getElementById('userCapture').classList.add('menuBurn');
-    setTimeout(() => {
-        document.getElementById('userCapture').remove();
-        captureUsername();
-    }, 1000);
+    }
+
+
 
 }
 
@@ -261,6 +277,7 @@ function storeName() {
 function displaySettingsMenu() {
 
     if (settingsMenuOn) {
+        playAudio('menu1','effect');
         removeSettingsMenu();
         return;
     }
@@ -268,11 +285,12 @@ function displaySettingsMenu() {
     if (menuOn) {
         removeMenu();
         setTimeout(() => {
+            playAudio('menu1','effect');
             displaySettingsMenu();
         }, 1000);
         return;
     }
-
+    playAudio('menu1','effect');
 
     let gameArea = document.getElementById("gameArea");
     let settingsMenu = document.createElement('div');
@@ -403,6 +421,7 @@ function setThemeAward(cardTheme, awardLevel){
 
 function displayMenu() {
     if (menuOn) {
+        playAudio('menu1','effect');
         removeMenu();
         return;
     }
@@ -410,12 +429,13 @@ function displayMenu() {
     if (settingsMenuOn) {
         removeSettingsMenu();
         setTimeout(() => {
+            playAudio('menu1','effect');
             displayMenu();
         }, 1000);
         return;
     }
 
-
+    playAudio('menu1','effect');
     let gameArea = document.getElementById("gameArea");
     let mainM = document.createElement('div');
     mainM.id = "mainMenu";
@@ -1896,8 +1916,9 @@ function dealPlayerCards(gameDeck) {
 
 /**
  * 
- * @param {*} cardThemeSelected 
- * @param {*} cardColorSelected 
+ * @param {string} cardThemeSelected 
+ * @param {string} cardColorSelected 
+ * @param {number} deckSizeSelected 
  */
 function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
 
@@ -1911,6 +1932,9 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     deckSize = deckSizeSelected;
     gameRounds = deckSize;
     console.log("starting game with deckSize " + deckSize);
+    if(!gameActive){
+        fadeOutAudio('menuMusic');
+    }
     gameActive = true;
     allowClick = false; //no card selection till cards are on the table
 

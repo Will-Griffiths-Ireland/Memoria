@@ -676,7 +676,7 @@ img {
     animation-name: flip;
     animation-delay: 0ms;
     animation-iteration-count: 1;
-    animation-duration: 1s;
+    animation-duration: 500ms;
     animation-fill-mode: forwards;
 
 }
@@ -685,7 +685,7 @@ img {
 .cardFlippedBack {
     animation-name: flipBack;
     animation-iteration-count: 1;
-    animation-duration: 1s;
+    animation-duration: 500ms;
     animation-fill-mode: backwards;
     animation-direction: reverse;
 }
