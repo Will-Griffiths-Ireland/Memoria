@@ -45,9 +45,8 @@ const gameArea = document.getElementById("gameArea");
 
 //Onload functions
 
-// document.onload = captureUsername();
-// document.onload = setupAudio();
-// document.onload = loadSettings();
+document.onload = setupAudio();
+document.onload = loadSettings();
 document.onload = showHideMenuIcons();
 
 document.onload = displayIntro();
