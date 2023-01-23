@@ -395,8 +395,16 @@ img {
 }
 
 .menuItem:hover {
-    color: #000;
+    letter-spacing: .3rem;
     transition-duration: 250ms;
+}
+
+@media only screen and (min-width: 900px) {
+    .menuItem:hover {
+        letter-spacing: .7rem;
+        transition-duration: 250ms;
+    }
+
 }
 
 #spookyMenuItem{
@@ -781,7 +789,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 2000ms;  
+    animation-delay: 0ms;  
 }
 
 #c2 {
@@ -792,7 +800,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 2100ms;     
+    animation-delay: 100ms;     
 }
 #c3 {
     position: absolute;
@@ -802,7 +810,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 2200ms;     
+    animation-delay: 200ms;     
 }
 #c4 {
     position: absolute;
@@ -812,7 +820,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 2300ms;    
+    animation-delay: 300ms;    
 }
 #c5 {
     position: absolute;
@@ -822,7 +830,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 2400ms;     
+    animation-delay: 400ms;     
 }
 #c6 {
     position: absolute;
@@ -832,7 +840,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 2500ms;     
+    animation-delay: 500ms;     
 }
 #c7 {
     position: absolute;
@@ -842,7 +850,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 2600ms;     
+    animation-delay: 600ms;     
 }
 #c8 {
     position: absolute;;
@@ -852,7 +860,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 2700ms;     
+    animation-delay: 700ms;     
 }
 #c9 {
     position: absolute;
@@ -862,7 +870,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 2800ms;     
+    animation-delay: 800ms;     
 }
 #c10 {
     position: absolute;
@@ -872,7 +880,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 2900ms;     
+    animation-delay: 900ms;     
 }
 #c11 {
     position: absolute;
@@ -882,7 +890,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 3000ms;     
+    animation-delay: 1000ms;     
 }
 #c12 {
     position: absolute;
@@ -892,7 +900,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 3100ms;     
+    animation-delay: 1100ms;     
 }
 #c13 {
     position: absolute;
@@ -902,7 +910,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 3200ms;     
+    animation-delay: 1200ms;     
 }
 #c14 {
     position: absolute;
@@ -912,7 +920,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 3300ms;     
+    animation-delay: 1300ms;     
 }
 #c15 {
     position: absolute;
@@ -922,7 +930,7 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 100ms;
-    animation-delay: 3400ms;     
+    animation-delay: 1400ms;     
 }
 #c16 {
     position: absolute;
@@ -932,14 +940,14 @@ img {
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 1000ms;
-    animation-delay: 3500ms;     
+    animation-delay: 1500ms;     
 }
 
 #clickToContinue{
     position: absolute;
     bottom: 2vh;
     z-index: 20;
-    animation-delay: 4000ms;
+    animation-delay: 1500ms;
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 1000ms;

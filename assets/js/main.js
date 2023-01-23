@@ -1,22 +1,24 @@
-"strict mode";
 // All the core code that delivers the Memoria game
-// Every effort has been made to take a unique approach
+// Every effort has been made to make a unique game
 
 
 //global variables
 
+const gameArea = document.getElementById("gameArea");
+
+//internal variables
 let cardId = 0; //keep track of how many cards have been created in this session
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 8; //how many rounds to play in total
-let currentRound = 1; // always start with round 1
+let currentRound = 7; // always start with round 1
 let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
 let playerSelectedCards = []; // array that stores the cards the player has selected
 let cardsToMatch = []; // array holds the cards the player has to remember
 let totalSelectedCards = 0;
-let playerCardsDealDelay = 0; // deal players cards dealign till all cards they have to remmeber are displayed
+let playerCardsDealDelay = 0;
 let menuOn = false; // Bool to track if menu is being displayed
 let settingsMenuOn = false;
 let gameActive = false; // bool to track active game state
@@ -27,27 +29,10 @@ let musicOn = 'false'; //using a string for local storage
 let currentMusic = 'menuMusic';
 let backGroundColor = '#ffffff';
 let currentPlayerName = '';
-let iconsOn = 'true';
+let iconsOn = 'false';
 let showingResetConfirm = false;
 let howToPlayScreenOn = false;
 
-
-const gameArea = document.getElementById("gameArea");
-
-
-//TESTING FUNCTIONS
-
-// console.log("Here is the full deck");
-// gameDeck = buildCardObjectArray(imageQuality, backOfCardType);
-// shuffleDeck(gameDeck);
-// console.log("Here is a game deck just with spooky cards");
-// console.log( createGameDeck(cardTheme,cardColor) );
-
-//Onload functions
-
-document.onload = setupAudio();
-document.onload = loadSettings();
-document.onload = showHideMenuIcons();
 
 document.onload = displayIntro();
 
@@ -72,19 +57,17 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-function displayHowToPlay(){
+function displayHowToPlay() {
 
     if (howToPlayScreenOn) {
-        playAudio('menu1','effect');
+        playAudio('menu1', 'effect');
         removeDisplayHowToPlay()
         return;
     }
-
-
     if (menuOn) {
         removeMenu();
         setTimeout(() => {
-            playAudio('menu1','effect');
+            playAudio('menu1', 'effect');
             displayHowToPlay();
         }, 1000);
         return;
@@ -92,19 +75,16 @@ function displayHowToPlay(){
     if (settingsMenuOn) {
         removeSettingsMenu();
         setTimeout(() => {
-            playAudio('menu1','effect');
+            playAudio('menu1', 'effect');
             displayHowToPlay();
         }, 1000);
         return;
     }
-    playAudio('menu1','effect');
-
-    let gameArea = document.getElementById("gameArea");
+    playAudio('menu1', 'effect');
     let howToPlayScreen = document.createElement('div');
     howToPlayScreen.id = "howToPlayScreen";
     howToPlayScreen.classList.add("menuDrop");
     howToPlayScreen.classList.add("mainMenu");
-
     howToPlayScreen.innerHTML = `
                 <h1 class="menuTitle">HOW TO PLAY</h1>
                 <p class="welcomeText">1. SELECT A THEME</p>
@@ -114,7 +94,6 @@ function displayHowToPlay(){
                 `;
     gameArea.appendChild(howToPlayScreen);
     howToPlayScreenOn = true;
-
 }
 
 function removeDisplayHowToPlay() {
@@ -126,8 +105,7 @@ function removeDisplayHowToPlay() {
     howToPlayScreenOn = false;
 }
 
-function displayIntro(){
-
+function displayIntro() {
     let introArea = document.createElement('div');
     introArea.id = "introArea";
     introArea.style.width = "100vw";
@@ -136,27 +114,25 @@ function displayIntro(){
     introArea.style.top = "0";
     introArea.style.left = "0";
     document.querySelector('body').appendChild(introArea);
-
     let introDeck = createGameDeck('all', 'all', '16');
-    let i =1;
-    for(let card of introDeck){
-
+    let i = 1;
+    for (let card of introDeck) {
         let newCard = document.createElement('img');
         newCard.src = card.faceImgSrc;
-        if(i ==16){newCard.src = card.backImgSrc;}
+        newCard.setAttribute('alt', 'card');
+        if (i == 16) {
+            newCard.src = card.backImgSrc;
+        }
         newCard.id = "c" + i;
         introArea.appendChild(newCard);
         i++;
     }
-
     let clickToContinue = document.createElement('h1');
     clickToContinue.classList = "menuItem";
     clickToContinue.id = "clickToContinue";
     clickToContinue.innerText = "CLICK TO PLAY";
     clickToContinue.setAttribute('onclick', 'captureUsername()');
     introArea.appendChild(clickToContinue);
-
-
 }
 
 function setBackgroundColor(newColor) {
@@ -167,49 +143,38 @@ function setBackgroundColor(newColor) {
             backGroundColor = '#ffffff';
             localStorage.setItem('backGroundColor', '#ffffff');
         } else if (backGroundColor == '#ffffff') {
-
             document.querySelector('body').style.backgroundColor = '#000000';
             backGroundColor = '#000000';
             localStorage.setItem('backGroundColor', '#000000');
         }
     }
-
-    //may add bg switching based on theme later
-
 }
-
 function loadSettings() {
-
     //check to see if music preference was saved
     if (localStorage.getItem('musicOn')) {
         musicOn = localStorage.getItem('musicOn');
     }
-        if (musicOn == 'true') {
-            document.getElementById('musicIcon').innerText = 'music_note';
-        }
-        if (musicOn == 'false') {
-            document.getElementById('musicIcon').innerText = 'music_off';
-        }
+    if (musicOn == 'true' && iconsOn) {
+        document.getElementById('musicIcon').innerText = 'music_note';
+    }
+    if (musicOn == 'false' && iconsOn) {
+        document.getElementById('musicIcon').innerText = 'music_off';
+    }
 
     //check for audio effect preference
 
     if (localStorage.getItem('effectsOn')) {
         effectsOn = localStorage.getItem('effectsOn');
-
-        if (effectsOn == 'true') {
+        if (effectsOn == 'true' && iconsOn) {
             document.getElementById('effectsIcon').innerText = 'volume_up';
-
-        } else if (effectsOn == 'false') {
+        } else if (effectsOn == 'false' && iconsOn) {
             document.getElementById('effectsIcon').innerText = 'volume_off';
         }
-
         //check for background preference
-        if (localStorage.getItem('backGroundColor')) {
-
+    if (localStorage.getItem('backGroundColor')) {
             backGroundColor = localStorage.getItem('backGroundColor');
             document.querySelector('body').style.backgroundColor = backGroundColor;
         }
-
     }
 }
 /**
@@ -218,30 +183,23 @@ function loadSettings() {
  * Opacity set to 0 and pointer events none to stop clicks
  * 
  */
-function showHideMenuIcons(){
-
-    if(iconsOn == 'true'){
-        console.log("Setting icons OFF");
-        let icons = document.getElementsByClassName('menuIcon');
-
-        for(let icon of icons){
-            icon.style.opacity = '0';
-            icon.style.pointerEvents = 'none';
-        }
-        iconsOn = 'false';
-        return;
-    }
-    if(iconsOn == 'false'){ 
-        console.log("Setting icons ON");
-        let icons = document.getElementsByClassName('menuIcon');
-
-        for(let icon of icons){
-            icon.style.opacity = '1';
-            icon.style.pointerEvents = 'auto';
-        }
-        iconsOn = 'true';
-        return;
-    }
+function showHideMenuIcons() {
+    let header = document.querySelector('header');
+    header.style.opacity = '0';
+    header.innerHTML = `<div id="menuIconContainer" class="menuIcon"><span onclick="displayMenu()" class="material-symbols-outlined menuIcon">menu</span></div>
+    <div id="settingsIconContainer" class="menuIcon"><span onclick="displaySettingsMenu()" class="material-symbols-outlined menuIcon">settings</span></div>
+    <div id="musicIconContainer" class="menuIcon"><span id="musicIcon" onclick="setMusicOnOff()" class="material-symbols-outlined menuIcon">music_note</span></div>
+    <div id="audioIconContainer" class="menuIcon"><span id="effectsIcon" onclick="setEffectsOnOff()" class="material-symbols-outlined menuIcon">volume_up</span></div>
+    <div id="lightDarkIconContainer" class="menuIcon"><span id="lightDarkIcon" onclick="setBackgroundColor()" class="material-symbols-outlined menuIcon">contrast</span></div>
+    <div id="helpIconContainer" class="menuIcon"><span id="helpIcon" onclick="displayHowToPlay()" class="material-symbols-outlined menuIcon">help</span></div>`;
+    setTimeout(() => {
+        header.style.opacity = '1';
+        header.classList.add('dropIn');
+        iconsOn = true;
+        setTimeout(() => {
+            header.classList.remove('dropIn');
+        }, 1000);
+    }, 1000);
 }
 
 function setMusicOnOff() {
@@ -259,8 +217,6 @@ function setMusicOnOff() {
         localStorage.setItem('musicOn', 'true');
         playAudio(currentMusic, 'music');
     }
-
-
 }
 
 function setEffectsOnOff() {
@@ -273,73 +229,57 @@ function setEffectsOnOff() {
         effectsOn = 'true';
         localStorage.setItem('effectsOn', 'true');
     }
-
-
 }
 
 function captureUsername() {
-
-    if(document.getElementById('introArea'))
-    {
+    if (document.getElementById('introArea')) {
         document.getElementById('introArea').classList.add('burnUpQuick');
         setTimeout(() => {
             document.getElementById('introArea').remove();
         }, 1000);
     }
-
     //check to see if we have a username stored
-    if(!showingResetConfirm){
-    if (localStorage.getItem('name')) {
-
-        currentPlayerName = localStorage.getItem('name');
-        let userCapture = document.createElement('div');
-        let currentPlayerNameTemp = currentPlayerName.toUpperCase();
-        userCapture.id = "userCapture";
-
-        userCapture.innerHTML = `
+    if (!showingResetConfirm) {
+        if (localStorage.getItem('name')) {
+            currentPlayerName = localStorage.getItem('name');
+            let userCapture = document.createElement('div');
+            let currentPlayerNameTemp = currentPlayerName.toUpperCase();
+            userCapture.id = "userCapture";
+            userCapture.innerHTML = `
             <div class="mainMenu">
                 <p class="welcomeText">WELCOME BACK TO MEMORIA <span class="bold"> ${currentPlayerNameTemp}</span>!</p>
                 <p class="welcomeText">SHALL WE CONTINUE WITH YOUR SAVED GAME?</p>
                 <button id="continueButton" class="menuItem" onclick="storeName()">YES, CONTINUE</button>
                 <button id="resetButton" class="menuItem" onclick="resetGame('maybe')">NO, RESET GAME</button>
-            </div>
-            `;
-
-        gameArea.appendChild(userCapture);
-        userCapture.classList.add('menuDrop');
-    } else {
-        let userCapture = document.createElement('div');
-        userCapture.id = "userCapture";
-
-        userCapture.innerHTML = `
+            </div>`;
+            gameArea.appendChild(userCapture);
+            userCapture.classList.add('menuDrop');
+        }
+        else {
+            let userCapture = document.createElement('div');
+            userCapture.id = "userCapture";
+            userCapture.innerHTML = `
             <form class="mainMenu" onsubmit="storeName()">
                 <p class="welcomeText">WELCOME TO MEMORIA!</p>
                 <p class="welcomeText">PLEASE ENTER YOUR NAME AND CLICK SAVE</p>
                 <input id="userName" class="menuItem" type="text" placeholder="ENTER NAME">
                 <button id="startButton" class="menuItem" type="submit" value="submit">SAVE</button>
-            </form>
-            `;
-
-
-        gameArea.appendChild(userCapture);
-        userCapture.classList.add('menuDrop');
-
+            </form> `;
+            gameArea.appendChild(userCapture);
+            userCapture.classList.add('menuDrop');
+        }
     }
-    }
-
 }
 
 function resetGame(areYouSure) {
-
-    if(areYouSure == 'maybe'){
+    if (areYouSure == 'maybe') {
         document.getElementById('resetButton').innerText = "YES I'M SURE, WIPE DATA!!"
-        document.getElementById('resetButton').setAttribute('onclick',"resetGame('sure')");
+        document.getElementById('resetButton').setAttribute('onclick', "resetGame('sure')");
         document.getElementById('resetButton').style.color = "#FE0002";
         document.getElementById('resetButton').style.fontWeight = "900";
         showingResetConfirm = true;
         return;
-    }
-    else if(areYouSure == 'sure'){
+    } else if (areYouSure == 'sure') {
         console.log("Clearing local storage");
         localStorage.clear();
         showingResetConfirm = false;
@@ -348,11 +288,7 @@ function resetGame(areYouSure) {
             document.getElementById('userCapture').remove();
             captureUsername();
         }, 1000);
-
     }
-
-
-
 }
 
 function storeName() {
@@ -369,13 +305,14 @@ function storeName() {
         displayMenu();
         showHideMenuIcons()
         loadSettings();
+        setupAudio();
     }, 1000);
 }
 
 function displaySettingsMenu() {
 
     if (settingsMenuOn) {
-        playAudio('menu1','effect');
+        playAudio('menu1', 'effect');
         removeSettingsMenu();
         return;
     }
@@ -384,7 +321,7 @@ function displaySettingsMenu() {
     if (menuOn) {
         removeMenu();
         setTimeout(() => {
-            playAudio('menu1','effect');
+            playAudio('menu1', 'effect');
             displaySettingsMenu();
         }, 1000);
         return;
@@ -392,14 +329,13 @@ function displaySettingsMenu() {
     if (howToPlayScreenOn) {
         removeDisplayHowToPlay();
         setTimeout(() => {
-            playAudio('menu1','effect');
+            playAudio('menu1', 'effect');
             displaySettingsMenu();
         }, 1000);
         return;
     }
-    playAudio('menu1','effect');
+    playAudio('menu1', 'effect');
 
-    let gameArea = document.getElementById("gameArea");
     let settingsMenu = document.createElement('div');
     settingsMenu.id = "settingsMenu";
     settingsMenu.classList.add("menuDrop");
@@ -411,12 +347,7 @@ function displaySettingsMenu() {
                 <h2 class="menuItem" onclick="">Background Color - <span class="bold">${backGroundColor}</span></h2>
                 <h2 class="menuItem" onclick="">Card Image Quality - <span class="bold">${imageQuality}</span></h2>
                 <h2 class="menuItem" onclick="">Display Type Back Face - <span class="bold">${backOfCardType}</span></h2>
-                <h2 class="menuItem" onclick="">Total Rounds - <span class="bold">${gameRounds}</span></h2>
-                `;
-
-
-
-
+                <h2 class="menuItem" onclick="">Total Rounds - <span class="bold">${gameRounds}</span></h2>`;
     gameArea.appendChild(settingsMenu);
     settingsMenuOn = true;
 }
@@ -432,31 +363,22 @@ function removeSettingsMenu() {
 
 // check best result
 
-function checkThemeAwards(cardTheme){
-
+function checkThemeAwards(cardTheme) {
     let themeAwardCheck = cardTheme + '_award';
     let awards;
-
-    if (localStorage.getItem(themeAwardCheck))
-    {
-        if (localStorage.getItem(themeAwardCheck) == '1')
-        {
-            awards = `<span class="material-symbols-outlined awardIcon">stars</span>` 
+    if (localStorage.getItem(themeAwardCheck)) {
+        if (localStorage.getItem(themeAwardCheck) == '1') {
+            awards = `<span class="material-symbols-outlined awardIcon">stars</span>`
         }
-        if (localStorage.getItem(themeAwardCheck) == '2')
-        {
-            awards = `<span class="material-symbols-outlined awardIcon">stars</span><span class="material-symbols-outlined awardIcon">stars</span>` 
+        if (localStorage.getItem(themeAwardCheck) == '2') {
+            awards = `<span class="material-symbols-outlined awardIcon">stars</span><span class="material-symbols-outlined awardIcon">stars</span>`
         }
-        if (localStorage.getItem(themeAwardCheck) == '3')
-        {
-            awards = `<span class="material-symbols-outlined awardIcon">stars</span><span class="material-symbols-outlined awardIcon">stars</span><span class="material-symbols-outlined awardIcon">stars</span>` 
+        if (localStorage.getItem(themeAwardCheck) == '3') {
+            awards = `<span class="material-symbols-outlined awardIcon">stars</span><span class="material-symbols-outlined awardIcon">stars</span><span class="material-symbols-outlined awardIcon">stars</span>`
         }
-    }
-    else{
+    } else {
         awards = ``;
     }
-
-   /// <span class="material-symbols-outlined">stars</span>
     return awards;
 }
 /**
@@ -465,107 +387,81 @@ function checkThemeAwards(cardTheme){
  * @param {String} awardLevel 
  * @returns 
  */
-function setThemeAward(cardTheme, awardLevel){
+function setThemeAward(cardTheme, awardLevel) {
 
-    if (checkThemeAwards(cardTheme) == ''){
+    if (checkThemeAwards(cardTheme) == '') {
         localStorage.setItem(cardTheme + "_award", awardLevel);
         return;
     }
-    if (localStorage.getItem(cardTheme + "_award") == '1'){
-
-        if(awardLevel =='1')
-        {
+    if (localStorage.getItem(cardTheme + "_award") == '1') {
+        if (awardLevel == '1') {
             return;
-        }
-        else{
+        } else {
             localStorage.setItem(cardTheme + "_award", awardLevel);
             return;
-        }  
+        }
     }
-
-    if (localStorage.getItem(cardTheme + "_award") == '2'){
-
-        if(awardLevel =='1')
-        {
+    if (localStorage.getItem(cardTheme + "_award") == '2') {
+        if (awardLevel == '1') {
             return;
         }
-        if(awardLevel =='2')
-        {
+        if (awardLevel == '2') {
             return;
-        }
-        else{
+        } else {
             localStorage.setItem(cardTheme + "_award", awardLevel);
             return;
-        }  
+        }
     }
-
-    if (localStorage.getItem(cardTheme + "_award") == '3'){
-
-        if(awardLevel =='1')
-        {
+    if (localStorage.getItem(cardTheme + "_award") == '3') {
+        if (awardLevel == '1') {
             return;
         }
-        if(awardLevel =='2')
-        {
+        if (awardLevel == '2') {
             return;
         }
-        if(awardLevel =='2'){
+        if (awardLevel == '2') {
             localStorage.setItem(cardTheme + "_award", awardLevel);
             return;
-        } 
-        else{
+        } else {
             return;
-        } 
+        }
     }
-    
-    
-    
-    let currentAwardLevel = localStorage.getItem(cardTheme + "_award");
-
 }
 
 //display the main menu
-
 function displayMenu() {
     if (menuOn) {
-        playAudio('menu1','effect');
+        playAudio('menu1', 'effect');
         removeMenu();
         return;
     }
-
     if (settingsMenuOn) {
         removeSettingsMenu();
         setTimeout(() => {
-            playAudio('menu1','effect');
+            playAudio('menu1', 'effect');
             displayMenu();
         }, 1000);
         return;
     }
-
     if (howToPlayScreenOn) {
         removeDisplayHowToPlay();
         setTimeout(() => {
-            playAudio('menu1','effect');
+            playAudio('menu1', 'effect');
             displayMenu();
         }, 1000);
         return;
     }
-
-    playAudio('menu1','effect');
-    let gameArea = document.getElementById("gameArea");
+    playAudio('menu1', 'effect');
     let mainM = document.createElement('div');
     mainM.id = "mainMenu";
     mainM.classList.add("menuDrop");
     mainM.classList.add("mainMenu");
-
     if (gameActive) {
         mainM.innerHTML = `
                 <h1 class="menuTitle">GAME IN PROGRESS</h1>
                 <h2 class="menuItem" onclick="endGame()">END GAME</h2>
-                <h2 class="menuItem" onclick="displayMenu()">CONTINUE GAME</h2>
-                `;
+                <h2 class="menuItem" onclick="displayMenu()">CONTINUE GAME</h2> `;
     } else {
-
         let spooky = checkThemeAwards('spooky');
         let space = checkThemeAwards('space');
         let history = checkThemeAwards('history');
@@ -575,17 +471,13 @@ function displayMenu() {
         let emma = checkThemeAwards('emma');
         let mixed = checkThemeAwards('mixed');
         let mono = checkThemeAwards('mono');
-
-        //hidden mode is shown to players with the name emma
+        //hidden mode is shown to players with the name Emma, mainly aimed at my wife :)
         let emmaMode = '';
-        if(currentPlayerName.toUpperCase() == 'EMMA')
-        {
+        if (currentPlayerName.toUpperCase() == 'EMMA') {
             emmaMode = `<h2 id="emmaMenuItem" class="menuItem" onclick="gameStart('emma','purple','8')">EMMA ${emma}</h2>`;
-        }
-        else{
+        } else {
             emmaMode = ``;
         }
-
         mainM.innerHTML = `
                 <h1 class="menuTitle">SELECT A THEME</h1>
                 <h2 id="spookyMenuItem" class="menuItem" onclick="gameStart('spooky','orange','8')">SPOOKY ${spooky}</h2>
@@ -598,16 +490,12 @@ function displayMenu() {
                 <h2 id="mixedMenuItem" class="menuItem" onclick="gameStart('all','all','16')">MIXED ${mixed}</h2>
                 <h2 id="monoMenuItem" class="menuItem" onclick="gameStart('all','white','16')">MONO ${mono}</h2>`;
     }
-
-
-
     gameArea.appendChild(mainM);
     if (musicOn == 'true') {
         playAudio('menuMusic', 'music')
     };
     menuOn = true;
 }
-
 function removeMenu() {
     document.getElementById("mainMenu").classList.remove("menuDrop");
     document.getElementById("mainMenu").classList.add("menuBurn");
@@ -616,9 +504,7 @@ function removeMenu() {
     }, 1000);
     menuOn = false;
 }
-
 function displayRound() {
-
     //Display current round
     let roundDisplay = document.createElement('h1');
     let roundDisplayContainer = document.createElement('div');
@@ -636,27 +522,20 @@ function displayRound() {
     roundDisplay.innerText = tempTheme + ' - ROUND ' + currentRound + "\\" + gameRounds;
     roundDisplay.id = 'roundDisplay';
     roundDisplay.classList = 'fadeIn';
-
     document.querySelector('body').appendChild(roundDisplayContainer);
     document.getElementById('roundDisplayContainer').appendChild(roundDisplay);
 }
-
 function scatterWinSmiles(count) {
-
     let randWidth;
     let top;
     let left;
     for (let i = 0; i < count; i++) {
-
         //choosing random widths based on screen res
         if (window.innerWidth > 900) {
             randWidth = randomNumber(4, 11);
         } else {
             randWidth = randomNumber(10, 20);
         }
-
-
-
         const body = document.querySelector('body');
 
         left = randomNumber(0, (100 - randWidth)) + "vw";
@@ -698,10 +577,6 @@ function scatterCards() {
         randSelect = Math.floor(Math.random() * cardsToScatter.length); //pick a random card form the deck
         //Generate a random width/size of card
         randWidth = randomNumber(5, 8); // setting cards to be a random % size
-
-
-        const gameArea = document.getElementById('gameArea');
-
         left = randomNumber(0, (100 - randWidth)) + "vw";
         top = randomNumber(0, (98 - (randWidth * 1.23))) + "vh"; // messed this for ages but still have cards spilling over the bottom of the screen
         let delay = randomNumber(0, 500); //generate a delay for the animation and (possible) audio trigger
@@ -1831,30 +1706,21 @@ function setupAudio() {
 
 
 function fadeOutAudio(elementId) {
-
     //grab passed element and then loop through reducing volume by 10% every 100ms
     let sound = document.getElementById(elementId);
-
     let volume = 100;
     let fadeDown = setInterval(() => {
-
         volume -= 1;
         sound.volume = (volume / 100);
         console.log("Setting volume to " + volume);
-
     }, 20);
-
     setTimeout(() => {
         clearInterval(fadeDown);
     }, 2000);
-
 }
-
-
 //Function to play audio
 //creates an audio element and sets it playing
 function playAudio(audioName, audioType) {
-
     if (audioType == 'music') {
         sound = document.getElementById(audioName);
         sound.volume = 1;
@@ -1862,7 +1728,6 @@ function playAudio(audioName, audioType) {
         sound.play();
         sound.loop = true;
     } else if (audioType == 'effect' && effectsOn == 'true') {
-
         let body = document.querySelector('body');
         let audioEffect = document.createElement('audio');
         audioEffect.src = "./assets/audio/" + audioName + ".mp3";
@@ -1872,16 +1737,11 @@ function playAudio(audioName, audioType) {
         body.appendChild(audioEffect);
         audioEffect.load();
         audioEffect.play();
-
     }
-
-
 }
-
 //this function fade/burns the card by applying css to fade them out
 //after 15 seconds we then call a function to remove the html elements to clean code and improve performance
 //things quickly got complicated when trying to control animations
-
 function burnCards() {
 
     if (menuOn) {
@@ -1965,8 +1825,6 @@ function dealPlayerCards(gameDeck) {
         console.log("You didn't pass me cards to deal");
         return;
     }
-
-    const gameArea = document.getElementById('gameArea');
     let delay; //used for timing and blocking
 
     const playerCardsArea = document.getElementById('playerCardsArea');
@@ -2048,7 +1906,7 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     deckSize = deckSizeSelected;
     gameRounds = deckSize;
     console.log("starting game with deckSize " + deckSize);
-    if(!gameActive){
+    if (!gameActive) {
         fadeOutAudio('menuMusic');
     }
     gameActive = true;
@@ -2143,32 +2001,35 @@ function selectCard(e) {
         }, 1000);
 
         if (totalSelectedCards == cardsToMatch.length) {
-            console.log("Congrats you win this round");
-            scatterWinSmiles(currentRound * 5);
+            scatterWinSmiles(currentRound * 10);
             playAudio('wellDone', 'effect')
             //wait 3 seconds and reset
             setTimeout(() => {
                 burnCards();
-                if(currentRound == 4) {setThemeAward(cardTheme, '1');}
-                if(currentRound == 6) {setThemeAward(cardTheme, '2');}
-                if(currentRound == 8) {setThemeAward(cardTheme, '3');}
+                if (currentRound == 4) {
+                    setThemeAward(cardTheme, '1');
+                }
+                if (currentRound == 6) {
+                    setThemeAward(cardTheme, '2');
+                }
+                if (currentRound == 8) {
+                    setThemeAward(cardTheme, '3');
+                }
                 allowClick = true;
                 ++currentRound;
                 setTimeout(() => {
-                    if (currentRound < gameRounds) {
+                    if (currentRound <= gameRounds) {
                         gameStart(cardTheme, cardColor, deckSize);
                     } else {
                         console.log("you win this theme. well done !!")
                         playAudio('beatTheme', 'effect');
                         setThemeAward(cardTheme, '3');
-                        //need logic to update high scores
                         gameActive = false;
-                        currentRound = 1; // reset round back to 1
+                        currentRound = 1;
                         displayMenu();
                     }
                 }, 3000);
             }, 5000);
-
         }
 
     } else {
@@ -2237,7 +2098,6 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
         return;
     }
 
-    const gameArea = document.getElementById('gameArea');
     const cardsToMatchArea = document.getElementById('cardsToMatchArea');
     let delay; // used for timing
 

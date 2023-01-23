@@ -1,31 +1,25 @@
 <!-- This is the single html page that the application runs within.
 Nearly all code is generated and insert to the DOM through JavaScript -->
-
 <!DOCTYPE html>
 <html lang="en-gb">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <meta name="description" content="Javascript memory game">
+    <meta name="keywords" content="HTML5, CSS3, JavaScript, Memory Game">
+    <meta name="author" content="Will Griffiths">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-    
     <title>Memoria</title>
 </head>
-<header>
-        <div id="menuIconContainer" class="menuIcon"><span onclick="displayMenu()" class="material-symbols-outlined menuIcon">menu</span></div>
-        <div id="settingsIconContainer" class="menuIcon"><span onclick="displaySettingsMenu()" class="material-symbols-outlined menuIcon">settings</span></div>
-        <div id="musicIconContainer" class="menuIcon"><span id="musicIcon" onclick="setMusicOnOff()" class="material-symbols-outlined menuIcon">music_note</span></div>
-        <div id="audioIconContainer" class="menuIcon"><span id="effectsIcon" onclick="setEffectsOnOff()" class="material-symbols-outlined menuIcon">volume_up</span></div>
-        <div id="lightDarkIconContainer" class="menuIcon"><span id="lightDarkIcon" onclick="setBackgroundColor()" class="material-symbols-outlined menuIcon">contrast</span></div>
-        <div id="helpIconContainer" class="menuIcon"><span id="helpIcon" onclick="displayHowToPlay()" class="material-symbols-outlined menuIcon">help</span></div>
-    
+<body>
+<header>  
 </header>
-<section id="gameArea">
+<div id="gameArea">
     <div id="cardsToMatchArea"></div>
     <div id="playerCardsArea"></div>
-</section>
-<body>
-<script src="./assets/js/main.js" type="text/javascript"></script>   
+</div>
+<script src="./assets/js/main.js"></script>   
 </body>
 </html>
