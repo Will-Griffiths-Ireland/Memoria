@@ -6,9 +6,9 @@ Memoria is a vibrant, card based, memory challenge game for all ages.
 There are 6 core family friendly themes and icon sets, with 2 themes that use all icons.
 Players are shown an increasing number of cards, that they need to remember, in order, to win.
 ​
-![Intro Screen](./assets/docs/introscreen_AIR.jpg)
-![Menu Screen](./assets/docs/mainMenu_AIR.jpg)
-![Game Screen](./assets/docs/inGame_AIR.jpg)
+![Intro Screen](./assets/docs/introscreen_AIR.webp)
+![Menu Screen](./assets/docs/mainMenu_AIR.webp)
+![Game Screen](./assets/docs/inGame_AIR.webp)
 
 #### [The deployed website is here on GitHub Pages](https://will-griffiths-ireland.github.io/Memoria/)​
 
@@ -116,7 +116,10 @@ The core colors use gradients to give them a 3d element
 
 ### **Design & Font**
 ​
-??
+The overall esthetic I based around the cards. The tactile feel and rounded edges are something I've try to seed throughout the game.
+Menus are rounded, buttons are rounded.
+The entire experience is designed to be smooth but mentally taxing
+
 
 
 
@@ -194,20 +197,21 @@ Since nearly all the html is injected by Javascript the HTML validator does not 
 
 #### *Lighthouse Results*
 
-Overall Summary
+Lighthouse scores are fair but ultimately not very telling on the apps performance.
+I did encounter issues with the time it took for the google icon font pack to download but from my testing this seems to vary with the time of day and doesn't impact usability.
 
 
 *Desktop*
 
-??
+![Desktop Lighthouse Result](./assets/docs/desktopLighthouse.JPG)
 
 *Mobile*
 
-??
+![Mobile Lighthouse Result](./assets/docs/desktopMobile.JPG)
 
 ## **Defects**
 
-??
+Rigorous testing of my code while I built it paid off when it came to testing the end product.
 
 ### **Resolved**
 
