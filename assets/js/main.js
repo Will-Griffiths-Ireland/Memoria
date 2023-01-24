@@ -2049,7 +2049,14 @@ function selectCard(e) {
         if (totalSelectedCards == cardsToMatch.length) {
             scatterWinSmiles(currentRound * 10);
             playAudio('wellDone', 'effect')
-            document.getElementById('roundDisplay').innerText = "YOU WIN THIS ROUND!!"
+            
+            if(currentRound == deckSize)
+            {
+                document.getElementById('roundDisplay').innerText = "YOU BEAT THIS THEME!!" 
+            }
+            else{
+                document.getElementById('roundDisplay').innerText = "YOU WIN THIS ROUND!!"
+            }
             //wait 3 seconds and reset
             setTimeout(() => {
                 burnCards();
@@ -2069,7 +2076,7 @@ function selectCard(e) {
                         gameStart(cardTheme, cardColor, deckSize);
                     } else {
                         console.log("you win this theme. well done !!")
-                        document.getElementById('roundDisplay').innerText = "YOU BEAT THIS THEME!!"
+                        
                         playAudio('beatTheme', 'effect');
                         setThemeAward(cardTheme, '3');
                         gameActive = false;
