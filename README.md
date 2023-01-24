@@ -2,13 +2,10 @@
 # Memoria
 ## **Game Overview**
 
-This game is a demonstration of my Javascript skills, presented through an interactive website in pure HTML5 & CSS3.
-
 Memoria is a vibrant, card based, memory challenge game for all ages.
-There are 6 core family friendly themes and icon sets
+There are 6 core family friendly themes and icon sets, with 2 themes that use all icons.
+Players are shown an increasing number of cards, that they need to remember, in order, to win.
 ​
-
-
 
 #### [The deployed website is here on GitHub Pages](https://will-griffiths-ireland.github.io/Memoria/)​
 
@@ -22,11 +19,10 @@ There are 6 core family friendly themes and icon sets
     * [***Wireframes***](#wireframes)
     * [***Color Scheme***](#color-scheme)
     * [***Typography***](#typography)
-1. [**Game Features**](#site-wide-features)
+1. [**Game Features**](#game-features)
+    * [***Intro Screen***](#player-name)
     * [***Player Name***](#player-name)
     * [***Theme Menu***](#theme-menu)
-    * [***Page Background***](#page-background)
-    * [***Navigation Flow***](#navigation-flow)
 1. [**Testing Phase**](#testing-phase)
     * [***Validators***](#validators)
 1. [**Deployment**](#deployment)
@@ -46,20 +42,21 @@ There are 6 core family friendly themes and icon sets
 
 ### **Planning Overview:**
 
-My aim with the game was to create something simple and engaging for younger children to develop visual memory skills.
-
+My aim with the game was to create something simple and engaging that helps the player flex their memory muscle.
 There are benefits to both children and adults when they engage in an activity that stimulates memory.
 When planning Memoria I kept my focus on the player and making a memory game that had a really simple core gameplay loop, but had an increasing memory challenge factor.
 My main aims for the game were…
 
 * Clean interface to emulate a big tidy table
 * Distinctive cards with the same ‘feel’ as regular playing cards
-* Multiple themes for cards of different colours
-* Easily rememberable icons
-* Engaging animations that add to the player experience
-* Progression in difficulty with rewards
+* Multiple themes linked to a colour and a set of related icons
+* Easily rememberable icons that are clear at small screen sizes
+* Engaging animations that add to the player experience and contribute to the challenge
+* Progression in difficulty with rewards that drive the player to come back
 * Storing player details, settings, and progression
-* A super hard mode for the ultimate test
+* Allowing some level of customization the player could select
+* A mode that would push even the best memories to the limit
+* A hidden 'Easter Egg' theme
 
 
 ### **Target Audiences:**
@@ -70,20 +67,27 @@ My main aims for the game were…
 
 ### **User Stories:**
 
-* As a player, I want to game to load quickly on my device
+* As a player, I want the game to load quickly on my device
 * As a player, I want a fun and engaging experience
 * As a player, I want to have a clear objective that provides a challenge
-* as a player, I want progression and reward
-* as a user, I want to save my game settings
-* as a user, I want options to configure the game specifically to me
-* as a user, I want to configure the game to match my devices abilities
-* as a user, I want quick access to control audio
+* As a player, I want progression and reward
+* As a player, I want to save my game settings
+* As a player, I want options to configure the game specifically to me
+* As a player, I want to configure the game to match my devices abilities
+* As a player, I want quick access to control audio
+* As a player, I want feedback on success or failure
 
 ### **Game Aims:**
 
 * The game should, scale the interface to the users device
-* The game should, allow user interface zoom and scale proportionally
+* The game should, allow the player to zoom the interface and scale proportionally
 * The game should, present the user with multiple game themes
+* The game should, provide detail on how to play
+* The game should, show the players existing achievements or awards
+* The game should, save any settings the player modifies
+* The game should, start muted and allow players to enable effects and music
+
+
 
 
 ### **Wireframes:**
@@ -176,8 +180,7 @@ Overall Summary
 
 ## **Defects**
 
-Being a basic HTML/CSS site there were not many true bugs/defects from my testing phase.
-I chalked most of my issues down to the learning process during development so didn't document them all.
+??
 
 ### **Resolved**
 
