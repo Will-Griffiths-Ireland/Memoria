@@ -26,14 +26,14 @@ body {
     height: 100vh;
     box-sizing: border-box;
     border: 0;
-
+    overflow: hidden;
     z-index: 1;
 }
 
 @media only screen and (min-width: 900px) {
     body{
         overflow-y: hidden;
-    overflow-x: hidden;
+        overflow-x: hidden;
     }
 
 }
@@ -45,7 +45,7 @@ img {
 }
 
 .bold{
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .welcomeText{
@@ -60,6 +60,13 @@ img {
     border: 0;
     margin: .5rem;
     transition-duration: 250ms;
+}
+
+.howToText{
+    font-size: .9rem;
+    letter-spacing:normal;
+    font-weight: 600;
+    line-height: 1.2rem;
 }
 
 @media only screen and (min-width: 900px) {
@@ -79,22 +86,6 @@ img {
 }
 }
 
-#userName, #startButton, #continueButton, #resetButton{
-    border-style: none;
-    font-size: .7rem;
-
-}
-
-@media only screen and (min-width: 900px) {
-
-    #userName, #startButton, #continueButton, #resetButton{
-        border-style: none;
-        font-size: 1.3rem;
-    
-    }
-
-}
-
 #menuIconContainer{
 
     position: absolute;
@@ -106,8 +97,12 @@ img {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000000;
     box-shadow: .25rem .25rem .25rem #000;
-    background-color: #908e8ef4;
+    /* background-color: #908e8ef4; */
+    background-color: #fff;
     z-index: 60000;
 }
 
@@ -135,8 +130,12 @@ img {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000000;
     box-shadow: .25rem .25rem .25rem #000;
-    background-color: #908e8ef4;
+    /* background-color: #908e8ef4; */
+    background-color: #fff;
     z-index: 60000;
 
 }
@@ -164,8 +163,12 @@ img {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000000;
     box-shadow: .25rem .25rem .25rem #000;
-    background-color: #908e8ef4;
+    /* background-color: #908e8ef4; */
+    background-color: #fff;
     z-index: 60000;
 }
 
@@ -194,8 +197,12 @@ img {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000000;
     box-shadow: .25rem .25rem .25rem #000;
-    background-color: #908e8ef4;
+    /* background-color: #908e8ef4; */
+    background-color: #fff;
     z-index: 60000;
 
 }
@@ -223,8 +230,12 @@ img {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000000;
     box-shadow: .25rem .25rem .25rem #000;
-    background-color: #908e8ef4;
+    /* background-color: #908e8ef4; */
+    background-color: #fff;
     z-index: 60000;
 
 }
@@ -251,8 +262,12 @@ img {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000000;
     box-shadow: .25rem .25rem .25rem #000;
-    background-color: #908e8ef4;
+    /* background-color: #908e8ef4; */
+    background-color: #fff;
     z-index: 60000;
 
 }
@@ -274,15 +289,13 @@ img {
 
     display: inline;
     position: relative;
-    color: #fff;
+    color: #000;
     font-size: 1.5rem;
     transition-duration: 500ms;
 }
 
 @media only screen and (min-width: 900px) {
     .menuIcon{
-
-        color: #fff;
         font-size: 4rem;
         transition-duration: 500ms;
     }
@@ -290,7 +303,7 @@ img {
 }
 .menuIcon:hover{
 
-    color: #000;
+    color: #FE0002;
     transition-duration: 500ms;
     }
 
@@ -309,13 +322,13 @@ img {
     align-items: center;
     z-index: 20000;
     padding: .25rem;
-    border-color: #404040f4;
+    border-color: #000; 
     box-shadow: .25rem .25rem .25rem #000;
     border-style: solid;
-    border-width: .25rem;
+    border-width: 1px;
     height: auto;
     width: auto;
-    max-width: 80vw;
+    max-width: 90vw;
     background-color: #fffffff4;
     opacity: 1;
     border-radius: 2rem;
@@ -327,11 +340,9 @@ img {
         position: relative;
         z-index: 20000;
         border-style: solid;
-        border-width: .25rem;
         height: auto;
         max-height: 100vh;
         width: auto;
-        background-color: #fffffff4;
         opacity: 1;
         border-radius: 2rem;
         box-shadow: .25vw .25vw .25vw #000;
@@ -345,7 +356,8 @@ img {
 }
 
 .menuTitle{
-    font-size: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
     margin: .8rem;
     letter-spacing: .5rem;
     text-align: center;
@@ -358,10 +370,9 @@ img {
     }
 
 }
-
-.menuItem {
+.settingsMenuItem{
     color: #fff;
-    font-size: .6rem;
+    font-size: .7rem;
     text-align: center;
     letter-spacing: .2rem;
     display: flex;
@@ -372,6 +383,85 @@ img {
     background-color: #908e8ef4;
     box-shadow: .25rem .25rem .25rem #000;
     border-radius: 2rem;
+    padding: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin: .5rem;
+    transition-duration: 250ms;
+}
+
+@media only screen and (min-width: 900px) {
+    .settingsMenuItem {
+        font-size: 1.7rem;
+        letter-spacing: .5rem;
+        border-radius: 2rem;
+        padding: .5rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin: 1rem;
+        text-align: center;
+        transition-duration: 250ms;
+    }
+
+}
+
+.settingsOption{
+    color: #000;
+    font-size: .7rem;
+    text-align: center;
+    letter-spacing: .2rem;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    width: fit-content;
+    background-color: #fff;
+    box-shadow: .25rem .25rem .25rem #000;
+    border-radius: 2rem;
+    padding: .2rem;
+    padding-left: .2rem;
+    padding-right: .2rem;
+    margin: .2rem;
+    transition-duration: 250ms;
+}
+
+@media only screen and (min-width: 900px) {
+    .settingsOption {
+        font-size: 1.7rem;
+        letter-spacing: .5rem;
+        border-radius: 2rem;
+        padding: .5rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin: 1rem;
+        text-align: center;
+        transition-duration: 250ms;
+    }
+
+}
+
+.settingsOption:hover{
+    color: #FE0002;
+    transition-duration: 250ms;
+}
+
+.menuItem {
+    color: #000;
+    border-color: #000;
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: .2rem;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    width: fit-content;
+    background-color: #fff;
+    box-shadow: .25rem .25rem .25rem #000;
+    border-radius: 2rem;
+    border-style: solid;
+    border-width: 1px;
     padding: .5rem;
     padding-left: .8rem;
     padding-right: .8rem;
@@ -395,21 +485,15 @@ img {
 }
 
 .menuItem:hover {
-    letter-spacing: .3rem;
+    color: #FE0002;
     transition-duration: 250ms;
 }
 
-@media only screen and (min-width: 900px) {
-    .menuItem:hover {
-        letter-spacing: .7rem;
-        transition-duration: 250ms;
-    }
-
-}
 
 #spookyMenuItem{
     background-color: #FFA219;
     color: #fff;
+    border-style: none;
     width: 10rem;
 }
 
@@ -423,6 +507,7 @@ img {
 #spaceMenuItem{
     background-color: #000000;
     color: #fff;
+    border-style: none;
     width: 10rem;
 }
 #spaceMenuItem:hover{
@@ -433,6 +518,7 @@ img {
 #historyMenuItem{
     background-color: #996600;
     color: #fff;
+    border-style: none;
     width: 10rem;
 }
 #historyMenuItem:hover{
@@ -443,6 +529,7 @@ img {
 #natureMenuItem{
     background-color: #0D9D08;
     color: #fff;
+    border-style: none;
     width: 10rem;
 }
 #natureMenuItem:hover{
@@ -453,6 +540,7 @@ img {
 #seaMenuItem{
     background-color: #0098FE;
     color: #fff;
+    border-style: none;
     width: 10rem;
 }
 #seaMenuItem:hover{
@@ -463,6 +551,7 @@ img {
 #scienceMenuItem{
     background-color: #FE0002;
     color: #fff;
+    border-style: none;
     width: 10rem;
 }
 #scienceMenuItem:hover{
@@ -473,6 +562,7 @@ img {
 #emmaMenuItem{
     background-color: #B100FD;
     color: #fff;
+    border-style: none;
     width: 10rem;
 }
 #emmaMenuItem:hover{
@@ -483,6 +573,7 @@ img {
 #mixedMenuItem{
     background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(255,162,25,1) 15%, rgba(153,102,0,1) 30%, rgba(13,157,8,1) 45%, rgba(0,152,254,1) 60%, rgba(254,0,2,1) 79%, rgba(177,0,253,1) 100%);
     color: #fff;
+    border-style: none;
     width: 10rem;
 }
 #mixedMenuItem:hover{
@@ -493,6 +584,7 @@ img {
 #monoMenuItem{
     background-color: #908e8e;
     color: #fff;
+    border-style: none;
     width: 10rem;
 }
 #monoMenuItem:hover{
@@ -502,7 +594,7 @@ img {
 @media only screen and (min-width: 900px) {#monoMenuItem{ width: 25rem;} #monoMenuItem:hover{letter-spacing: 1rem;}}
 
 .awardIcon{
-    font-size: .7rem;
+    font-size: 1rem;
 }
 @media only screen and (min-width: 900px) {
     .awardIcon{
@@ -585,12 +677,15 @@ img {
     margin: 0;
     display: block;
     text-align: center;
-    color: #fff;
+    color: #000000;
+    border-color: #000000;
+    border-style: solid;
+    border-width: 1px;
     font-size: .5rem;
     z-index: 0;
     text-align: center;
     display: block;
-    background-color: #908e8ef4;
+    background-color: #ffffff;
     box-shadow: .25rem .25rem .25rem #000;
     border-radius: 2rem;
     padding-left: .5rem;
@@ -602,10 +697,7 @@ img {
     #roundDisplay {
 
         position: relative;
-        box-shadow: .25rem .25rem .25rem #000;
-        margin: 0;
         display: block;
-        text-align: center;
         font-size: 2rem;
         letter-spacing: .1rem;
     }
@@ -699,7 +791,9 @@ img {
 }
 
 @keyframes flip {
-    0% {}
+    0% {
+
+    }
 
     100% {
         transform: rotateY(180deg);
@@ -780,6 +874,8 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    
 }
 #c1 {
     position: absolute;
@@ -998,12 +1094,39 @@ img {
     background-color: #fff;
     color: #000000;
     border-color: #000000;
-    border-width: .5rem;
-    font-size: 2rem;
+    border-radius: 2rem;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: .25rem .25rem .25rem #000;
+    padding: .5rem;
+    padding-left: .8rem;
+    padding-right: .8rem;
+    margin: .5rem;
+    font-size: 1rem;
     animation-delay: 1500ms;
     animation-name: dropInIntro;
     animation-fill-mode: both;
     animation-duration: 1000ms;
+}
+
+@media only screen and (min-width: 900px) {
+    #clickToContinue{
+        font-size: 1.7rem;
+        letter-spacing: .5rem;
+        border-radius: 2rem;
+        padding: .5rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin: 1rem;
+        text-align: center;
+        transition-duration: 250ms;
+    }
+}
+
+#clickToContinue:hover{
+    color: #FE0002;
+    transition-duration: 250ms;
+
 }
 
 @keyframes dropInIntro {

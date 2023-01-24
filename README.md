@@ -4,8 +4,8 @@
 
 This game is a demonstration of my Javascript skills, presented through an interactive website in pure HTML5 & CSS3.
 
-Memoria is a vibrant card based memory reaction game that aims to be family friendly.
-The game uses a combination of card themes with distinctive iconography 
+Memoria is a vibrant, card based, memory challenge game for all ages.
+There are 6 core family friendly themes and icon sets
 ​
 
 
@@ -70,17 +70,21 @@ My main aims for the game were…
 
 ### **User Stories:**
 
-* As a user, I want to game to load quickly on my device
-* As a user, I want a fun and engaging experience
-* As a user, I want to have a clear objective that provides a challenge
-* as a user, I want progression and reward
+* As a player, I want to game to load quickly on my device
+* As a player, I want a fun and engaging experience
+* As a player, I want to have a clear objective that provides a challenge
+* as a player, I want progression and reward
 * as a user, I want to save my game settings
+* as a user, I want options to configure the game specifically to me
 * as a user, I want to configure the game to match my devices abilities
 * as a user, I want quick access to control audio
 
 ### **Game Aims:**
 
-* The game should, display cleanly
+* The game should, scale the interface to the users device
+* The game should, allow user interface zoom and scale proportionally
+* The game should, present the user with multiple game themes
+
 
 ### **Wireframes:**
 
@@ -116,13 +120,25 @@ The star of the game is the cards and I've done my best to create vibrant assets
 ---
 ## **Testing Phase**
 
-??
+Throughout development I thoroughly tested each piece of code from a core logic perspective and a visual one, before commits.
+My approach to testing is to do everything I can, from an end user perspective, to break the application. Always expect the unexpected click!
+Please note all testing code & comments were removed from final production code.
+The general dev cycle testing procedure was..
 
+* Add console logging for every variable
+* Verify results of calculations were as expected
+* Add console logging of all function executions and conditional tests
+* Verify outcomes were as expected
+* Using Chrome Devtools verify DOM manipulations were successful and as expected
+ 
 
+A suite of final tests were performed once I felt the application was code complete.
 
 | Test Type | Chrome(Windows) | Firefox(Windows) | Edge(windows) | Safari(IpadOS) | Chrome(Android) | Samsung Internet(Android) |
 | ----------- | ----------- | ---- | ---- | ----- | ----- | ---- |
-| Text Displays | Pass | Pass | Pass | Pass | Pass | Pass |
+| Intro Screen Loads | Pass | Pass | Pass | Pass | Pass | Pass |
+| Intro Screen has fluid rendering | Pass | Pass | Pass | Pass | Pass | Pass |
+| Intro Screen continue button triggers user welcome | Pass | Pass | Pass | Pass | Pass | Pass |
 
 ??
 
@@ -131,7 +147,7 @@ The star of the game is the cards and I've done my best to create vibrant assets
 
 #### *HTML Validator*
 
-To save screen space I've summarized the results
+Since nearly all the html is injected by Javascript the HTML validator does not have much to check
 
 | File | Result | Comments |
 | ----------- | ----------- | ---- |
@@ -180,7 +196,7 @@ I deployed the page on GitHub pages via the following the standard procedure: -
 3. Under the **Source** section, select the **Main** branch from the drop-down menu and click **Save**.
 4. A message will be displayed to indicate a successful deployment to GitHub pages and provide the live link.
 ​
-You can find the live site via the following URL - [live webpage](https://will-griffiths-ireland.github.io/Mars-Colony-One/)
+You can find the live site via the following URL - [live webpage](https://will-griffiths-ireland.github.io/Memoria/)
 
 Deployment to another host is also possible
 
@@ -217,16 +233,18 @@ These are the technologies used for this project.
 
 ### **User Enhancements**
 
-??
+* Expanded music that is custom to each theme
+* Convert to IOS & Android apps
 
 ### **Internal Enhancements**
 
-??
+* Modularize JS into multiple files
+* Refactor code further to reduce size and
 
 ## **Credits**
 ### **Honorable mentions**
 ​
-Thanks to my mentor Richard who provided valuable input and direction! I look forward to melting his mind during the next projects.
+Thanks to my mentor Richard who provided valuable input and direction!
 
 ??
 ​
@@ -236,6 +254,7 @@ Thanks to my mentor Richard who provided valuable input and direction! I look fo
   
 ### **Media:**
 ​
-???
+* All images were self created in MS Powerpoint using inbuilt icons
+* All sound effects and music was self created using Audacity and Garage Band
 
 

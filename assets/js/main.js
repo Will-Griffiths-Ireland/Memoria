@@ -11,7 +11,7 @@ let cardId = 0; //keep track of how many cards have been created in this session
 let imageQuality = 'medium'; //image file size & quality
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 8; //how many rounds to play in total
-let currentRound = 7; // always start with round 1
+let currentRound = 1; // always start with round 1
 let deckSize = 8; //control how big the player deck is
 let cardTheme = ''; // controls what set of cards will be in the deck - 'all' adds all themes
 let cardColor = ''; // controls what color cards are included - 'all' adds all colors
@@ -24,7 +24,7 @@ let settingsMenuOn = false;
 let gameActive = false; // bool to track active game state
 let allowClick = true; // bool to stop click spamming issues 
 let selectLocked = false; //block selecting cards till current move finished.
-let effectsOn = 'true';
+let effectsOn = 'false';
 let musicOn = 'false'; //using a string for local storage
 let currentMusic = 'menuMusic';
 let backGroundColor = '#ffffff';
@@ -32,6 +32,8 @@ let currentPlayerName = '';
 let iconsOn = 'false';
 let showingResetConfirm = false;
 let howToPlayScreenOn = false;
+let settingsRefreshRequested = false; //used within settings menu to control when to create or update elements
+let backGroundThemeColor = 'false';
 
 
 document.onload = displayIntro();
@@ -55,6 +57,34 @@ document.addEventListener("keydown", function (e) {
 //simple function to return a random number within a range
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
+}
+
+function setBackGroundToTheme(){
+
+    if(cardTheme == 'spooky' ){
+        document.body.style.backgroundColor = '#FFA219';
+    }
+    if(cardTheme == 'space'){
+        document.body.style.backgroundColor = '#00000';
+    }
+    if(cardTheme == 'history'){
+        document.body.style.backgroundColor = '#996600';
+    }
+    if(cardTheme == 'nature'){
+        document.body.style.backgroundColor = '#0D9D08';
+    }
+    if(cardTheme == 'sea'){
+        document.body.style.backgroundColor = '#0098FE';
+    }
+    if(cardTheme == 'science'){
+        document.body.style.backgroundColor = '#FE0002';
+    }
+    if(cardTheme == 'all' && cardColor == 'all'){
+        document.body.style.background = 'radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(255,162,25,1) 15%, rgba(153,102,0,1) 30%, rgba(13,157,8,1) 45%, rgba(0,152,254,1) 60%, rgba(254,0,2,1) 79%, rgba(177,0,253,1) 100%)';
+    }
+    if(cardTheme == 'all' && cardColor == 'white'){
+        document.body.style.backgroundColor = '#ffffff';
+    }
 }
 
 function displayHowToPlay() {
@@ -87,11 +117,12 @@ function displayHowToPlay() {
     howToPlayScreen.classList.add("mainMenu");
     howToPlayScreen.innerHTML = `
                 <h1 class="menuTitle">HOW TO PLAY</h1>
-                <p class="welcomeText">1. SELECT A THEME</p>
-                <p class="welcomeText">2. WATCH THE TOP OF THE SCREEN, REMEMBER THE CARDS, AND THEIR ORDER</p>
-                <p class="welcomeText">3. WAIT FOR YOUR CARDS AT THE BOTTOM OF THE SCREEN TO FLIP, CLICK THEM IN THE MATCHING ORDER</p>
-                <p class="welcomeText">4. TRY AND BEST EVERY THEME. 4 CARD STREAK UNLOCKS 1 STAR, 6 IS 2 STARS, AND 8 IS 3 STARS</p>
-                <p class="welcomeText">NOTE - BE PATIENT, YOU MUST WAIT FOR THE CARD TO BE CONFIRMED AND FLIPPED BEFORE YOU CAN CLICK THE NEXT</p>
+                <p class="welcomeText howToText">1. SELECT A THEME</p>
+                <p class="welcomeText howToText">2. WATCH THE TOP OF THE SCREEN, REMEMBER THE CARDS, AND THEIR ORDER</p>
+                <p class="welcomeText howToText">3. WAIT FOR YOUR CARDS AT THE BOTTOM OF THE SCREEN TO FLIP, CLICK THEM IN THE MATCHING ORDER</p>
+                <p class="welcomeText howToText">4. TRY AND BEAT EVERY THEME. A 4 CARD STREAK UNLOCKS 1 STAR, 6 IS 2 STARS, AND 8 IS 3 STARS</p>
+                <p class="welcomeText howToText">NOTE - BE PATIENT, YOU MUST WAIT FOR THE CARD TO BE CONFIRMED AND FLIPPED BEFORE YOU CAN CLICK THE NEXT</p>
+                <h2 class="menuItem" onclick="removeDisplayHowToPlay()">CLOSE</h2>
                 `;
     gameArea.appendChild(howToPlayScreen);
     howToPlayScreenOn = true;
@@ -107,6 +138,11 @@ function removeDisplayHowToPlay() {
 }
 
 function displayIntro() {
+    //check for background preference
+    if (localStorage.getItem('backGroundColor')) {
+        backGroundColor = localStorage.getItem('backGroundColor');
+        document.querySelector('body').style.backgroundColor = backGroundColor;
+    }
     let introArea = document.createElement('div');
     introArea.id = "introArea";
     introArea.style.width = "100vw";
@@ -131,10 +167,9 @@ function displayIntro() {
         i++;
     }
     let clickToContinue = document.createElement('h1');
-    clickToContinue.classList = "menuItem";
     clickToContinue.id = "clickToContinue";
     clickToContinue.innerText = "CLICK TO PLAY";
-    clickToContinue.setAttribute('onclick', 'captureUsername()');
+    clickToContinue.setAttribute("onclick", "captureUsername()");
     introArea.appendChild(clickToContinue);
 }
 
@@ -174,12 +209,17 @@ function loadSettings() {
         } else if (effectsOn == 'false' && iconsOn) {
             document.getElementById('effectsIcon').innerText = 'volume_off';
         }
-        //check for background preference
-        if (localStorage.getItem('backGroundColor')) {
-            backGroundColor = localStorage.getItem('backGroundColor');
-            document.querySelector('body').style.backgroundColor = backGroundColor;
-        }
+      
     }
+    //check for background preference
+    if (localStorage.getItem('backGroundColor')) {
+        backGroundColor = localStorage.getItem('backGroundColor');
+        document.querySelector('body').style.backgroundColor = backGroundColor;
+    }
+        //check for background preference in game
+        if (localStorage.getItem('backGroundThemeColor')) {
+            backGroundThemeColor = localStorage.getItem('backGroundThemeColor');
+        }
 }
 /**
  * This function will show/hide menu icons.
@@ -298,9 +338,16 @@ function storeName() {
 
     event.preventDefault();
     if (document.getElementById('userName')) {
-        console.log(" here is the name" + document.getElementById('userName').value);
-        localStorage.setItem("name", document.getElementById('userName').value);
-        currentPlayerName = document.getElementById('userName').value;
+        
+        if(document.getElementById('userName').value == '')
+        {
+            currentPlayerName = "the player that didn't enter their name :)";
+            localStorage.setItem("name", currentPlayerName);
+        }
+        else{
+            currentPlayerName = document.getElementById('userName').value;
+            localStorage.setItem("name", document.getElementById('userName').value);
+        }
     }
     document.getElementById('userCapture').classList.add('menuBurn');
     setTimeout(() => {
@@ -313,48 +360,108 @@ function storeName() {
 }
 
 function displaySettingsMenu() {
-
-    if (settingsMenuOn) {
+    console.log(imageQuality);
+    console.log(backOfCardType);
+    let settingsMenu;
+    if(!settingsRefreshRequested){
+        if (settingsMenuOn) {
+            playAudio('menu1', 'effect');
+            removeSettingsMenu();
+            return;
+        }
+    
+    
+        if (menuOn) {
+            removeMenu();
+            setTimeout(() => {
+                playAudio('menu1', 'effect');
+                displaySettingsMenu();
+            }, 1000);
+            return;
+        }
+        if (howToPlayScreenOn) {
+            removeDisplayHowToPlay();
+            setTimeout(() => {
+                playAudio('menu1', 'effect');
+                displaySettingsMenu();
+            }, 1000);
+            return;
+        }
         playAudio('menu1', 'effect');
-        removeSettingsMenu();
-        return;
+        settingsMenu = document.createElement('div');
+        settingsMenu.id = "settingsMenu";
+        settingsMenu.classList.add("menuDrop");
+        settingsMenu.classList.add("mainMenu");
     }
 
-
-    if (menuOn) {
-        removeMenu();
-        setTimeout(() => {
-            playAudio('menu1', 'effect');
-            displaySettingsMenu();
-        }, 1000);
-        return;
+    if(settingsRefreshRequested){
+        settingsMenu = document.getElementById("settingsMenu");
     }
-    if (howToPlayScreenOn) {
-        removeDisplayHowToPlay();
-        setTimeout(() => {
-            playAudio('menu1', 'effect');
-            displaySettingsMenu();
-        }, 1000);
-        return;
+    
+    let cardImgQualityHtml = ``;
+    if(imageQuality == 'low'){
+        cardImgQualityHtml = `<h2 class="settingsMenuItem">CARD IMAGE QUALITY<span onclick="refreshSettingsMenu('imageQuality','low')" class="bold settingsOption"> >LOW< </span><span onclick="refreshSettingsMenu('imageQuality','medium')" class="settingsOption"> MED </span><span onclick="refreshSettingsMenu('imageQuality','high')" class="settingsOption"> HIGH </span></h2>`;
     }
-    playAudio('menu1', 'effect');
+    if(imageQuality == 'medium'){
+        cardImgQualityHtml = `<h2 class="settingsMenuItem">CARD IMAGE QUALITY<span onclick="refreshSettingsMenu('imageQuality','low')" class="settingsOption"> LOW </span><span onclick="refreshSettingsMenu('imageQuality','medium')" class="bold settingsOption"> >MED< </span><span onclick="refreshSettingsMenu('imageQuality','high')" class="settingsOption"> HIGH </span></h2>`;
+    }
+    if(imageQuality == 'high'){
+        cardImgQualityHtml = `<h2 class="settingsMenuItem">CARD IMAGE QUALITY<span onclick="refreshSettingsMenu('imageQuality','low')" class="settingsOption"> LOW </span><span onclick="refreshSettingsMenu('imageQuality','medium')" class="settingsOption"> MED </span><span onclick="refreshSettingsMenu('imageQuality','high')" class="bold settingsOption"> >HIGH< </span></h2>`;
+    }
 
-    let settingsMenu = document.createElement('div');
-    settingsMenu.id = "settingsMenu";
-    settingsMenu.classList.add("menuDrop");
-    settingsMenu.classList.add("mainMenu");
+    let cardNamedHtml = ``;
+    if(backOfCardType == 'named'){
+        cardNamedHtml = `<h2 class="settingsMenuItem">SHOW LOGO ON CARDS<span onclick="refreshSettingsMenu('backOfCardType','named')" class="bold settingsOption"> >YES< </span><span onclick="refreshSettingsMenu('backOfCardType','unnamed')" class="settingsOption"> NO </span></h2>`;
+    }
+    if(backOfCardType == 'unnamed'){
+        cardNamedHtml = `<h2 class="settingsMenuItem">SHOW LOGO ON CARDS<span onclick="refreshSettingsMenu('backOfCardType','named')" class="settingsOption"> YES </span><span onclick="refreshSettingsMenu('backOfCardType','unnamed')" class="bold settingsOption"> >NO< </span></h2>`;
+    }
+
+    let backGroundColorHtml = ``;
+    if(backGroundThemeColor == 'true'){
+        backGroundColorHtml = `<h2 class="settingsMenuItem">BACKGROUNDS MATCH THEMES<span onclick="refreshSettingsMenu('backGroundThemeColor','true')" class="bold settingsOption"> >YES< </span><span onclick="refreshSettingsMenu('backGroundThemeColor','false')" class="settingsOption"> NO </span></h2>`;
+    }
+    if(backGroundThemeColor == 'false'){
+        backGroundColorHtml = `<h2 class="settingsMenuItem">BACKGROUNDS MATCH THEMES<span onclick="refreshSettingsMenu('backGroundThemeColor','true')" class="settingsOption"> YES </span><span onclick="refreshSettingsMenu('backGroundThemeColor','false')" class="bold settingsOption"> >NO< </span></h2>`;
+    }
+
 
     settingsMenu.innerHTML = `
-                <h1 class="menuTitle">ALL SETTINGS</h1>
-                <h2 class="menuItem" onclick="">Current Player Name - <span class="bold">${currentPlayerName}</span></h2>
-                <h2 class="menuItem" onclick="">Background Color - <span class="bold">${backGroundColor}</span></h2>
-                <h2 class="menuItem" onclick="">Card Image Quality - <span class="bold">${imageQuality}</span></h2>
-                <h2 class="menuItem" onclick="">Display Type Back Face - <span class="bold">${backOfCardType}</span></h2>
-                <h2 class="menuItem" onclick="">Total Rounds - <span class="bold">${gameRounds}</span></h2>`;
-    gameArea.appendChild(settingsMenu);
+                <h1 class="menuTitle">OTHER SETTINGS</h1>
+                ${cardImgQualityHtml}
+                ${cardNamedHtml}
+                ${backGroundColorHtml}
+                <h2 class="menuItem" onclick="removeSettingsMenu()">CLOSE</h2>`;
+    
+                if(!settingsRefreshRequested){
+                    gameArea.appendChild(settingsMenu);
+                }
+    
+                
     settingsMenuOn = true;
+
+    settingsRefreshRequested = false;
 }
 
+function refreshSettingsMenu(settingToUpdate, newVal){
+    //refresh the display
+    console.log(settingToUpdate);
+    console.log(newVal);
+    if(settingToUpdate == 'imageQuality'){
+        imageQuality = newVal;
+    }
+    if(settingToUpdate == 'backOfCardType'){
+        backOfCardType = newVal;
+    }
+    if(settingToUpdate == 'backGroundThemeColor'){
+        backGroundThemeColor = newVal;
+        localStorage.setItem('backGroundThemeColor', newVal);
+    }
+
+
+    settingsRefreshRequested = true;
+    displaySettingsMenu();
+}
 function removeSettingsMenu() {
     document.getElementById("settingsMenu").classList.remove("menuDrop");
     document.getElementById("settingsMenu").classList.add("menuBurn");
@@ -1867,6 +1974,9 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     cardColor = cardColorSelected;
     deckSize = deckSizeSelected;
     gameRounds = deckSize;
+    if(backGroundThemeColor == 'true'){
+        setBackGroundToTheme();
+    }
     console.log("starting game with deckSize " + deckSize);
     if (!gameActive) {
         fadeOutAudio('menuMusic');
@@ -1891,7 +2001,7 @@ function createGameDeck(cardTheme, cardColor, deckSize) {
     console.log("createGameDeck called and 'color' = " + cardColor);
     let tempDeck = buildCardObjectArray(imageQuality, backOfCardType);
     let gameDeck = [];
-    for (card of tempDeck) {
+    for (let card of tempDeck) {
         if ((card.category == cardTheme && card.color == cardColor) || (card.category == cardTheme && cardColor == 'all') ||
             (cardTheme == 'all' && cardColor == 'all') || (cardTheme == 'all' && card.color == cardColor)) {
             gameDeck.push(card);
@@ -1964,6 +2074,9 @@ function selectCard(e) {
                         setThemeAward(cardTheme, '3');
                         gameActive = false;
                         currentRound = 1;
+                        //reset background
+                        document.body.style.background = '';
+                        document.body.style.backgroundColor = backGroundColor;
                         displayMenu();
                     }
                 }, 3000);
@@ -1983,6 +2096,9 @@ function selectCard(e) {
             gameActive = false;
             currentRound = 1; // reset round back to 1
             burnCards();
+            //reset background
+            document.body.style.background = '';
+            document.body.style.backgroundColor = backGroundColor;
             displayMenu()
 
         }, 3000);
@@ -2119,6 +2235,9 @@ function endGame() {
     setTimeout(() => {
         const cardsToDel = document.getElementsByClassName('cardContainer');
         const totalElements = cardsToDel.length;
+        //reset background
+        document.body.style.background = '';
+        document.body.style.backgroundColor = backGroundColor;
         let loopCount = 0;
         for (let i = 0; i < totalElements; i++) {
             cardsToDel[0].remove();
