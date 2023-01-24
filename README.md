@@ -6,6 +6,9 @@ Memoria is a vibrant, card based, memory challenge game for all ages.
 There are 6 core family friendly themes and icon sets, with 2 themes that use all icons.
 Players are shown an increasing number of cards, that they need to remember, in order, to win.
 ​
+![Intro Screen](./assets/docs/introscreen_AIR.jpg)
+![Menu Screen](./assets/docs/mainMenu_AIR.jpg)
+![Game Screen](./assets/docs/inGame_AIR.jpg)
 
 #### [The deployed website is here on GitHub Pages](https://will-griffiths-ireland.github.io/Memoria/)​
 
@@ -20,7 +23,7 @@ Players are shown an increasing number of cards, that they need to remember, in 
     * [***Color Scheme***](#color-scheme)
     * [***Typography***](#typography)
 1. [**Game Features**](#game-features)
-    * [***Intro Screen***](#player-name)
+    * [***Intro***](#intro)
     * [***Player Name***](#player-name)
     * [***Theme Menu***](#theme-menu)
 1. [**Testing Phase**](#testing-phase)
@@ -92,13 +95,26 @@ My main aims for the game were…
 
 ### **Wireframes:**
 
-??
+The initial wireframes were a few pages as I was aiming for a really clean interface.
+I had a good idea of the look I wanted.
+
+![Wireframe 1](./assets/docs/wireframe1.JPG)
+![Wireframe 2](./assets/docs/wireframe2.JPG)
+
+
 ​
 ### **Color Scheme:**
 
-The star of the game is the cards and I've done my best to create vibrant assets with depth and character
+The core color scheme for the UI is black (#000000) and white (#ffffff)
+The icons and menus were designed with high contract in mind.
 
-### **Typography**
+grey is used to add some variation while staying nuetral to the users preference of dark/light theme
+
+
+The star of the game is the cards and I've done my best to create vibrant assets with depth and character.
+The core colors use gradients to give them a 3d element
+
+### **Design & Font**
 ​
 ??
 
@@ -137,15 +153,26 @@ The general dev cycle testing procedure was..
  
 
 A suite of final tests were performed once I felt the application was code complete.
+These are based around the end to end player journey
 
-| Test Type | Chrome(Windows) | Firefox(Windows) | Edge(windows) | Safari(IpadOS) | Chrome(Android) | Samsung Internet(Android) |
+1. Verify that intro screen displays correctly and interaction is successful
+
+| Sub Test | Chrome(Windows) | Firefox(Windows) | Edge(windows) | Safari(IpadOS) | Chrome(Android) | Samsung Internet(Android) |
 | ----------- | ----------- | ---- | ---- | ----- | ----- | ---- |
-| Intro Screen Loads | Pass | Pass | Pass | Pass | Pass | Pass |
-| Intro Screen has fluid rendering | Pass | Pass | Pass | Pass | Pass | Pass |
-| Intro Screen continue button triggers user welcome | Pass | Pass | Pass | Pass | Pass | Pass |
+| Loads OK | Pass | Pass | Pass | Pass | Pass | Pass |
+| Rendering is fluid | Pass | Pass | Pass | Pass | Pass | Pass |
+| Continue button displays | Pass | Pass | Pass | Pass | Pass | Pass |
+| Click/tap results in user capture screen| Pass | Pass | Pass | Pass | Pass | Pass |
+| Image & Text clear| Pass | Pass | Pass | Pass | Pass | Pass |
 
-??
+Notes - None
 
+2. Verify that user greeting displays correctly and interaction is successful
+
+| Sub Test | Chrome(Windows) | Firefox(Windows) | Edge(windows) | Safari(IpadOS) | Chrome(Android) | Samsung Internet(Android) |
+| ----------- | ----------- | ---- | ---- | ----- | ----- | ---- |
+| Loads OK | Pass | Pass | Pass | Pass | Pass | Pass |
+| Loads OK | Pass | Pass | Pass | Pass | Pass | Pass |
 
 ### **Validators**
 
@@ -253,7 +280,7 @@ Thanks to my mentor Richard who provided valuable input and direction!
 ​
 ### **Content:**
 ​
-???
+The game concept is my original idea.
   
 ### **Media:**
 ​
