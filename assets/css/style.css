@@ -17,8 +17,6 @@
 
 }
 
-
-
 body {
     background-color: #fff;
     margin: 0;
@@ -79,12 +77,10 @@ img {
     border: 0;
     margin: 1rem;
     transition-duration: 250ms;
-
 }
 }
 
 #menuIconContainer{
-
     position: absolute;
     display: flex;
     justify-content: center;
@@ -104,18 +100,14 @@ img {
 }
 
 @media only screen and (min-width: 900px) {
-
     #menuIconContainer{
-
         width: 4rem;
         height: 4rem;
         top: .5rem;
         border-radius: 50%;
         box-shadow: .25vw .25vw .25vw #000;
-    }
-        
+    }     
 }
-
 #settingsIconContainer{
 
     position: absolute;
