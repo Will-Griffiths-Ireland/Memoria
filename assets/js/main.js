@@ -233,7 +233,7 @@ function showHideMenuIcons() {
     header.innerHTML = `<div id="menuIconContainer" class="menuIcon"><span onclick="displayMenu()" class="material-symbols-outlined menuIcon">menu</span></div>
     <div id="settingsIconContainer" class="menuIcon"><span onclick="displaySettingsMenu()" class="material-symbols-outlined menuIcon">settings</span></div>
     <div id="musicIconContainer" class="menuIcon"><span id="musicIcon" onclick="setMusicOnOff()" class="material-symbols-outlined menuIcon">music_note</span></div>
-    <div id="audioIconContainer" class="menuIcon"><span id="effectsIcon" onclick="setEffectsOnOff()" class="material-symbols-outlined menuIcon">volume_up</span></div>
+    <div id="audioIconContainer" class="menuIcon"><span id="effectsIcon" onclick="setEffectsOnOff()" class="material-symbols-outlined menuIcon">volume_off</span></div>
     <div id="lightDarkIconContainer" class="menuIcon"><span id="lightDarkIcon" onclick="setBackgroundColor()" class="material-symbols-outlined menuIcon">contrast</span></div>
     <div id="helpIconContainer" class="menuIcon"><span id="helpIcon" onclick="displayHowToPlay()" class="material-symbols-outlined menuIcon">help</span></div>`;
     setTimeout(() => {
@@ -360,8 +360,6 @@ function storeName() {
 }
 
 function displaySettingsMenu() {
-    console.log(imageQuality);
-    console.log(backOfCardType);
     let settingsMenu;
     if(!settingsRefreshRequested){
         if (settingsMenuOn) {
@@ -2051,6 +2049,7 @@ function selectCard(e) {
         if (totalSelectedCards == cardsToMatch.length) {
             scatterWinSmiles(currentRound * 10);
             playAudio('wellDone', 'effect')
+            document.getElementById('roundDisplay').innerText = "YOU WIN THIS ROUND!!"
             //wait 3 seconds and reset
             setTimeout(() => {
                 burnCards();
@@ -2070,6 +2069,7 @@ function selectCard(e) {
                         gameStart(cardTheme, cardColor, deckSize);
                     } else {
                         console.log("you win this theme. well done !!")
+                        document.getElementById('roundDisplay').innerText = "YOU BEAT THIS THEME!!"
                         playAudio('beatTheme', 'effect');
                         setThemeAward(cardTheme, '3');
                         gameActive = false;
@@ -2084,6 +2084,7 @@ function selectCard(e) {
         }
     } else {
         console.log("You failed!!!!")
+        document.getElementById('roundDisplay').innerText = "SORRY, YOU LOOSE"
         playAudio('roundLoose', 'effect')
         const cardsToFlip = document.getElementsByClassName("cardsToMatch");
         for (card of cardsToFlip) {

@@ -29,6 +29,12 @@ body {
     z-index: 1;
 }
 
+@media only screen and (min-width: 900px) {
+    body {
+        overflow: hidden;
+    }
+}
+
 img {
     /* This filter to add drop shadows gives the cards some definition in stacks/overlap so that colors dor not blend into one.
     The advantage over a border is that this conforms to the actual image border and ignores transparency */
