@@ -26,16 +26,7 @@ body {
     height: 100vh;
     box-sizing: border-box;
     border: 0;
-    overflow: hidden;
     z-index: 1;
-}
-
-@media only screen and (min-width: 900px) {
-    body{
-        overflow-y: hidden;
-        overflow-x: hidden;
-    }
-
 }
 
 img {
@@ -45,7 +36,7 @@ img {
 }
 
 .bold{
-    font-weight: 700;
+    font-weight: bold;
 }
 
 .welcomeText{
