@@ -31,7 +31,7 @@ Players are shown an increasing number of cards, that they need to remember, in 
     * [***Victory Animation***](#victory-animation)
     * [***Awards***](#awards)
     * [***Music & Effects***](#music-effects)
-    * [***Setings***](#settings)
+    * [***Settings***](#settings)
 
 1. [**Testing Phase**](#testing-phase)
     * [***Validators***](#validators)
@@ -57,6 +57,7 @@ There are benefits to both children and adults when they engage in an activity t
 When planning Memoria I kept my focus on the player and making a memory game that had a really simple core gameplay loop, but had an increasing memory challenge factor.
 My main aims for the game were…
 
+* Easy initial rounds give player satisfaction but quickly get challenging
 * Clean interface to emulate a big tidy table
 * Distinctive cards with the same ‘feel’ as regular playing cards
 * Multiple themes linked to a colour and a set of related icons
@@ -104,7 +105,7 @@ My main aims for the game were…
 ### **Wireframes:**
 
 The initial wireframes were a few pages as I was aiming for a really clean interface.
-I had a good idea of the look I wanted.
+I had a good idea of the look I wanted. The design did evolve during dev but nothing major from my original vision
 
 ![Wireframe 1](./assets/docs/wireframe1.JPG)
 ![Wireframe 2](./assets/docs/wireframe2.JPG)
@@ -114,23 +115,63 @@ I had a good idea of the look I wanted.
 ### **Color Scheme:**
 
 The core color scheme for the UI is black (#000000) and white (#ffffff)
-The icons and menus were designed with high contract in mind.
-Hover events use red #FE0002
+The icons and menus were designed with high contrast in mind.
+The user has the ability to quickly change between light/dark, I carefully designed the UI to maintain contrast at all times.
+Hover events use red #FE0002.
+Drop shadows use black.
 
-grey is used to add some variation while staying nuetral to the users preference of dark/light theme
+![Icons on White](./assets/docs/icons_onwhite.png)
+![Icons on Black](./assets/docs/icons_onblack.png)
+
+Grey (#908e8ef4) is used to add some variation in the settings menu for example while staying neutral to the users preference of dark/light theme.
+Note the use of alpha transparency (#fffffff4) on the backgrounds colours. This allow for both a sense of depth and also knocks down the vibrance of the white menus when the user has picked dark mode.
+
+![Menu on White](./assets/docs/settingsmenu_on_white.webp)
+![Menu on back](./assets/docs/settingsmenu_on_black.webp)
 
 
 The star of the game is the cards and I've done my best to create vibrant assets with depth and character.
-The core colors use gradients to give them a 3d element
+The core colors use gradients to give them a 3d element.
 
-### **Design & Font**
+![Card Back](./assets/docs/cardback.webp)
+
+![Cards Selection](./assets/docs/cards.JPG)
+![Cards 2 Selection](./assets/docs/cardfront.webp)
+
+### **Design Choices**
 ​
 The overall esthetic I based around the cards. The tactile feel and rounded edges are something I've try to seed throughout the game.
-Menus are rounded, buttons are rounded.
-The entire experience is designed to be smooth but mentally taxing
+Menus are rounded, buttons are rounded, cards are rounded off.
+The entire experience is designed to be smooth and relaxing.
 
+#### **Fonts**
 
+The font used on the cards was Arial Rounded MT Bold.
+The UI uses Varela Round from Google Fonts with a fallback to sans-serif.
 
+I made the decision to use uppercase across everything in the UI. After testing different styles it just felt like the right fit for readability and the look I wanted.
+
+#### **Animations**
+
+The flow of the game is smooth with objects dropping in from 0 opacity and larger scales. Cards have a flip animation that is not only for esthetics but plays an important part in the gameplay loop.
+
+The delay in player card selection is deliberate and drives them to commit cards to short term memory rather than pure memory reflect reactions.
+There is also an element of patience that is required.
+
+Other animations aim to give smooth transitions between menus and the main game
+
+#### **Accessibility**
+
+The colours are high contrast, the card assets are all distinct colours.
+
+The dark/light switch accommodates those with possible light sensitivity.
+
+I designed it so colour matching is not important across all but the mixed mode. If the player has some sensitivity to colour they can play in mono mode with the entire selection of all icons.
+
+The interface is is designed with a break at 900px width and a step up in all the units, this covers smaller mobile/tablets and then larger displays (I've tested this from phone screens up to a 4k TV). The use of rem across all the UI allows the player to zoom or shrink as required to meet any individual needs.
+
+I gave a lot of consideration to those with reduced motion preferences for animations and I did try to implement a setting but I found this became very jarring with the way I had designed the game.
+From an animations perspective I see it as a future enhancement to create a whole new display function that utilizes other methods such as onscreen timers.
 
 ---
 ​
@@ -173,50 +214,84 @@ Tests were done across...
 * Safari(IpadOS)
 * Chrome(Android)
 * Samsung Internet(Android)
+* Steam Deck (Chrome on Linux)
 
-To save screenspace below the result field will be a combination of all platforms and notes will call out details of any failures or issues
+To save screen space below the result field will be a combination of all platforms and notes will call out details of any failures or issues
+
+<details>
+<summary>Note - I did get it running fine on a Steam Deck. Here are some images</summary>
+
+![Steam Deck 1](./assets/docs/steamDeck1.jpg)
+----
+![Steam Deck 2](./assets/docs/steamDeck2.jpg)
+----
+![Steam Deck 3](./assets/docs/steamDeck3.jpg)
+</details>
+
+
+<br>
 
 ### 1. Verify that intro screen displays correctly and interaction is successful
 
 | Sub Test | Result | Note | 
 | ----------- | ----------- | ---- |
-| Loads OK | Pass | Pass |
-| Rendering is fluid | Pass | Pass |
-| Continue button displays | Pass | Pass |
-| Click/tap results in user capture screen| Pass | Pass |
-| Image & Text clear| Pass | Pass |
+| Loads OK | Pass |  |
+| Rendering is fluid | Pass |  |
+| Continue button displays | Pass |  |
+| Click/tap results in user capture screen| Pass |  |
+| Image & Text clear| Pass | |
 
 ### 2. Verify that player greeting displays correctly and interaction is successful
 
 | Sub Test | Result | Note |
 | ----------- | ----------- | ---- |
-| Name entry works | Pass | Pass |
-| Modal is centered and text clear | Pass | Pass |
-| Returning player greeted with name | Pass | Pass |
-| Returning player given continue option | Pass | Pass |
-| Returning player provide reset game option | Pass | Pass |
-| Reset game tap/click shows red confirm warning | Pass | Pass |
+| Name entry works | Pass |  |
+| Modal is centered and text clear | Pass |  |
+| Returning player greeted with name | Pass |  |
+| Returning player given continue option | Pass | |
+| Returning player provide reset game option | Pass | |
+| Reset game tap/click shows red confirm warning | Pass | |
 
-### 3. Verify Main menu displays correctly and interaction is successful
+### 3. Verify main menu displays correctly and interaction is successful
 
 | Sub Test | Result | Note |
 | ----------- | ----------- | ---- |
-| Menu centered | Pass | Pass |
-| All Icons displaying | Pass | Pass |
+| Menu centered | Pass | |
+| Theme names display | Pass | |
+| Emma theme shown is username of Emma was used | Pass | |
+| All menu icons displaying | Pass | |
+| Theme award stars display if any achieved | Pass | |
 | Music on/off changes icon and starts/stops menu music | Partial Pass | No fade in IOS due to system limitations on volume access |
-| Effects on/off changes icon and enables/disables effects  | Pass | Pass |
-| All themes trigger game of that theme type | Pass | Pass |
-| Menu icon triggers opening or closing of menu | Pass | Pass |
-| Layout scales with browser zoom  | Pass | Pass |
-| Animations and transitions correct  | Pass | Pass |
-| Game tutorial displays and closes  | Pass | Pass |
-| Menu icon clicks close current modal if one is open  | Pass | Pass |
+| Effects on/off changes icon and enables/disables effects  | Pass | |
+| All themes trigger game of that theme type | Pass | |
+| Menu icon triggers opening or closing of menu | Pass | |
+| Escape key triggers opening or closing of menu (PC) | Pass | |
+| Layout scales with browser zoom  | Pass | |
+| Animations and transitions correct  | Pass | |
+| Game tutorial icon triggers tutorial display  | Pass | |
+| Other settings icon triggers other settings menu  | Pass | |
+| Menu icon clicks close current modal if one is open  | Pass | |
 
-### 3. Verify main game plays as expect and responds to player input
+### 4. Verify main game works as expected and responds to player input
 
 | Sub Test | Result | Note |
 | ----------- | ----------- | ---- |
-| Starts at round 1 | Pass | Pass |
+| Starts at round 1 on initial launch | Pass |  |
+| Theme and round count display | Pass |  |
+| Layout scales with browser zoom  | Pass |  |
+| Cards to match display | Pass |  |
+| If enabled menu music fades and game music starts | Partial Pass | IOS no fade |
+| If enabled effects play | Partial Pass | IOS will only play effects directly lined to user actions |
+| Animations timings correct | Pass |  |
+| Player can select card | Pass |  |
+| Correct card selection results in card to match be flipped | Pass |  |
+| Correct card selection results round counter displaying win message | Pass |  |
+| All correct cards selected shows win animation | Pass |  |
+| All correct cards selected shows win message in round counter | Pass |  |
+| Incorrect card selection results in all cards being shown | Pass |  |
+| Incorrect card selection shows round counter displaying loose message | Pass |  |
+| Incorrect card selection results in fade back to main menu | Pass |  |
+| Incorrect card selection results, if enabled, in game music fade and menu music play | Pass |  |
 
 ### **Validators**
 
