@@ -35,9 +35,7 @@ let howToPlayScreenOn = false;
 let settingsRefreshRequested = false; //used within settings menu to control when to create or update elements
 let backGroundThemeColor = 'false';
 
-
 document.onload = displayIntro();
-
 
 //show menu if escape is pressed and remove it if escape is pressed again
 document.addEventListener("keydown", function (e) {
@@ -50,15 +48,14 @@ document.addEventListener("keydown", function (e) {
     }
     return;
 });
-
-//BASIC UTILITY FUNCTIONS
-
-
 //simple function to return a random number within a range
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
-
+/**
+ * This function sets the body background to match the theme.
+ * The global setting for this is defaulted off but users can enable in settings menu
+ */
 function setBackGroundToTheme() {
 
     if (cardTheme == 'spooky') {
@@ -73,6 +70,9 @@ function setBackGroundToTheme() {
     if (cardTheme == 'nature') {
         document.body.style.backgroundColor = '#0D9D08';
     }
+    if (cardTheme == 'emma') {
+        document.body.style.backgroundColor = '#B100FD';
+    }
     if (cardTheme == 'sea') {
         document.body.style.backgroundColor = '#0098FE';
     }
@@ -86,18 +86,19 @@ function setBackGroundToTheme() {
         document.body.style.backgroundColor = '#ffffff';
     }
 }
-
+/**
+ *This function displays the modal explaining how to play. 
+ * If other modals are open they get closed
+ */
 function displayHowToPlay() {
-
     if (howToPlayScreenOn) {
-        playAudio('menu1', 'effect');
+        playAudio('menuClose', 'effect');
         removeDisplayHowToPlay();
         return;
     }
     if (menuOn) {
         removeMenu();
         setTimeout(() => {
-            playAudio('menu1', 'effect');
             displayHowToPlay();
         }, 1000);
         return;
@@ -105,12 +106,11 @@ function displayHowToPlay() {
     if (settingsMenuOn) {
         removeSettingsMenu();
         setTimeout(() => {
-            playAudio('menu1', 'effect');
             displayHowToPlay();
         }, 1000);
         return;
     }
-    playAudio('menu1', 'effect');
+    playAudio('menuShow', 'effect');
     let howToPlayScreen = document.createElement('div');
     howToPlayScreen.id = "howToPlayScreen";
     howToPlayScreen.classList.add("menuDrop");
@@ -135,12 +135,19 @@ function removeDisplayHowToPlay() {
         document.getElementById("howToPlayScreen").remove();
     }, 1000);
     howToPlayScreenOn = false;
+    playAudio('menuClose', 'effect');
 }
 
+/**
+ * This function displays a stack of 16 random cards in the center of the screen
+ * The final card shows the backface of a random color
+ * The link to continue comes in after just a second so works as a skip button
+ */
 function displayIntro() {
-    //check for background preference
+    //check for background preference that the user might have set
     if (localStorage.getItem('backGroundColor')) {
         backGroundColor = localStorage.getItem('backGroundColor');
+        console.log(backGroundColor);
         document.querySelector('body').style.backgroundColor = backGroundColor;
     }
     let introArea = document.createElement('div');
@@ -173,18 +180,27 @@ function displayIntro() {
     introArea.appendChild(clickToContinue);
 }
 
+/**
+ * This function toggles the overall body background
+ * This remains available during the game and if the users has theme colour matching on they can quickly override it just it just in that game
+ */
 function setBackgroundColor() {
     if (backGroundColor == '#000000') {
-        document.querySelector('body').style.backgroundColor = '#ffffff';
+        document.body.style.background = '';
+        document.body.style.backgroundColor = '#ffffff';
         backGroundColor = '#ffffff';
         localStorage.setItem('backGroundColor', '#ffffff');
     } else if (backGroundColor == '#ffffff') {
-        document.querySelector('body').style.backgroundColor = '#000000';
+        document.body.style.background = '';
+        document.body.style.backgroundColor = '#000000';
         backGroundColor = '#000000';
         localStorage.setItem('backGroundColor', '#000000');
     }
 }
 
+/**
+ * This function grabs any saved settings and sets the icons to match
+ */
 function loadSettings() {
     //check to see if music preference was saved
     if (localStorage.getItem('musicOn')) {
@@ -197,12 +213,12 @@ function loadSettings() {
         document.getElementById('musicIcon').innerText = 'music_off';
     }
 
+    //kick of menu music if enabled
     if (musicOn == 'true') {
         playAudio('menu', 'music');
     }
 
     //check for audio effect preference
-
     if (localStorage.getItem('effectsOn')) {
         effectsOn = localStorage.getItem('effectsOn');
         if (effectsOn == 'true' && iconsOn) {
@@ -217,9 +233,17 @@ function loadSettings() {
         backGroundColor = localStorage.getItem('backGroundColor');
         document.querySelector('body').style.backgroundColor = backGroundColor;
     }
-    //check for background preference in game
+    //check for setting backgrounds to match game theme
     if (localStorage.getItem('backGroundThemeColor')) {
         backGroundThemeColor = localStorage.getItem('backGroundThemeColor');
+    }
+    //check card image quality setting
+    if (localStorage.getItem('imageQuality')) {
+        imageQuality = localStorage.getItem('imageQuality');
+    }
+     //check card image quality setting
+    if (localStorage.getItem('backOfCardType')) {
+        backOfCardType = localStorage.getItem('backOfCardType');
     }
 }
 /**
@@ -247,6 +271,10 @@ function showHideMenuIcons() {
     }, 1000);
 }
 
+/**
+ * triggers music to stop after fade out or to start again on current track
+ * updates menu icons too
+ */
 function setMusicOnOff() {
     if (musicOn == 'true') {
         document.getElementById('musicIcon').innerText = 'music_off';
@@ -264,6 +292,9 @@ function setMusicOnOff() {
     }
 }
 
+/**
+ * Enables or disabled sound effects and updates icons
+ */
 function setEffectsOnOff() {
     if (effectsOn == 'true') {
         document.getElementById('effectsIcon').innerText = 'volume_off';
@@ -276,7 +307,12 @@ function setEffectsOnOff() {
     }
 }
 
+/**
+ * Show a modal to welcome the user and get a username
+ * returning users get welcomed by name with option to continue or reset
+ */
 function captureUsername() {
+    //cleanup the elements we used in the intro
     if (document.getElementById('introArea')) {
         document.getElementById('introArea').classList.add('burnUpQuick');
         setTimeout(() => {
@@ -315,6 +351,13 @@ function captureUsername() {
     }
 }
 
+/**
+ * Function used to confirm user wants to delete their saved game
+ * first call updates element with additional warning
+ * second call will trigger wipe of local storage
+ * @param {string} areYouSure 
+ *  
+ */
 function resetGame(areYouSure) {
     if (areYouSure == 'maybe') {
         document.getElementById('resetButton').innerText = "YES I'M SURE, WIPE DATA!!";
@@ -335,8 +378,12 @@ function resetGame(areYouSure) {
     }
 }
 
+/**
+ * Store the name the user gave
+ * Set a cheeky name if they didn't give a value.
+ * call functions to setup menu
+ */
 function storeName() {
-
     event.preventDefault();
     if (document.getElementById('userName')) {
 
@@ -358,20 +405,21 @@ function storeName() {
     }, 1000);
 }
 
+/**
+ * 
+ * Displays model with other settings the user can select.
+ * Saves them and updates
+ */
 function displaySettingsMenu() {
     let settingsMenu;
     if (!settingsRefreshRequested) {
         if (settingsMenuOn) {
-            playAudio('menu1', 'effect');
             removeSettingsMenu();
             return;
         }
-
-
         if (menuOn) {
             removeMenu();
             setTimeout(() => {
-                playAudio('menu1', 'effect');
                 displaySettingsMenu();
             }, 1000);
             return;
@@ -379,12 +427,11 @@ function displaySettingsMenu() {
         if (howToPlayScreenOn) {
             removeDisplayHowToPlay();
             setTimeout(() => {
-                playAudio('menu1', 'effect');
                 displaySettingsMenu();
             }, 1000);
             return;
         }
-        playAudio('menu1', 'effect');
+        playAudio('menuShow', 'effect');
         settingsMenu = document.createElement('div');
         settingsMenu.id = "settingsMenu";
         settingsMenu.classList.add("menuDrop");
@@ -421,41 +468,37 @@ function displaySettingsMenu() {
     if (backGroundThemeColor == 'false') {
         backGroundColorHtml = `<h2 class="settingsMenuItem">BACKGROUNDS MATCH THEMES<span onclick="refreshSettingsMenu('backGroundThemeColor','true')" class="settingsOption"> YES </span><span onclick="refreshSettingsMenu('backGroundThemeColor','false')" class="bold settingsOption"> >NO< </span></h2>`;
     }
-
-
     settingsMenu.innerHTML = `
                 <h1 class="menuTitle">OTHER SETTINGS</h1>
                 ${cardImgQualityHtml}
                 ${cardNamedHtml}
                 ${backGroundColorHtml}
                 <h2 class="menuItem" onclick="removeSettingsMenu()">CLOSE</h2>`;
-
     if (!settingsRefreshRequested) {
         gameArea.appendChild(settingsMenu);
     }
-
-
     settingsMenuOn = true;
-
     settingsRefreshRequested = false;
 }
-
+/**
+ * This function updates global variables and local storage
+ * Then calls the displaySettingsMenu function again and modifies the elements to match
+ * @param {string} settingToUpdate 
+ * @param {string} newVal 
+ */
 function refreshSettingsMenu(settingToUpdate, newVal) {
-    //refresh the display
-    console.log(settingToUpdate);
-    console.log(newVal);
     if (settingToUpdate == 'imageQuality') {
         imageQuality = newVal;
+        localStorage.setItem('imageQuality', newVal);
     }
     if (settingToUpdate == 'backOfCardType') {
         backOfCardType = newVal;
+        localStorage.setItem('backOfCardType', newVal);
     }
     if (settingToUpdate == 'backGroundThemeColor') {
         backGroundThemeColor = newVal;
         localStorage.setItem('backGroundThemeColor', newVal);
     }
-
-
     settingsRefreshRequested = true;
     displaySettingsMenu();
 }
@@ -467,6 +510,7 @@ function removeSettingsMenu() {
         document.getElementById("settingsMenu").remove();
     }, 1000);
     settingsMenuOn = false;
+    playAudio('menuClose', 'effect');
 }
 
 // check best result
@@ -539,14 +583,12 @@ function setThemeAward(cardTheme, awardLevel) {
 //display the main menu
 function displayMenu() {
     if (menuOn) {
-        playAudio('menu1', 'effect');
         removeMenu();
         return;
     }
     if (settingsMenuOn) {
         removeSettingsMenu();
         setTimeout(() => {
-            playAudio('menu1', 'effect');
             displayMenu();
         }, 1000);
         return;
@@ -554,12 +596,11 @@ function displayMenu() {
     if (howToPlayScreenOn) {
         removeDisplayHowToPlay();
         setTimeout(() => {
-            playAudio('menu1', 'effect');
             displayMenu();
         }, 1000);
         return;
     }
-    playAudio('menu1', 'effect');
+    playAudio('menuShow', 'effect');
     let mainM = document.createElement('div');
     mainM.id = "mainMenu";
     mainM.classList.add("menuDrop");
@@ -609,6 +650,7 @@ function removeMenu() {
         document.getElementById("mainMenu").remove();
     }, 1000);
     menuOn = false;
+    playAudio('menuClose', 'effect');
 }
 
 function displayRound() {
@@ -1738,7 +1780,7 @@ function buildCardObjectArray(imageQuality, backOfCardType) {
 }
 
 function setupAudio() {
-    let musicList = ['menu', 'spooky', 'space', 'history', 'nature', 'sea', 'science', 'mixed', 'mono'];
+    let musicList = ['menu', 'spooky', 'space', 'history', 'nature','emma', 'sea', 'science', 'mixed', 'mono'];
     let body = document.querySelector('body');
     for (let i = 0; i < musicList.length; i++) {
         let musicToAdd = document.createElement('audio');
@@ -1884,7 +1926,7 @@ function dealPlayerCards(gameDeck) {
         cardFace.classList = "cardFace";
         cardContainer.addEventListener("click", selectCard);
         setTimeout(() => {
-            playAudio('card1', 'effect');
+            playAudio('card', 'effect');
         }, delay);
         //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
         //this technique works for now where we trigger a delayed function to switch out style classes
@@ -1934,7 +1976,7 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
         }
         if (musicOn == 'true') {
             fadeOutAudio('menu');
-            playAudio(cardTheme, 'music');
+            playAudio(currentMusic, 'music');
         }
 
     }
@@ -1992,6 +2034,7 @@ function selectCard(e) {
         "color": target.dataset.cardColor
     };
     playerSelectedCards.push(tempCard);
+    playAudio('cardselect','effect')
     target.classList.add("cardSelected"); //add a visual cue that the card is selected
     if (playerSelectedCards[totalSelectedCards].name == cardsToMatch[totalSelectedCards].name &&
         playerSelectedCards[totalSelectedCards].color == cardsToMatch[totalSelectedCards].color) {
@@ -2033,7 +2076,7 @@ function selectCard(e) {
                         gameStart(cardTheme, cardColor, deckSize);
                     } else {
                         if (musicOn == 'true') {
-                            fadeOutAudio(cardTheme);
+                            fadeOutAudio(currentMusic);
                             currentMusic = 'menu';
                             playAudio('menu', 'music');
                         }
@@ -2058,7 +2101,7 @@ function selectCard(e) {
         //wait 3 seconds and reset
         setTimeout(() => {
             if (musicOn == 'true') {
-                fadeOutAudio(cardTheme);
+                fadeOutAudio(currentMusic);
                 currentMusic = 'menu';
                 playAudio('menu', 'music');
             }
@@ -2139,7 +2182,7 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
                 cardFace.classList = "cardFace";
 
                 setTimeout(() => {
-                    playAudio('card1', 'effect');
+                    playAudio('card', 'effect');
                 }, delay);
 
                 //need to optimize and find a solution here if time allows.
@@ -2205,7 +2248,7 @@ function endGame() {
         document.getElementById('roundDisplayContainer').remove();
         gameActive = false;
         if (musicOn == 'true') {
-            fadeOutAudio(cardTheme);
+            fadeOutAudio(currentMusic);
             currentMusic = 'menu';
             playAudio('menu', 'music');
         }

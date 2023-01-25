@@ -18,10 +18,10 @@ Players are shown an increasing number of cards, that they need to remember, in 
     * [***Planning Overview***](#planning-overview)
     * [***Target Audiences***](#target-audiences)
     * [***User Stories***](#user-stories)
-    * [***Game Aims***](#Game-aims)
+    * [***Game Aims***](#game-aims)
     * [***Wireframes***](#wireframes)
     * [***Color Scheme***](#color-scheme)
-    * [***Typography***](#typography)
+    * [***Design Choices***](#design-choices)
 1. [**Game Features**](#game-features)
     * [***Intro***](#intro)
     * [***Player Greeting***](#player-greeting)
@@ -30,7 +30,7 @@ Players are shown an increasing number of cards, that they need to remember, in 
     * [***Main Game***](#main-game)
     * [***Victory Animation***](#victory-animation)
     * [***Awards***](#awards)
-    * [***Music & Effects***](#music-effects)
+    * [***Music and Effects***](#music-and-effects)
     * [***Settings***](#settings)
 
 1. [**Testing Phase**](#testing-phase)
@@ -168,16 +168,119 @@ The dark/light switch accommodates those with possible light sensitivity.
 
 I designed it so colour matching is not important across all but the mixed mode. If the player has some sensitivity to colour they can play in mono mode with the entire selection of all icons.
 
-The interface is is designed with a break at 900px width and a step up in all the units, this covers smaller mobile/tablets and then larger displays (I've tested this from phone screens up to a 4k TV). The use of rem across all the UI allows the player to zoom or shrink as required to meet any individual needs.
+The interface is is designed with a break at 900px width and a step up in all the units, this covers smaller mobile/tablets and then larger displays (I've tested this from phone screens up to a 4k TV). The use of rem across all the UI allows the player to zoom or shrink as required to meet any individual needs outside of the default scaling I designed for.
 
 I gave a lot of consideration to those with reduced motion preferences for animations and I did try to implement a setting but I found this became very jarring with the way I had designed the game.
 From an animations perspective I see it as a future enhancement to create a whole new display function that utilizes other methods such as onscreen timers.
 
 ---
 ​
-## **Individual  features**
+## **Game Features**
 
-### **Intro Page Content**
+### **Intro**
+
+
+* ??
+
+#### *Desktop @1080p Example*
+
+??
+
+#### *Mobile Example*
+
+??
+
+### **Player Greeting**
+
+
+* ??
+
+#### *Desktop @1080p Example*
+
+??
+
+#### *Mobile Example*
+
+??
+
+### **Theme Menu**
+
+
+* ??
+
+#### *Desktop @1080p Example*
+
+??
+
+#### *Mobile Example*
+
+??
+
+### **Menu Icons**
+
+
+* ??
+
+#### *Desktop @1080p Example*
+
+??
+
+#### *Mobile Example*
+
+??
+
+### **Main Game**
+
+
+* ??
+
+#### *Desktop @1080p Example*
+
+??
+
+#### *Mobile Example*
+
+??
+### **Victory Animation**
+
+
+* ??
+
+#### *Desktop @1080p Example*
+
+??
+
+#### *Mobile Example*
+
+??
+
+### **Awards**
+
+
+* ??
+
+#### *Desktop @1080p Example*
+
+??
+
+#### *Mobile Example*
+
+??
+
+### **Music and Effects**
+
+
+* ??
+
+#### *Desktop @1080p Example*
+
+??
+
+#### *Mobile Example*
+
+??
+
+### **Settings**
 
 
 * ??
@@ -292,6 +395,7 @@ To save screen space below the result field will be a combination of all platfor
 | Incorrect card selection shows round counter displaying loose message | Pass |  |
 | Incorrect card selection results in fade back to main menu | Pass |  |
 | Incorrect card selection results, if enabled, in game music fade and menu music play | Pass |  |
+| Clicking light/dark switch icon switches background and overrides theme matching | Fail | Issue - Mixed mode uses background instead of backgroundColor Fix was to add code to clear the background value in the switching function |
 
 ### **Validators**
 
@@ -431,6 +535,6 @@ The game concept is my original idea.
 ### **Media:**
 ​
 * All images were self created in MS Powerpoint using inbuilt icons
-* All sound effects and music was self created using Audacity and Garage Band
+* All sound effects and music were self created using Audacity and Garage Band
 
 
