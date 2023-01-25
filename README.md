@@ -24,8 +24,15 @@ Players are shown an increasing number of cards, that they need to remember, in 
     * [***Typography***](#typography)
 1. [**Game Features**](#game-features)
     * [***Intro***](#intro)
-    * [***Player Name***](#player-name)
+    * [***Player Greeting***](#player-greeting)
     * [***Theme Menu***](#theme-menu)
+    * [***Menu Icons***](#menu-icons)
+    * [***Main Game***](#main-game)
+    * [***Victory Animation***](#victory-animation)
+    * [***Awards***](#awards)
+    * [***Music & Effects***](#music-effects)
+    * [***Setings***](#settings)
+
 1. [**Testing Phase**](#testing-phase)
     * [***Validators***](#validators)
 1. [**Deployment**](#deployment)
@@ -195,10 +202,21 @@ To save screenspace below the result field will be a combination of all platform
 | Sub Test | Result | Note |
 | ----------- | ----------- | ---- |
 | Menu centered | Pass | Pass |
-| all Icons displaying | Pass | Pass |
-| music on/off changes icon and starts/stops menu music | Pass | Pass |
-| all themes trigger game of that theme type | Pass | Pass |
+| All Icons displaying | Pass | Pass |
+| Music on/off changes icon and starts/stops menu music | Partial Pass | No fade in IOS due to system limitations on volume access |
+| Effects on/off changes icon and enables/disables effects  | Pass | Pass |
+| All themes trigger game of that theme type | Pass | Pass |
 | Menu icon triggers opening or closing of menu | Pass | Pass |
+| Layout scales with browser zoom  | Pass | Pass |
+| Animations and transitions correct  | Pass | Pass |
+| Game tutorial displays and closes  | Pass | Pass |
+| Menu icon clicks close current modal if one is open  | Pass | Pass |
+
+### 3. Verify main game plays as expect and responds to player input
+
+| Sub Test | Result | Note |
+| ----------- | ----------- | ---- |
+| Starts at round 1 | Pass | Pass |
 
 ### **Validators**
 

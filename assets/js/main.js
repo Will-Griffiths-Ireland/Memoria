@@ -59,30 +59,30 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-function setBackGroundToTheme(){
+function setBackGroundToTheme() {
 
-    if(cardTheme == 'spooky' ){
+    if (cardTheme == 'spooky') {
         document.body.style.backgroundColor = '#FFA219';
     }
-    if(cardTheme == 'space'){
+    if (cardTheme == 'space') {
         document.body.style.backgroundColor = '#00000';
     }
-    if(cardTheme == 'history'){
+    if (cardTheme == 'history') {
         document.body.style.backgroundColor = '#996600';
     }
-    if(cardTheme == 'nature'){
+    if (cardTheme == 'nature') {
         document.body.style.backgroundColor = '#0D9D08';
     }
-    if(cardTheme == 'sea'){
+    if (cardTheme == 'sea') {
         document.body.style.backgroundColor = '#0098FE';
     }
-    if(cardTheme == 'science'){
+    if (cardTheme == 'science') {
         document.body.style.backgroundColor = '#FE0002';
     }
-    if(cardTheme == 'all' && cardColor == 'all'){
+    if (cardTheme == 'all' && cardColor == 'all') {
         document.body.style.background = 'radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(255,162,25,1) 15%, rgba(153,102,0,1) 30%, rgba(13,157,8,1) 45%, rgba(0,152,254,1) 60%, rgba(254,0,2,1) 79%, rgba(177,0,253,1) 100%)';
     }
-    if(cardTheme == 'all' && cardColor == 'white'){
+    if (cardTheme == 'all' && cardColor == 'white') {
         document.body.style.backgroundColor = '#ffffff';
     }
 }
@@ -153,7 +153,7 @@ function displayIntro() {
     document.querySelector('body').appendChild(introArea);
     imageQuality = 'medium';
     let introDeck = createGameDeck('all', 'all', '16');
-    
+
     let i = 1;
     for (let card of introDeck) {
         let newCard = document.createElement('img');
@@ -173,18 +173,15 @@ function displayIntro() {
     introArea.appendChild(clickToContinue);
 }
 
-function setBackgroundColor(newColor) {
-    //if no color is passed then switch between black and white
-    if (!newColor) {
-        if (backGroundColor == '#000000') {
-            document.querySelector('body').style.backgroundColor = '#ffffff';
-            backGroundColor = '#ffffff';
-            localStorage.setItem('backGroundColor', '#ffffff');
-        } else if (backGroundColor == '#ffffff') {
-            document.querySelector('body').style.backgroundColor = '#000000';
-            backGroundColor = '#000000';
-            localStorage.setItem('backGroundColor', '#000000');
-        }
+function setBackgroundColor() {
+    if (backGroundColor == '#000000') {
+        document.querySelector('body').style.backgroundColor = '#ffffff';
+        backGroundColor = '#ffffff';
+        localStorage.setItem('backGroundColor', '#ffffff');
+    } else if (backGroundColor == '#ffffff') {
+        document.querySelector('body').style.backgroundColor = '#000000';
+        backGroundColor = '#000000';
+        localStorage.setItem('backGroundColor', '#000000');
     }
 }
 
@@ -199,7 +196,7 @@ function loadSettings() {
     if (musicOn == 'false' && iconsOn) {
         document.getElementById('musicIcon').innerText = 'music_off';
     }
-    
+
     if (musicOn == 'true') {
         playAudio('menu', 'music');
     }
@@ -213,17 +210,17 @@ function loadSettings() {
         } else if (effectsOn == 'false' && iconsOn) {
             document.getElementById('effectsIcon').innerText = 'volume_off';
         }
-      
+
     }
     //check for background preference
     if (localStorage.getItem('backGroundColor')) {
         backGroundColor = localStorage.getItem('backGroundColor');
         document.querySelector('body').style.backgroundColor = backGroundColor;
     }
-        //check for background preference in game
-        if (localStorage.getItem('backGroundThemeColor')) {
-            backGroundThemeColor = localStorage.getItem('backGroundThemeColor');
-        }
+    //check for background preference in game
+    if (localStorage.getItem('backGroundThemeColor')) {
+        backGroundThemeColor = localStorage.getItem('backGroundThemeColor');
+    }
 }
 /**
  * This function will show/hide menu icons.
@@ -342,13 +339,11 @@ function storeName() {
 
     event.preventDefault();
     if (document.getElementById('userName')) {
-        
-        if(document.getElementById('userName').value == '')
-        {
+
+        if (document.getElementById('userName').value == '') {
             currentPlayerName = "the player that didn't enter their name :)";
             localStorage.setItem("name", currentPlayerName);
-        }
-        else{
+        } else {
             currentPlayerName = document.getElementById('userName').value;
             localStorage.setItem("name", document.getElementById('userName').value);
         }
@@ -365,14 +360,14 @@ function storeName() {
 
 function displaySettingsMenu() {
     let settingsMenu;
-    if(!settingsRefreshRequested){
+    if (!settingsRefreshRequested) {
         if (settingsMenuOn) {
             playAudio('menu1', 'effect');
             removeSettingsMenu();
             return;
         }
-    
-    
+
+
         if (menuOn) {
             removeMenu();
             setTimeout(() => {
@@ -396,34 +391,34 @@ function displaySettingsMenu() {
         settingsMenu.classList.add("mainMenu");
     }
 
-    if(settingsRefreshRequested){
+    if (settingsRefreshRequested) {
         settingsMenu = document.getElementById("settingsMenu");
     }
-    
+
     let cardImgQualityHtml = ``;
-    if(imageQuality == 'low'){
+    if (imageQuality == 'low') {
         cardImgQualityHtml = `<h2 class="settingsMenuItem">CARD IMAGE QUALITY<span onclick="refreshSettingsMenu('imageQuality','low')" class="bold settingsOption"> >LOW< </span><span onclick="refreshSettingsMenu('imageQuality','medium')" class="settingsOption"> MED </span><span onclick="refreshSettingsMenu('imageQuality','high')" class="settingsOption"> HIGH </span></h2>`;
     }
-    if(imageQuality == 'medium'){
+    if (imageQuality == 'medium') {
         cardImgQualityHtml = `<h2 class="settingsMenuItem">CARD IMAGE QUALITY<span onclick="refreshSettingsMenu('imageQuality','low')" class="settingsOption"> LOW </span><span onclick="refreshSettingsMenu('imageQuality','medium')" class="bold settingsOption"> >MED< </span><span onclick="refreshSettingsMenu('imageQuality','high')" class="settingsOption"> HIGH </span></h2>`;
     }
-    if(imageQuality == 'high'){
+    if (imageQuality == 'high') {
         cardImgQualityHtml = `<h2 class="settingsMenuItem">CARD IMAGE QUALITY<span onclick="refreshSettingsMenu('imageQuality','low')" class="settingsOption"> LOW </span><span onclick="refreshSettingsMenu('imageQuality','medium')" class="settingsOption"> MED </span><span onclick="refreshSettingsMenu('imageQuality','high')" class="bold settingsOption"> >HIGH< </span></h2>`;
     }
 
     let cardNamedHtml = ``;
-    if(backOfCardType == 'named'){
+    if (backOfCardType == 'named') {
         cardNamedHtml = `<h2 class="settingsMenuItem">SHOW LOGO ON CARDS<span onclick="refreshSettingsMenu('backOfCardType','named')" class="bold settingsOption"> >YES< </span><span onclick="refreshSettingsMenu('backOfCardType','unnamed')" class="settingsOption"> NO </span></h2>`;
     }
-    if(backOfCardType == 'unnamed'){
+    if (backOfCardType == 'unnamed') {
         cardNamedHtml = `<h2 class="settingsMenuItem">SHOW LOGO ON CARDS<span onclick="refreshSettingsMenu('backOfCardType','named')" class="settingsOption"> YES </span><span onclick="refreshSettingsMenu('backOfCardType','unnamed')" class="bold settingsOption"> >NO< </span></h2>`;
     }
 
     let backGroundColorHtml = ``;
-    if(backGroundThemeColor == 'true'){
+    if (backGroundThemeColor == 'true') {
         backGroundColorHtml = `<h2 class="settingsMenuItem">BACKGROUNDS MATCH THEMES<span onclick="refreshSettingsMenu('backGroundThemeColor','true')" class="bold settingsOption"> >YES< </span><span onclick="refreshSettingsMenu('backGroundThemeColor','false')" class="settingsOption"> NO </span></h2>`;
     }
-    if(backGroundThemeColor == 'false'){
+    if (backGroundThemeColor == 'false') {
         backGroundColorHtml = `<h2 class="settingsMenuItem">BACKGROUNDS MATCH THEMES<span onclick="refreshSettingsMenu('backGroundThemeColor','true')" class="settingsOption"> YES </span><span onclick="refreshSettingsMenu('backGroundThemeColor','false')" class="bold settingsOption"> >NO< </span></h2>`;
     }
 
@@ -434,28 +429,28 @@ function displaySettingsMenu() {
                 ${cardNamedHtml}
                 ${backGroundColorHtml}
                 <h2 class="menuItem" onclick="removeSettingsMenu()">CLOSE</h2>`;
-    
-                if(!settingsRefreshRequested){
-                    gameArea.appendChild(settingsMenu);
-                }
-    
-                
+
+    if (!settingsRefreshRequested) {
+        gameArea.appendChild(settingsMenu);
+    }
+
+
     settingsMenuOn = true;
 
     settingsRefreshRequested = false;
 }
 
-function refreshSettingsMenu(settingToUpdate, newVal){
+function refreshSettingsMenu(settingToUpdate, newVal) {
     //refresh the display
     console.log(settingToUpdate);
     console.log(newVal);
-    if(settingToUpdate == 'imageQuality'){
+    if (settingToUpdate == 'imageQuality') {
         imageQuality = newVal;
     }
-    if(settingToUpdate == 'backOfCardType'){
+    if (settingToUpdate == 'backOfCardType') {
         backOfCardType = newVal;
     }
-    if(settingToUpdate == 'backGroundThemeColor'){
+    if (settingToUpdate == 'backGroundThemeColor') {
         backGroundThemeColor = newVal;
         localStorage.setItem('backGroundThemeColor', newVal);
     }
@@ -464,6 +459,7 @@ function refreshSettingsMenu(settingToUpdate, newVal){
     settingsRefreshRequested = true;
     displaySettingsMenu();
 }
+
 function removeSettingsMenu() {
     document.getElementById("settingsMenu").classList.remove("menuDrop");
     document.getElementById("settingsMenu").classList.add("menuBurn");
@@ -1742,9 +1738,9 @@ function buildCardObjectArray(imageQuality, backOfCardType) {
 }
 
 function setupAudio() {
-    let musicList = ['menu','spooky','space','history','nature','sea','science','mixed','mono'];
+    let musicList = ['menu', 'spooky', 'space', 'history', 'nature', 'sea', 'science', 'mixed', 'mono'];
     let body = document.querySelector('body');
-    for( let i = 0; i < musicList.length; i++ ){
+    for (let i = 0; i < musicList.length; i++) {
         let musicToAdd = document.createElement('audio');
         musicToAdd.src = "./assets/audio/" + musicList[i] + ".mp3";
         musicToAdd.id = musicList[i];
@@ -1759,7 +1755,7 @@ function setupAudio() {
  * @param {string} elementId 
  */
 function fadeOutAudio(elementId) {
-    if(musicOn){
+    if (musicOn) {
         let sound = document.getElementById(elementId);
         let volume = 100;
         let fadeDown = setInterval(() => {
@@ -1923,26 +1919,24 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     cardColor = cardColorSelected;
     deckSize = deckSizeSelected;
     gameRounds = deckSize;
-    if(backGroundThemeColor == 'true'){
+    if (backGroundThemeColor == 'true') {
         setBackGroundToTheme();
     }
     console.log("starting game with deckSize " + deckSize);
     //if we are intiating a game then kick of some tunes
     if (!gameActive) {
-        if(cardTheme == 'all' && cardColor == 'all'){
+        if (cardTheme == 'all' && cardColor == 'all') {
             currentMusic = 'mixed';
-        }
-        else if(cardTheme == 'all' && cardColor != 'all'){
+        } else if (cardTheme == 'all' && cardColor != 'all') {
             currentMusic = 'mono';
-        }
-        else{
+        } else {
             currentMusic = cardTheme;
         }
-        if(musicOn == 'true'){
-          fadeOutAudio('menu');
-          playAudio(cardTheme, 'music');  
-        } 
-        
+        if (musicOn == 'true') {
+            fadeOutAudio('menu');
+            playAudio(cardTheme, 'music');
+        }
+
     }
     gameActive = true;
     allowClick = false; //no card selection till cards are on the table
@@ -1998,7 +1992,7 @@ function selectCard(e) {
         "color": target.dataset.cardColor
     };
     playerSelectedCards.push(tempCard);
-    target.classList.add("cardSelected");//add a visual cue that the card is selected
+    target.classList.add("cardSelected"); //add a visual cue that the card is selected
     if (playerSelectedCards[totalSelectedCards].name == cardsToMatch[totalSelectedCards].name &&
         playerSelectedCards[totalSelectedCards].color == cardsToMatch[totalSelectedCards].color) {
         cardTag = "cTM" + (totalSelectedCards + 1);
@@ -2013,13 +2007,11 @@ function selectCard(e) {
         if (totalSelectedCards == cardsToMatch.length) {
             scatterWinSmiles(currentRound * 10);
             playAudio('wellDone', 'effect');
-            
-            if(currentRound == deckSize)
-            {
+
+            if (currentRound == deckSize) {
                 document.getElementById('roundDisplay').innerText = "YOU BEAT THIS THEME!!";
-                playAudio('beatTheme', 'effect'); 
-            }
-            else{
+                playAudio('beatTheme', 'effect');
+            } else {
                 document.getElementById('roundDisplay').innerText = "YOU WIN THIS ROUND!!";
             }
             //wait 3 seconds and reset
@@ -2040,11 +2032,11 @@ function selectCard(e) {
                     if (currentRound <= gameRounds) {
                         gameStart(cardTheme, cardColor, deckSize);
                     } else {
-                        if(musicOn == 'true'){
+                        if (musicOn == 'true') {
                             fadeOutAudio(cardTheme);
                             currentMusic = 'menu';
-                            playAudio('menu', 'music');  
-                          }
+                            playAudio('menu', 'music');
+                        }
                         gameActive = false;
                         currentRound = 1;
                         //reset background
@@ -2065,11 +2057,11 @@ function selectCard(e) {
         }
         //wait 3 seconds and reset
         setTimeout(() => {
-            if(musicOn == 'true'){
+            if (musicOn == 'true') {
                 fadeOutAudio(cardTheme);
                 currentMusic = 'menu';
-                playAudio('menu', 'music');  
-              }
+                playAudio('menu', 'music');
+            }
             gameActive = false;
             currentRound = 1; // reset round back to 1
             burnCards();
@@ -2212,11 +2204,11 @@ function endGame() {
         document.querySelector('body').classList.remove('burnGameArea');
         document.getElementById('roundDisplayContainer').remove();
         gameActive = false;
-        if(musicOn == 'true'){
+        if (musicOn == 'true') {
             fadeOutAudio(cardTheme);
             currentMusic = 'menu';
-            playAudio('menu', 'music');  
-          }
+            playAudio('menu', 'music');
+        }
         currentRound = 1; // reset round back to 1
         displayMenu();
     }, 1100);
