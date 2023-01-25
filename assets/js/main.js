@@ -1,14 +1,12 @@
 // All the core code that delivers the Memoria game
 // Every effort has been made to make a unique game
-
+// Please forgive my code, it's my first app and my knowledge was evolving.
 
 //global variables
-
 const gameArea = document.getElementById("gameArea");
-
 //internal variables
-let cardId = 0; //keep track of how many cards have been created in this session
-let imageQuality = 'medium'; //image file size & quality
+let cardId = 0;
+let imageQuality = 'medium'; 
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 8; //how many rounds to play in total
 let currentRound = 1; // always start with round 1
@@ -212,12 +210,10 @@ function loadSettings() {
     if (musicOn == 'false' && iconsOn) {
         document.getElementById('musicIcon').innerText = 'music_off';
     }
-
     //kick of menu music if enabled
     if (musicOn == 'true') {
         playAudio('menu', 'music');
     }
-
     //check for audio effect preference
     if (localStorage.getItem('effectsOn')) {
         effectsOn = localStorage.getItem('effectsOn');
@@ -360,7 +356,7 @@ function captureUsername() {
  */
 function resetGame(areYouSure) {
     if (areYouSure == 'maybe') {
-        document.getElementById('resetButton').innerText = "YES I'M SURE, WIPE DATA!!";
+        document.getElementById('resetButton').innerText = "YES I'M SURE, LET'S RESET!!";
         document.getElementById('resetButton').setAttribute('onclick', "resetGame('sure')");
         document.getElementById('resetButton').style.color = "#FE0002";
         document.getElementById('resetButton').style.fontWeight = "900";
@@ -437,11 +433,9 @@ function displaySettingsMenu() {
         settingsMenu.classList.add("menuDrop");
         settingsMenu.classList.add("mainMenu");
     }
-
     if (settingsRefreshRequested) {
         settingsMenu = document.getElementById("settingsMenu");
     }
-
     let cardImgQualityHtml = ``;
     if (imageQuality == 'low') {
         cardImgQualityHtml = `<h2 class="settingsMenuItem">CARD IMAGE QUALITY<span onclick="refreshSettingsMenu('imageQuality','low')" class="bold settingsOption"> >LOW< </span><span onclick="refreshSettingsMenu('imageQuality','medium')" class="settingsOption"> MED </span><span onclick="refreshSettingsMenu('imageQuality','high')" class="settingsOption"> HIGH </span></h2>`;
@@ -620,7 +614,7 @@ function displayMenu() {
         let emma = checkThemeAwards('emma');
         let mixed = checkThemeAwards('mixed');
         let mono = checkThemeAwards('mono');
-        //hidden mode is shown to players with the name Emma, mainly aimed at my wife :)
+        //hidden mode is shown to players with the name Emma, mainly aimed at my wife to be :)
         let emmaMode = '';
         if (currentPlayerName.toUpperCase() == 'EMMA') {
             emmaMode = `<h2 id="emmaMenuItem" class="menuItem" onclick="gameStart('emma','purple','8')">EMMA ${emma}</h2>`;
@@ -687,12 +681,10 @@ function scatterWinSmiles(count) {
             randWidth = randomNumber(10, 20);
         }
         const body = document.querySelector('body');
-
         left = randomNumber(0, (100 - randWidth)) + "vw";
         top = randomNumber(10, (90 - randWidth)) + "vh";
         let delay = randomNumber(0, 2000); //generate a delay for the animation and (possible) audio trigger
         //create html elements
-
         const smile = document.createElement('img');
         //set the related images
         smile.src = "./assets/images/win_smile.webp";
@@ -700,7 +692,6 @@ function scatterWinSmiles(count) {
         smile.style.animationDelay = delay + "ms";
         smile.style.top = top;
         smile.style.left = left;
-
         smile.style.width = randWidth + "vw";
         smile.style.height = "auto";
         smile.style.zIndex = 2000;
@@ -709,14 +700,14 @@ function scatterWinSmiles(count) {
     }
 }
 
-//function to build deck of cards in an array of objects
-//This function builds an object array. It takes an input which dictates what path to take for the image
-//There will be 3 quality levels - low (mobile) - Medium (default) - High (max original res and lossless)
-//backOfCardType input is a user setting that controls if the cards have the games name on them
-//file paths are relative and from the perspective of elements added to index.html
-//store image sizes for later use during screen positioning
+
 /**
- * 
+ * function to build deck of cards in an array of objects
+*This function builds an object array. It takes an input which dictates what path to take for the image
+*There will be 3 quality levels - low (mobile) - Medium (default) - High (max original res and lossless)
+*backOfCardType input is a user setting that controls if the cards have the games name on them
+*file paths are relative and from the perspective of elements added to index.html
+*store image sizes for later use during screen positioning
  * @param {*} imageQuality 
  * @param {*} backOfCardType 
  * @returns 
@@ -1775,10 +1766,12 @@ function buildCardObjectArray(imageQuality, backOfCardType) {
             color: "white"
         }
     ];
-
     return cardObjectArray;
 }
 
+/**
+ * Build the audio elements and add them to the page.
+ */
 function setupAudio() {
     let musicList = ['menu', 'spooky', 'space', 'history', 'nature','emma', 'sea', 'science', 'mixed', 'mono'];
     let body = document.querySelector('body');
@@ -1875,7 +1868,6 @@ function burnCards() {
 // The reason was, as we delete an element, that reduces the array and index
 // I took the approach of setting a constant with the initial array length and then using that to loop
 // Each time we then remove the element at index 0
-
 function delCards() {
 
     const cardsToDel = document.getElementsByClassName('burnUp');
@@ -1948,7 +1940,7 @@ function dealPlayerCards(gameDeck) {
     }, delay + delay + 2000);
 }
 /**
- * 
+ * Setup the game, and call functions to pick,and display cards
  * @param {string} cardThemeSelected 
  * @param {string} cardColorSelected 
  * @param {number} deckSizeSelected 
@@ -1964,8 +1956,7 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
     if (backGroundThemeColor == 'true') {
         setBackGroundToTheme();
     }
-    console.log("starting game with deckSize " + deckSize);
-    //if we are intiating a game then kick of some tunes
+    //if we are initiating a game then kick of the music
     if (!gameActive) {
         if (cardTheme == 'all' && cardColor == 'all') {
             currentMusic = 'mixed';
@@ -1978,7 +1969,6 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
             fadeOutAudio('menu');
             playAudio(currentMusic, 'music');
         }
-
     }
     gameActive = true;
     allowClick = false; //no card selection till cards are on the table
@@ -1993,7 +1983,13 @@ function gameStart(cardThemeSelected, cardColorSelected, deckSizeSelected) {
         dealPlayerCards(gameDeck);
     }, playerCardsDealDelay);
 }
-// build a deck with the cards required for the theme of this game
+/**
+ * build a deck with the cards required for the theme of this game
+ * @param {string} cardTheme 
+ * @param {string} cardColor 
+ * @param {object} deckSize 
+ * @returns 
+ */ 
 function createGameDeck(cardTheme, cardColor, deckSize) {
     let tempDeck = buildCardObjectArray(imageQuality, backOfCardType);
     let gameDeck = [];
@@ -2112,9 +2108,7 @@ function selectCard(e) {
             document.body.style.background = '';
             document.body.style.backgroundColor = backGroundColor;
             displayMenu();
-
         }, 3000);
-
     }
 }
 
@@ -2141,9 +2135,6 @@ function selectCardsToMatch(gameDeck) {
         //need to make sure that the next random card hasn't be added already
         tempGameDeck.splice(randSelect, 1); //remove the card we picked from the deck of available cards
     }
-    //test_code 
-    console.log("Here are the cards to Match details...");
-    console.log(cardsToMatch);
 }
 
 function dealCardsToMatch(gameDeck, cardsToMatch) {
@@ -2154,16 +2145,10 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
     const cardsToMatchArea = document.getElementById('cardsToMatchArea');
     let delay; // used for timing
     for (let i = 0; i < cardsToMatch.length; i++) {
-
-
         for (let card of gameDeck) {
-
-
             if (card.name == cardsToMatch[i].name && card.color == cardsToMatch[i].color) {
                 //thats the card we need to display
                 console.log(card);
-
-
                 //create html elements
                 const cardContainer = document.createElement('div');
                 const cardFace = document.createElement('img');
@@ -2177,25 +2162,17 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
                 cardContainer.dataset.cardTheme = card.category;
                 delay = 500 + (i * 250);
                 cardContainer.style.animationDelay = delay + "ms"; //stagger animation for dropping in the cards
-
                 cardBack.classList = "cardBack";
                 cardFace.classList = "cardFace";
-
                 setTimeout(() => {
                     playAudio('card', 'effect');
                 }, delay);
-
-                //need to optimize and find a solution here if time allows.
-                //the card deal animation needs an animation-fill-mode of both but then the flip animation needs forwards
-                //this technique works for now where we trigger a delayed function to switch out style classes
                 setTimeout(fCard, (delay + 1000));
-
                 function fCard() {
                     cardContainer.classList.remove("dropIn");
                     cardContainer.classList.add("cardFlipped");
                 }
                 setTimeout(fBCard, (delay + delay + 2000));
-
                 function fBCard() {
                     cardContainer.classList.remove("cardFlipped");
                     cardContainer.classList.add("cardFlippedBack");
@@ -2209,22 +2186,25 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
         }
     }
 }
-//function to shuffle deck. Uses fisher yates algo
-
+/**
+ * function to shuffle deck. Uses fisher yates algo since array sort with random is not very random
+ * @param {object} gameDeck 
+ * @returns 
+ */
 function shuffleDeck(gameDeck) {
     console.log(gameDeck);
-
     for (let i = gameDeck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         const temp = gameDeck[i];
         gameDeck[i] = gameDeck[j];
         gameDeck[j] = temp;
     }
-    console.log(gameDeck);
     return gameDeck;
 }
 
-
+/**
+ * Performs a rapid termination of the current game
+ */
 function endGame() {
     if (menuOn) {
         gameActive = false;

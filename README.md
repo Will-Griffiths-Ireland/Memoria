@@ -179,21 +179,33 @@ From an animations perspective I see it as a future enhancement to create a whol
 
 ### **Intro**
 
+The intro screen gives the player a feel for the game. I have a stacking animation that uses 16 random cards and slows down on the final card that is back face up and shows the Memoria logo.
 
-* ??
+The click to continue button drops in quickly so that a returning player can skip the animation.
 
 #### *Desktop @1080p Example*
 
-??
+![Intro Desktop](./assets/docs/intro1080.webp)
 
 #### *Mobile Example*
 
-??
+![Intro Desktop](./assets/docs/intromobile.webp)
 
 ### **Player Greeting**
 
+A new player is greeted with a modal that welcomes them and asks for a name.
 
-* ??
+![New User](./assets/docs/welcomeNew.JPG)
+
+For returning players their name is fetched from local storage and used in the greeting.
+
+![Return User](./assets/docs/returnuser.JPG)
+
+They are given the option to continue with the settings and progress, or reset.
+
+If the player clicks reset they get a refreshed warning on the button.
+
+![Reset User](./assets/docs/userreset.JPG)
 
 #### *Desktop @1080p Example*
 
@@ -374,6 +386,7 @@ To save screen space below the result field will be a combination of all platfor
 | Game tutorial icon triggers tutorial display  | Pass | |
 | Other settings icon triggers other settings menu  | Pass | |
 | Menu icon clicks close current modal if one is open  | Pass | |
+| Any player configured options are restored  | Fail | Issue - 2 settings were not being loaded - Fix - added them to the loadSettings function|
 
 ### 4. Verify main game works as expected and responds to player input
 
@@ -392,10 +405,22 @@ To save screen space below the result field will be a combination of all platfor
 | All correct cards selected shows win animation | Pass |  |
 | All correct cards selected shows win message in round counter | Pass |  |
 | Incorrect card selection results in all cards being shown | Pass |  |
-| Incorrect card selection shows round counter displaying loose message | Pass |  |
+| Incorrect card selection shows round counter displaying lose message | Pass |  |
 | Incorrect card selection results in fade back to main menu | Pass |  |
 | Incorrect card selection results, if enabled, in game music fade and menu music play | Pass |  |
 | Clicking light/dark switch icon switches background and overrides theme matching | Fail | Issue - Mixed mode uses background instead of backgroundColor Fix was to add code to clear the background value in the switching function |
+
+### 5. Verify that the additional settings menu functions correctly
+
+| Sub Test | Result | Note |
+| ----------- | ----------- | ---- |
+| Opens and items display as they are saved | Pass |  |
+| Image quality can be set and refreshes | Pass |  |
+| Card back face display can be set and refreshes | Pass |  |
+| Theme colour match background mode can be set and refreshes | Pass |  |
+| All changed settings are reflected in global vars | Pass |  |
+| All changed settings stored to local storage | Pass |  |
+
 
 ### **Validators**
 
