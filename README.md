@@ -159,41 +159,46 @@ The general dev cycle testing procedure was..
 
 A suite of final tests were performed once I felt the application was code complete.
 These are based around the end to end player journey as a new and returning player.
+Tests were done across...
+* Chrome(Windows)
+* Firefox(Windows) 
+* Edge(windows)
+* Safari(IpadOS)
+* Chrome(Android)
+* Samsung Internet(Android)
 
-1. Verify that intro screen displays correctly and interaction is successful
+To save screenspace below the result field will be a combination of all platforms and notes will call out details of any failures or issues
 
-| Sub Test | Chrome(Windows) | Firefox(Windows) | Edge(windows) | Safari(IpadOS) | Chrome(Android) | Samsung Internet(Android) |
-| ----------- | ----------- | ---- | ---- | ----- | ----- | ---- |
-| Loads OK | Pass | Pass | Pass | Pass | Pass | Pass |
-| Rendering is fluid | Pass | Pass | Pass | Pass | Pass | Pass |
-| Continue button displays | Pass | Pass | Pass | Pass | Pass | Pass |
-| Click/tap results in user capture screen| Pass | Pass | Pass | Pass | Pass | Pass |
-| Image & Text clear| Pass | Pass | Pass | Pass | Pass | Pass |
+### 1. Verify that intro screen displays correctly and interaction is successful
 
-Notes - None
+| Sub Test | Result | Note | 
+| ----------- | ----------- | ---- |
+| Loads OK | Pass | Pass |
+| Rendering is fluid | Pass | Pass |
+| Continue button displays | Pass | Pass |
+| Click/tap results in user capture screen| Pass | Pass |
+| Image & Text clear| Pass | Pass |
 
-2. Verify that player greeting displays correctly and interaction is successful
+### 2. Verify that player greeting displays correctly and interaction is successful
 
-| Sub Test | Chrome(Windows) | Firefox(Windows) | Edge(windows) | Safari(IpadOS) | Chrome(Android) | Samsung Internet(Android) |
-| ----------- | ----------- | ---- | ---- | ----- | ----- | ---- |
-| Name entry works | Pass | Pass | Pass | Pass | Pass | Pass |
-| Modal is centered and text clear | Pass | Pass | Pass | Pass | Pass | Pass |
-| Returning player greeted with name | Pass | Pass | Pass | Pass | Pass | Pass |
-| Returning player given continue option | Pass | Pass | Pass | Pass | Pass | Pass |
-| Returning player provide reset game option | Pass | Pass | Pass | Pass | Pass | Pass |
-| Reset game tap/click shows red confirm warning | Pass | Pass | Pass | Pass | Pass | Pass |
+| Sub Test | Result | Note |
+| ----------- | ----------- | ---- |
+| Name entry works | Pass | Pass |
+| Modal is centered and text clear | Pass | Pass |
+| Returning player greeted with name | Pass | Pass |
+| Returning player given continue option | Pass | Pass |
+| Returning player provide reset game option | Pass | Pass |
+| Reset game tap/click shows red confirm warning | Pass | Pass |
 
-Notes - None
+### 3. Verify Main menu displays correctly and interaction is successful
 
-3. Verify Main menu displays correctly and interaction is successful
-
-| Sub Test | Chrome(Windows) | Firefox(Windows) | Edge(windows) | Safari(IpadOS) | Chrome(Android) | Samsung Internet(Android) |
-| ----------- | ----------- | ---- | ---- | ----- | ----- | ---- |
-| Menu centered | Pass | Pass | Pass | Pass | Pass | Pass |
-| all Icons displaying | Pass | Pass | Pass | Pass | Pass | Pass |
-| music on/off changes icon and starts/stops menu music | Pass | Pass | Pass | Pass | Pass | Pass |
-| all themes trigger game of that theme type | Pass | Pass | Pass | Pass | Pass | Pass |
-| Menu icon triggers opening or closing of menu | Pass | Pass | Pass | Pass | Pass | Pass |
+| Sub Test | Result | Note |
+| ----------- | ----------- | ---- |
+| Menu centered | Pass | Pass |
+| all Icons displaying | Pass | Pass |
+| music on/off changes icon and starts/stops menu music | Pass | Pass |
+| all themes trigger game of that theme type | Pass | Pass |
+| Menu icon triggers opening or closing of menu | Pass | Pass |
 
 ### **Validators**
 
@@ -206,10 +211,12 @@ Since nearly all the html is injected by Javascript the HTML validator does not 
 | index.html | Pass | N\A |
 
 <details>
-    <summary>Screenshot</summary>
-    ![HTML Validation](./assets/docs/htmlval.JPG)
+<summary>Screenshot</summary>
+
+![HTML Validation](./assets/docs/htmlval.JPG)
 </details>
 
+----
 
 #### *CSS Validator*
 
@@ -220,10 +227,13 @@ Since nearly all the html is injected by Javascript the HTML validator does not 
 The rotate property is valid and I'm using it to slightly rotate dropping cards for an intro screen.
 See - https://www.w3schools.com/cssref/css_pr_rotate.php
 
-<details>
-    <summary>Screenshot</summary>
-    ![HTML Validation](./assets/docs/cssval.JPG)
+<details open>
+<summary>Screenshot</summary>
+
+![CSS Validation](./assets/docs/cssval.JPG)
 </details>
+
+----
 
 #### *Lighthouse Results*
 
