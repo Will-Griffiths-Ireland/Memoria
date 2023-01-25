@@ -296,11 +296,6 @@ img {
     transition-duration: 500ms;
     }
 
-    @media only screen and (min-width: 900px) {
-
-
-    }
-
 /* styling for main menu div */
 .mainMenu {
     
@@ -876,7 +871,7 @@ img {
     z-index: 5;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
+    animation-duration: 500ms;
     animation-delay: 0ms;  
 }
 
@@ -890,8 +885,8 @@ img {
     z-index: 6;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 100ms;     
+    animation-duration: 500ms;
+    animation-delay: 500ms;     
 }
 #c3 {
     position: absolute;
@@ -903,8 +898,8 @@ img {
     z-index: 7;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 200ms;     
+    animation-duration: 500ms;
+    animation-delay: 1000ms;     
 }
 #c4 {
     position: absolute;
@@ -916,8 +911,8 @@ img {
     z-index: 8; 
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 300ms;    
+    animation-duration: 500ms;
+    animation-delay: 1500ms;    
 }
 #c5 {
     position: absolute;
@@ -929,8 +924,8 @@ img {
     z-index: 9;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 400ms;     
+    animation-duration: 500ms;
+    animation-delay: 2000ms;     
 }
 #c6 {
     position: absolute;
@@ -942,8 +937,8 @@ img {
     z-index: 10;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 500ms;     
+    animation-duration: 500ms;
+    animation-delay: 2500ms;     
 }
 #c7 {
     position: absolute;
@@ -955,8 +950,8 @@ img {
     z-index: 11;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 600ms;     
+    animation-duration: 500ms;
+    animation-delay: 3000ms;     
 }
 #c8 {
     position: absolute;;
@@ -968,8 +963,8 @@ img {
     z-index: 12;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 700ms;     
+    animation-duration: 500ms;
+    animation-delay: 3500ms;     
 }
 #c9 {
     position: absolute;
@@ -981,8 +976,8 @@ img {
     z-index: 13;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 800ms;     
+    animation-duration: 500ms;
+    animation-delay: 3500ms;     
 }
 #c10 {
     position: absolute;
@@ -994,8 +989,8 @@ img {
     z-index: 14;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 900ms;     
+    animation-duration: 500ms;
+    animation-delay: 4000ms;     
 }
 #c11 {
     position: absolute;
@@ -1007,8 +1002,8 @@ img {
     z-index: 15;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 1000ms;     
+    animation-duration: 500ms;
+    animation-delay: 4500ms;     
 }
 #c12 {
     position: absolute;
@@ -1020,8 +1015,8 @@ img {
     z-index: 16;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 1100ms;     
+    animation-duration: 500ms;
+    animation-delay: 5000ms;     
 }
 #c13 {
     position: absolute;
@@ -1033,8 +1028,8 @@ img {
     z-index: 16;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 1200ms;     
+    animation-duration: 500ms;
+    animation-delay: 5500ms;     
 }
 #c14 {
     position: absolute;
@@ -1046,8 +1041,8 @@ img {
     z-index: 17;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 1300ms;     
+    animation-duration: 500ms;
+    animation-delay: 6000ms;     
 }
 #c15 {
     position: absolute;
@@ -1059,8 +1054,8 @@ img {
     z-index: 18;
     animation-name: dropInIntro;
     animation-fill-mode: both;
-    animation-duration: 100ms;
-    animation-delay: 1400ms;     
+    animation-duration: 500ms;
+    animation-delay: 6500ms;     
 }
 #c16 {
     position: absolute;

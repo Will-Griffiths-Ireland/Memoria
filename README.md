@@ -89,6 +89,7 @@ My main aims for the game were…
 * The game should, show the players existing achievements or awards
 * The game should, save any settings the player modifies
 * The game should, start muted and allow players to enable effects and music
+* The game should, allow the player to switch between light and dark theme
 
 
 
@@ -107,6 +108,7 @@ I had a good idea of the look I wanted.
 
 The core color scheme for the UI is black (#000000) and white (#ffffff)
 The icons and menus were designed with high contract in mind.
+Hover events use red #FE0002
 
 grey is used to add some variation while staying nuetral to the users preference of dark/light theme
 
@@ -156,7 +158,7 @@ The general dev cycle testing procedure was..
  
 
 A suite of final tests were performed once I felt the application was code complete.
-These are based around the end to end player journey
+These are based around the end to end player journey as a new and returning player.
 
 1. Verify that intro screen displays correctly and interaction is successful
 
@@ -170,12 +172,28 @@ These are based around the end to end player journey
 
 Notes - None
 
-2. Verify that user greeting displays correctly and interaction is successful
+2. Verify that player greeting displays correctly and interaction is successful
 
 | Sub Test | Chrome(Windows) | Firefox(Windows) | Edge(windows) | Safari(IpadOS) | Chrome(Android) | Samsung Internet(Android) |
 | ----------- | ----------- | ---- | ---- | ----- | ----- | ---- |
-| Loads OK | Pass | Pass | Pass | Pass | Pass | Pass |
-| Loads OK | Pass | Pass | Pass | Pass | Pass | Pass |
+| Name entry works | Pass | Pass | Pass | Pass | Pass | Pass |
+| Modal is centered and text clear | Pass | Pass | Pass | Pass | Pass | Pass |
+| Returning player greeted with name | Pass | Pass | Pass | Pass | Pass | Pass |
+| Returning player given continue option | Pass | Pass | Pass | Pass | Pass | Pass |
+| Returning player provide reset game option | Pass | Pass | Pass | Pass | Pass | Pass |
+| Reset game tap/click shows red confirm warning | Pass | Pass | Pass | Pass | Pass | Pass |
+
+Notes - None
+
+3. Verify Main menu displays correctly and interaction is successful
+
+| Sub Test | Chrome(Windows) | Firefox(Windows) | Edge(windows) | Safari(IpadOS) | Chrome(Android) | Samsung Internet(Android) |
+| ----------- | ----------- | ---- | ---- | ----- | ----- | ---- |
+| Menu centered | Pass | Pass | Pass | Pass | Pass | Pass |
+| all Icons displaying | Pass | Pass | Pass | Pass | Pass | Pass |
+| music on/off changes icon and starts/stops menu music | Pass | Pass | Pass | Pass | Pass | Pass |
+| all themes trigger game of that theme type | Pass | Pass | Pass | Pass | Pass | Pass |
+| Menu icon triggers opening or closing of menu | Pass | Pass | Pass | Pass | Pass | Pass |
 
 ### **Validators**
 
@@ -187,13 +205,25 @@ Since nearly all the html is injected by Javascript the HTML validator does not 
 | ----------- | ----------- | ---- |
 | index.html | Pass | N\A |
 
+<details>
+    <summary>Screenshot</summary>
+    ![HTML Validation](./assets/docs/htmlval.JPG)
+</details>
+
 
 #### *CSS Validator*
 
 | File | Result | Comments |
 | ----------- | ----------- | ---- |
-| ?? | ??| ?? |
+| style.css | 16 Errors | The validator is flagging properties for not existing |
 
+The rotate property is valid and I'm using it to slightly rotate dropping cards for an intro screen.
+See - https://www.w3schools.com/cssref/css_pr_rotate.php
+
+<details>
+    <summary>Screenshot</summary>
+    ![HTML Validation](./assets/docs/cssval.JPG)
+</details>
 
 #### *Lighthouse Results*
 
@@ -237,6 +267,15 @@ Deployment to another host is also possible
 1. From the project's [repository](https://github.com/Will-Griffiths-Ireland/Mars-Colony-One), click **Code**.
 2. Under the local tab click *Download Zip*.
 3. Extract the files and copy them over to a webserver of your choice.
+
+### **To fork the repository on GitHub** 
+  
+To make a copy of this GitHub repository that allows you to view the content and make changes without affecting the original repository, please take the following steps:
+  
+1. Login to <b>GitHub</b> and find [this repository](https://github.com/Will-Griffiths-Ireland/Memoria).
+2. Locate the <b>Fork</b> button in the top, right hand side of the page.
+3. Click on the <b>Fork</b> button to create a copy of the repository in your GitHub account.
+4. Enjoy yourself and be creative, I welcome feedback if you have any to give!
 
 ---
 ​
