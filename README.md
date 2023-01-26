@@ -5,6 +5,7 @@
 Memoria is a vibrant, card based, memory challenge game for all ages.
 There are 6 core family friendly themes and icon sets, with 2 themes that use all icons.
 Players are shown an increasing number of cards, that they need to remember, in order, to win.
+It might sound simple but can you beat it?
 ​
 ![Intro Screen](./assets/docs/introscreen_AIR.webp)
 ![Menu Screen](./assets/docs/mainMenu_AIR.webp)
@@ -32,7 +33,6 @@ Players are shown an increasing number of cards, that they need to remember, in 
     * [***Awards***](#awards)
     * [***Music and Effects***](#music-and-effects)
     * [***Settings***](#settings)
-
 1. [**Testing Phase**](#testing-phase)
     * [***Validators***](#validators)
 1. [**Deployment**](#deployment)
@@ -98,8 +98,8 @@ My main aims for the game were…
 * The game should, save any settings the player modifies
 * The game should, start muted and allow players to enable effects and music
 * The game should, allow the player to switch between light and dark theme
-
-
+* The game should, look professional and visually interesting
+* The game should, tell the player when they win/loose
 
 
 ### **Wireframes:**
@@ -124,11 +124,10 @@ Drop shadows use black.
 ![Icons on Black](./assets/docs/icons_onblack.png)
 
 Grey (#908e8ef4) is used to add some variation in the settings menu for example while staying neutral to the users preference of dark/light theme.
-Note the use of alpha transparency (#fffffff4) on the backgrounds colours. This allow for both a sense of depth and also knocks down the vibrance of the white menus when the user has picked dark mode.
+Note the use of alpha transparency (#fffffff4) on the modal background colours. This allow for both a sense of depth and also knocks down the vibrance of the white menus when the user has picked dark mode.
 
 ![Menu on White](./assets/docs/settingsmenu_on_white.webp)
 ![Menu on back](./assets/docs/settingsmenu_on_black.webp)
-
 
 The star of the game is the cards and I've done my best to create vibrant assets with depth and character.
 The core colors use gradients to give them a 3d element.
@@ -140,9 +139,9 @@ The core colors use gradients to give them a 3d element.
 
 ### **Design Choices**
 ​
-The overall esthetic I based around the cards. The tactile feel and rounded edges are something I've try to seed throughout the game.
+The overall esthetic I based around the cards. The tactile feel and rounded edges are something I've tried to seed throughout the game.
 Menus are rounded, buttons are rounded, cards are rounded off.
-The entire experience is designed to be smooth and relaxing.
+The entire experience is designed to be smooth and relaxing(ish).
 
 #### **Fonts**
 
@@ -153,12 +152,11 @@ I made the decision to use uppercase across everything in the UI. After testing 
 
 #### **Animations**
 
-The flow of the game is smooth with objects dropping in from 0 opacity and larger scales. Cards have a flip animation that is not only for esthetics but plays an important part in the gameplay loop.
+The flow of the game is smooth with objects 'dropping' in from 0 opacity and larger scales. Cards have a flip animation that is not only for esthetics but plays an important part in the gameplay loop.
 
 The delay in player card selection is deliberate and drives them to commit cards to short term memory rather than pure memory reflect reactions.
-There is also an element of patience that is required.
 
-Other animations aim to give smooth transitions between menus and the main game
+Other animations aim to give smooth transitions between menus and the main game.
 
 #### **Accessibility**
 
@@ -207,104 +205,118 @@ If the player clicks reset they get a refreshed warning on the button.
 
 ![Reset User](./assets/docs/userreset.JPG)
 
-#### *Desktop @1080p Example*
-
-??
-
-#### *Mobile Example*
-
-??
-
 ### **Theme Menu**
 
-
-* ??
+* The theme menu displays all the different game themes to the user to select from.
+* The background colour of the buttons is matched to the cards overall colour.
+* The mixed mode button is a radial gradient of all the other colours.
+* Hover event triggers letter spacing increase rather than using red
 
 #### *Desktop @1080p Example*
 
-??
+![Theme Desktop](./assets/docs/menudesktop.JPG)
 
 #### *Mobile Example*
 
-??
+![Theme mobile](./assets/docs/menumobile.JPG)
 
 ### **Menu Icons**
 
+* Provide instant access to menus and settings at all stages of play
 
-* ??
+The menu icon brings up theme selection or screen to end game
 
-#### *Desktop @1080p Example*
+![Menu Icon](./assets/docs/iconMenu.webp)
 
-??
+The Settings icon display additional player configurable settings
 
-#### *Mobile Example*
+![Settings Icon](./assets/docs/iconsettings.webp)
 
-??
+The Help/How to Play Icon brings up a short guide on how to play the game
+I deliberately didn't auto show this modal as folks tend to skip stuff when they jump into a game. It's there for when they need it.
+
+![Help Icon](./assets/docs/howtoplay.webp)
+
+The light/dark theme icon allows the player to switch between white and black.
+This button still works when the user has game background theme matching on. This is so they can revert from the theme background colour for that game.
+
+![Night Icon](./assets/docs/lightdarkicon.webp)
+
+The effects icon disables/enables sounds.
+The icon updates to reflect the setting
+
+![Effects Icon](./assets/docs/effectsicon.webp)
+
+The music icon disables/enables music
+
+![Music Icon](./assets/docs/musicicon.webp)
+
 
 ### **Main Game**
 
 
-* ??
+* The main game has 2 sections
+* The cards the player needs to recall are shown in the top half of the screen
+* The players deck is in the lower half.
+* The cards increase each round
+* The player gets a short period of time to study and remember the cards and their order before they get flipped.
+* Next the player is given a copy of the deck to select the matching cards from.
+* They need to wait till their cards are flipped to start making selections
+* After each player selection they must wait for the card to be flipped.
+* The top of the screen has a display of the theme and current/total rounds
 
 #### *Desktop @1080p Example*
 
-??
+![Game Desktop](./assets/docs/gameDesktop.webp)
 
 #### *Mobile Example*
 
-??
+![Game Mobile](./assets/docs/gameMobile.webp)
+
 ### **Victory Animation**
 
-
-* ??
+* When the player completes a round they get a message at the top of the screen
+* A sound effect plays 'well done' if enabled
+* The screen is peppered with smiles in random locations, these scale in number each round
 
 #### *Desktop @1080p Example*
 
-??
+![Vic Desktop](./assets/docs/victoryDesktop.webp)
 
 #### *Mobile Example*
 
-??
+![Vic Mobile](./assets/docs/victoryMobile.webp)
 
 ### **Awards**
 
+* As the player completes 4/6/8 rounds in a theme they unlock theme awards
+* The award displays as a star next to that theme
+* All award levels are saved in local storage and persistent  
 
-* ??
-
-#### *Desktop @1080p Example*
-
-??
-
-#### *Mobile Example*
-
-??
+![Awards](./assets/docs/awards.JPG)
 
 ### **Music and Effects**
 
-
-* ??
-
-#### *Desktop @1080p Example*
-
-??
-
-#### *Mobile Example*
-
-??
+* Each theme and the theme menu have custom music
+* My primary focus was the code so I didn't have as much time as I would have liked to produce them.
+* I have written functions to populate html with the audio files and play the tracks on demand.
+* I created a function to fade out tracks when switching between the main game and the menu, or disabling music.
+* I created some basic sound effects which I believe work well at giving the player feedback and building immersion.
 
 ### **Settings**
 
+![Settings Menu](./assets/docs/settingsmenu.JPG)
 
-* ??
+* The settings menu provides access to settings not assigned to menu icons
+* The settings menu allows new values to be selected and updates to reflect the change
+* All settings are maintained in local storage when player changes them from the defaults
+* The card image quality allows the player to select low (very small files), medium (default - mid sized and compressed) or high (full res webp lossless) - a decent modern pc can easily handle high mode and they look fab at 4k res!
+* The show logo on cards lets the player pick if the Memoria logo is shown
+* The final setting allows the player to select if the background of each theme relates to the core card colour
 
-#### *Desktop @1080p Example*
+![No Logo](./assets/docs/nologo.JPG)
 
-??
-
-#### *Mobile Example*
-
-??
-
+![Match Theme](./assets/docs/backgroundmatch.JPG)
 ---
 ## **Testing Phase**
 
@@ -326,7 +338,7 @@ Tests were done across...
 * Chrome(Windows)
 * Firefox(Windows) 
 * Edge(windows)
-* Safari(IpadOS)
+* Safari(IpadOS) (limited availability to test)
 * Chrome(Android)
 * Samsung Internet(Android)
 * Steam Deck (Chrome on Linux)
@@ -471,17 +483,30 @@ I did encounter issues with the time it took for the google icon font pack to do
 
 ![Mobile Lighthouse Result](./assets/docs/desktopMobile.JPG)
 
+#### *JSHint*
+
+I ran the code through JShint and cleaned up a few unused vars and missing semicolons.
+
+The most striking thing was the cyclomatic complexity of 16 in one function.
+
+![JSHint](./assets/docs/jshint.JPG)
+
 ## **Defects**
 
 Rigorous testing of my code while I built it paid off when it came to testing the end product.
+I don't feel I have any major defects outside of platform specific problems.
 
-### **Resolved**
+I did find a few bugs in my final testing that were not covered by specific tests...
 
-??
+Issue - Player can click on a previously selected cards and trigger game over.
+Fix - Removed event listener from card once its click event fires. I was positive I already have this code in there but must have removed it at some stage.
+
+Issue - Theme Beat audio effect was playing over the round well done effect.
+Fix - Moved the playback call to when we show the main menu again.
 
 ### **Unresolved**
 
-??
+The main outstanding issue is display glitches on MAC/IOS/IpadOS which although minor, along with the challenges with playing sounds consistently. If I had hardware to test on more then I'd do more work with the various css webkit extensions that might resolve things.
 
 
 ## **Deployment**
@@ -534,28 +559,34 @@ These are the technologies used for this project.
 
 ## **Future-Enhancements**
 
-??
 
 ### **User Enhancements**
 
-* Expanded music that is custom to each theme
-* Convert to IOS & Android apps
+* The music needs work :)
+* Adding a mode that doesn't use animations at all but still has the mechanics of making the player pause for a second or 2 before selecting cards.
+* Multiple saved states in local storage all connected to the username and parsing keys/values for their related settings.
+* Augmenting the 'low' quality card image mode with a 'pixel art' setting would be cool but a lot of hands-on crafting. 
 
 ### **Internal Enhancements**
 
-* Modularize JS into multiple files
-* Refactor code further to reduce size and
+* Modularize JS into multiple files and use import/export (I know I could have just split the file up and loaded in multiple tags but thats not useful in production environments )
+* Refactor code further to reduce size and structure. This was my first JS application and I have learned so much on the journey thats its hard to resist the urge to change things just before submission!
 
 ## **Credits**
 ### **Honorable mentions**
 ​
-Thanks to my mentor Richard who provided valuable input and direction!
+Thanks to my mentor Richard who provided valuable input.
+Thanks to the multiple talented folks across the globe that put effort into producing tutorials and guides.
+Just to name a couple..
+- Kevin Powell https://www.youtube.com/@KevinPowell
+- developedbyed https://www.youtube.com/@developedbyed
 
-??
 ​
 ### **Content:**
 ​
-The game concept is my original idea.
+The game concept is my original idea. I took some inspiration from a video by developedbyed https://youtu.be/-tlb4tv4mC4 but I really tried to go and do my own thing rather than copy any of his code. 
+
+
   
 ### **Media:**
 ​

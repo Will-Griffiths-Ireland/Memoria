@@ -19,6 +19,13 @@ body {
     z-index: 1;
 }
 
+/* this is to stop animations triggering scrollbars as they come in from scaled sizes*/
+@media only screen and (min-width: 900px) {
+    body {
+        overflow: hidden;
+    }
+}
+
 img {
     /* This filter is to add drop shadows gives the cards some definition in stacks/overlap so that colors dor not blend into one.
     The advantage over a border is that this conforms to the actual image border and ignores transparency */
@@ -44,10 +51,10 @@ img {
 }
 
 .howToText {
-    font-size: .9rem;
+    font-size: .7rem;
     letter-spacing: normal;
     font-weight: 600;
-    line-height: 1.2rem;
+    line-height: 1.1rem;
 }
 
 @media only screen and (min-width: 900px) {

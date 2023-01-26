@@ -5,7 +5,6 @@
 //global variables
 const gameArea = document.getElementById("gameArea");
 //internal variables
-let cardId = 0;
 let imageQuality = 'medium'; 
 let backOfCardType = 'named'; //show name on back of cards - use 'named' or 'unnamed'
 let gameRounds = 8; //how many rounds to play in total
@@ -20,8 +19,7 @@ let playerCardsDealDelay = 0;
 let menuOn = false; // Bool to track if menu is being displayed
 let settingsMenuOn = false;
 let gameActive = false; // bool to track active game state
-let allowClick = true; // bool to stop click spamming issues 
-let selectLocked = false; //block selecting cards till current move finished.
+let allowClick = true; // bool to stop click spamming issues
 let effectsOn = 'false';
 let musicOn = 'false'; //using a string for local storage
 let currentMusic = 'menu';
@@ -119,6 +117,7 @@ function displayHowToPlay() {
                 <p class="welcomeText howToText">2. WATCH THE TOP OF THE SCREEN, REMEMBER THE CARDS, AND THEIR ORDER</p>
                 <p class="welcomeText howToText">3. WAIT FOR YOUR CARDS AT THE BOTTOM OF THE SCREEN TO FLIP, CLICK THEM IN THE MATCHING ORDER</p>
                 <p class="welcomeText howToText">4. TRY AND BEAT EVERY THEME. A 4 CARD STREAK UNLOCKS 1 STAR, 6 IS 2 STARS, AND 8 IS 3 STARS</p>
+                <p class="welcomeText howToText">5. MIXED & MONO THEMES ARE THE ULTIMATE CHALLENGE WITH 16 ROUNDS</p>
                 <p class="welcomeText howToText">NOTE - BE PATIENT, YOU MUST WAIT FOR THE CARD TO BE CONFIRMED AND FLIPPED BEFORE YOU CAN CLICK THE NEXT</p>
                 <h2 class="menuItem" onclick="removeDisplayHowToPlay()">CLOSE</h2>
                 `;
@@ -145,7 +144,6 @@ function displayIntro() {
     //check for background preference that the user might have set
     if (localStorage.getItem('backGroundColor')) {
         backGroundColor = localStorage.getItem('backGroundColor');
-        console.log(backGroundColor);
         document.querySelector('body').style.backgroundColor = backGroundColor;
     }
     let introArea = document.createElement('div');
@@ -363,7 +361,6 @@ function resetGame(areYouSure) {
         showingResetConfirm = true;
         return;
     } else if (areYouSure == 'sure') {
-        console.log("Clearing local storage");
         localStorage.clear();
         showingResetConfirm = false;
         document.getElementById('userCapture').classList.add('menuBurn');
@@ -660,8 +657,6 @@ function displayRound() {
     if (cardTheme == 'all' && cardColor == 'white') {
         tempTheme = 'MONO';
     }
-    console.log(cardTheme);
-    console.log(tempTheme);
     roundDisplay.innerText = tempTheme + ' - ROUND ' + currentRound + "\\" + gameRounds;
     roundDisplay.id = 'roundDisplay';
     roundDisplay.classList = 'fadeIn';
@@ -1848,13 +1843,11 @@ function burnCards() {
         document.getElementById('roundDisplayContainer').classList.add('burnUp');
     }
     for (let card of cardsToBurn) {
-        // console.log("Adding burnUp class to card - " + card.id);
         card.style.animationDelay = '0ms';
         card.style.animationDuration = '2000ms';
         card.classList.add('burnUp');
     }
     for (let smile of smilesToBurn) {
-        // console.log("Adding burnUp class to card - " + card.id);
         smile.style.animationDelay = '0ms';
         smile.style.animationDuration = '2000ms';
         smile.classList.add('burnUp');
@@ -1873,9 +1866,7 @@ function delCards() {
     const cardsToDel = document.getElementsByClassName('burnUp');
     const audioToDel = document.getElementsByClassName('audioEffect');
     const totalElements = cardsToDel.length;
-    console.log("delCards() removing a total of " + totalElements);
     for (let i = 0; i < totalElements; i++) {
-        console.log("Removing - " + i + " " + cardsToDel[0].id);
         cardsToDel[0].remove();
     }
     const totalAudioElements = audioToDel.length;
@@ -1895,10 +1886,6 @@ function delCards() {
  */
 function dealPlayerCards(gameDeck) {
     if (!gameActive) {
-        return;
-    }
-    if (!gameDeck) {
-        console.log("You didn't pass me cards to deal");
         return;
     }
     let delay; //used for timing and blocking
@@ -2024,18 +2011,18 @@ function selectCard(e) {
     }
     allowClick = false;
     let target = e.target.parentElement;
+    target.removeEventListener("click", selectCard); // Prevent future event being triggered by a click on this card
     let cardTag;
     let tempCard = {
         "name": target.dataset.cardName,
         "color": target.dataset.cardColor
     };
     playerSelectedCards.push(tempCard);
-    playAudio('cardselect','effect')
+    playAudio('cardselect','effect');
     target.classList.add("cardSelected"); //add a visual cue that the card is selected
     if (playerSelectedCards[totalSelectedCards].name == cardsToMatch[totalSelectedCards].name &&
         playerSelectedCards[totalSelectedCards].color == cardsToMatch[totalSelectedCards].color) {
         cardTag = "cTM" + (totalSelectedCards + 1);
-        console.log(cardTag);
         ++totalSelectedCards;
         document.getElementById(cardTag).style.animationDelay = "0ms";
         document.getElementById(cardTag).classList.add("cardFlipped");
@@ -2049,7 +2036,6 @@ function selectCard(e) {
 
             if (currentRound == deckSize) {
                 document.getElementById('roundDisplay').innerText = "YOU BEAT THIS THEME!!";
-                playAudio('beatTheme', 'effect');
             } else {
                 document.getElementById('roundDisplay').innerText = "YOU WIN THIS ROUND!!";
             }
@@ -2071,7 +2057,7 @@ function selectCard(e) {
                     if (currentRound <= gameRounds) {
                         gameStart(cardTheme, cardColor, deckSize);
                     } else {
-                        if (musicOn == 'true') {
+                        if (musicOn == 'true') {  
                             fadeOutAudio(currentMusic);
                             currentMusic = 'menu';
                             playAudio('menu', 'music');
@@ -2081,6 +2067,7 @@ function selectCard(e) {
                         //reset background
                         document.body.style.background = '';
                         document.body.style.backgroundColor = backGroundColor;
+                        playAudio('beatTheme', 'effect');
                         displayMenu();
                     }
                 }, 3000);
@@ -2138,17 +2125,11 @@ function selectCardsToMatch(gameDeck) {
 }
 
 function dealCardsToMatch(gameDeck, cardsToMatch) {
-    if (!gameDeck) {
-        console.log("You didn't pass me cards to deal");
-        return;
-    }
     const cardsToMatchArea = document.getElementById('cardsToMatchArea');
     let delay; // used for timing
     for (let i = 0; i < cardsToMatch.length; i++) {
         for (let card of gameDeck) {
             if (card.name == cardsToMatch[i].name && card.color == cardsToMatch[i].color) {
-                //thats the card we need to display
-                console.log(card);
                 //create html elements
                 const cardContainer = document.createElement('div');
                 const cardFace = document.createElement('img');
@@ -2192,7 +2173,6 @@ function dealCardsToMatch(gameDeck, cardsToMatch) {
  * @returns 
  */
 function shuffleDeck(gameDeck) {
-    console.log(gameDeck);
     for (let i = gameDeck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         const temp = gameDeck[i];
