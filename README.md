@@ -33,10 +33,11 @@ It might sound simple but can you beat it?
     * [***Awards***](#awards)
     * [***Music and Effects***](#music-and-effects)
     * [***Settings***](#settings)
-1. [**Testing Phase**](#testing-phase)
+    * [***Misc***](#misc)
+1. [**Testing**](#testing)
     * [***Validators***](#validators)
 1. [**Deployment**](#deployment)
-1. [**Technology**](#technology)
+1. [**Technology and Applications**](#technology-and-applications)
 1. [**Future-Enhancements**](#future-enhancements)
     * [***User Enhancements***](#user_enhacements)
     * [***Internal Enhancements***](#internal_enhacements)
@@ -65,7 +66,7 @@ My main aims for the game were…
 * Engaging animations that add to the player experience and contribute to the challenge
 * Progression in difficulty with rewards that drive the player to come back
 * Storing player details, settings, and progression
-* Allowing some level of customization the player could select
+* Allowing some level of customization the player can select
 * A mode that would push even the best memories to the limit
 * A hidden 'Easter Egg' theme
 
@@ -228,12 +229,12 @@ The menu icon brings up theme selection or screen to end game
 
 ![Menu Icon](./assets/docs/iconMenu.webp)
 
-The Settings icon display additional player configurable settings
+The Settings icon displays additional player configurable settings in a modal
 
 ![Settings Icon](./assets/docs/iconsettings.webp)
 
-The Help/How to Play Icon brings up a short guide on how to play the game
-I deliberately didn't auto show this modal as folks tend to skip stuff when they jump into a game. It's there for when they need it.
+The Help/How to Play Icon brings up a short guide on how to play the game.
+I deliberately didn't auto show this modal as folks tend to skip stuff when they jump into a game. It's there for when/if they need it.
 
 ![Help Icon](./assets/docs/howtoplay.webp)
 
@@ -264,6 +265,9 @@ The music icon disables/enables music
 * They need to wait till their cards are flipped to start making selections
 * After each player selection they must wait for the card to be flipped.
 * The top of the screen has a display of the theme and current/total rounds
+* If the player selects the right card(s) then they progress to the next round
+* Each round increases the cards they need to match by 1
+* Each new round is a new shuffled deck
 
 #### *Desktop @1080p Example*
 
@@ -317,8 +321,14 @@ The music icon disables/enables music
 ![No Logo](./assets/docs/nologo.JPG)
 
 ![Match Theme](./assets/docs/backgroundmatch.JPG)
+
+### **Misc**
+
+* My code creates a lot of html elements so I created functions to clean these up to reduce memory load
+* I used very descriptive var and func names, along with inline commments I've started to use JSDoc comments too.
+
 ---
-## **Testing Phase**
+## **Testing**
 
 Throughout development I thoroughly tested each piece of code from a core logic perspective and a visual one, before commits.
 My approach to testing is to do everything I can, from an end user perspective, to break the application. Always expect the unexpected click!
@@ -499,20 +509,23 @@ I don't feel I have any major defects outside of platform specific problems.
 I did find a few bugs in my final testing that were not covered by specific tests...
 
 Issue - Player can click on a previously selected cards and trigger game over.
-Fix - Removed event listener from card once its click event fires. I was positive I already have this code in there but must have removed it at some stage.
+Fix - Removed event listener from card once its click event fires. I was positive I already had this code in there but must have removed it at some stage.
 
 Issue - Theme Beat audio effect was playing over the round well done effect.
 Fix - Moved the playback call to when we show the main menu again.
 
 ### **Unresolved**
 
-The main outstanding issue is display glitches on MAC/IOS/IpadOS which although minor, along with the challenges with playing sounds consistently. If I had hardware to test on more then I'd do more work with the various css webkit extensions that might resolve things.
+The main outstanding issue is display glitches on MAC/IOS/IpadOS although minor, along with the challenges with playing sounds consistently. If I had hardware to test on more then I'd do more work with the various css webkit extensions that might resolve things.
+
+Recommendation for Apple devices is to leave music disabled.
+From my research it's clear the best path is to convert this into an IOS app. The irony that I created the music on an Ipad is not lost on me.
 
 
 ## **Deployment**
 I deployed the page on GitHub pages via the following the standard procedure: -
 ​
-1. From the project's [repository](https://github.com/Will-Griffiths-Ireland/Mars-Colony-One), go to the **Settings** tab.
+1. From the project's [repository](https://github.com/Will-Griffiths-Ireland/Memoria), go to the **Settings** tab.
 2. From the left-hand menu, select the **Pages** tab.
 3. Under the **Source** section, select the **Main** branch from the drop-down menu and click **Save**.
 4. A message will be displayed to indicate a successful deployment to GitHub pages and provide the live link.
@@ -521,7 +534,7 @@ You can find the live site via the following URL - [live webpage](https://will-g
 
 Deployment to another host is also possible
 
-1. From the project's [repository](https://github.com/Will-Griffiths-Ireland/Mars-Colony-One), click **Code**.
+1. From the project's [repository](https://github.com/Will-Griffiths-Ireland/Memoria), click **Code**.
 2. Under the local tab click *Download Zip*.
 3. Extract the files and copy them over to a webserver of your choice.
 
@@ -536,22 +549,22 @@ To make a copy of this GitHub repository that allows you to view the content and
 
 ---
 ​
-## **Technology**
+## **Technology and Applications**
 ​
 These are the technologies used for this project.
 
 - HTML5
 - CSS3
 - Javascript (vanilla)
-- Powerpoint (cards)
+- MS Powerpoint (cards)
 - Balsamiq for wireframes
 - Paint.net (Image editing/sizing/compression)
 - XnCovert (image resizing)
 - Audacity (Sound Editing)
-- Garage Band (Song Creation)
+- Garage Band (music Creation)
 - Github for version control and deployment
 - Gitpod for development
-- FontAwesome for Icons
+- Google Icons
 - https://cssgradient.io/ (gradient code generator)
 - https://favicon.io/favicon-generator/ 
 
@@ -565,7 +578,8 @@ These are the technologies used for this project.
 * The music needs work :)
 * Adding a mode that doesn't use animations at all but still has the mechanics of making the player pause for a second or 2 before selecting cards.
 * Multiple saved states in local storage all connected to the username and parsing keys/values for their related settings.
-* Augmenting the 'low' quality card image mode with a 'pixel art' setting would be cool but a lot of hands-on crafting. 
+* Augmenting the 'low' quality card image mode with a 'pixel art' setting would be cool but a lot of hands-on crafting.
+* Building a full IOS app... 
 
 ### **Internal Enhancements**
 
@@ -585,8 +599,6 @@ Just to name a couple..
 ### **Content:**
 ​
 The game concept is my original idea. I took some inspiration from a video by developedbyed https://youtu.be/-tlb4tv4mC4 but I really tried to go and do my own thing rather than copy any of his code. 
-
-
   
 ### **Media:**
 ​
